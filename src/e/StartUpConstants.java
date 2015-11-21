@@ -11,4 +11,5 @@ package e;
  */
 public class StartUpConstants {
     public static String DEFAULT_STUDENTNAME = "John Doe";
+    public static String DEFAULT_PAGETITLE = "title";
 }

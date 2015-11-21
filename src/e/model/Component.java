@@ -72,7 +72,4 @@ public class Component {
     public void removeComponentDesiredText(int position) {
         componentDesiredText.remove(position);
     }
-
-
-
 }

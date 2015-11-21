@@ -6,6 +6,7 @@
 package e.model;
 
 import static e.StartUpConstants.DEFAULT_STUDENTNAME;
+import e.view.EPortfolioMakerView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -60,8 +61,10 @@ public class EPortfolio {
         selectedPage = null;
     }
 
-    public void addPage() {
-        
+    public void addPage(String pageTitle, ) {
+        Page pageToAdd = new Page(pageTitle, );
+        pages.add(pageToAdd);
+        ui.reloadComponentPane();
     }
     
     public void removeSelectedPage() {

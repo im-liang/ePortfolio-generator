@@ -5,11 +5,19 @@
  */
 package e.view;
 
+import e.controller.FileController;
+import e.controller.SlideShowController;
+import e.error.ErrorHandler;
+import e.file.EPortfolioFileManager;
+import e.file.EPortfolioSiteExporter;
+import e.model.EPortfolio;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 /**
@@ -58,16 +66,37 @@ public class EPortfolioMakerView {
 
     private ErrorHandler errorHandler;
 
-    private FIleController fileController;
+    private FileController fileController;
 
-    private SlideShowEditController editController;
+    private SlideShowController editController;
     
-    public EPortfolio(EPortfolioFileManager initFileManager, EPortfolioSiteExporter initSiteExporter) {
+    public EPortfolioMakerView(EPortfolioFileManager initFileManager, EPortfolioSiteExporter initSiteExporter) {
         fileManager = initFileManager;
         siteExporter = initSiteExporter;
         ePortfolio = new EPortfolio(this);
         errorHandler = new ErrorHandler(this);
     }
     
-    public 
+    public EPortfolio getEPortfolio() {
+        return ePortfolio;
+    }
+
+    public Stage getWindow() {
+        return primaryStage;
+    }
+
+    public ErrorHandler getErrorHandler() {
+        return errorHandler;
+    }
+
+    public void startUI(Stage initPrimaryStage, String windowTitle) {
+        initFileToolbar();
+        initWorkspace();
+        primaryStage = initPrimaryStage;
+        initWindow(windowTitle);
+    }
+
+    private void initWorkspace() {
+        workspace = new BorderPane();
+    }
 }
