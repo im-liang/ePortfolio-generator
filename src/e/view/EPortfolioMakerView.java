@@ -5,6 +5,9 @@
  */
 package e.view;
 
+import static e.StartUpConstants.CSS_CLASS_HORIZONTAL_TOOLBAR_BUTTON;
+import static e.StartUpConstants.CSS_CLASS_HORIZONTAL_TOOLBAR_PANE;
+import static e.StartUpConstants.CSS_CLASS_SLIDES_EDITOR_PANE;
 import static e.StartUpConstants.CSS_CLASS_VERTICAL_TOOLBAR_BUTTON;
 import static e.StartUpConstants.CSS_CLASS_VERTICAL_TOOLBAR_PANE;
 import static e.StartUpConstants.CSS_CLASS_WORKSPACE;
@@ -12,12 +15,24 @@ import static e.StartUpConstants.ICON_ADD_IMAGE;
 import static e.StartUpConstants.ICON_ADD_SLIDESHOW;
 import static e.StartUpConstants.ICON_ADD_TEXT;
 import static e.StartUpConstants.ICON_ADD_VIDEO;
+import static e.StartUpConstants.ICON_EXIT;
+import static e.StartUpConstants.ICON_EXPORT_EPORTFOLIO;
+import static e.StartUpConstants.ICON_LOAD_EPORTFOLIO;
+import static e.StartUpConstants.ICON_NEW_EPORTFOLIO;
+import static e.StartUpConstants.ICON_SAVE_AS_EPORTFOLIO;
+import static e.StartUpConstants.ICON_SAVE_EPORTFOLIO;
 import static e.StartUpConstants.PATH_ICONS;
 import static e.StartUpConstants.STYLE_SHEET_UI;
 import static e.ToolTip.TOOLTIP_ADD_IMAGE;
 import static e.ToolTip.TOOLTIP_ADD_SLIDESHOW;
 import static e.ToolTip.TOOLTIP_ADD_TEXT;
 import static e.ToolTip.TOOLTIP_ADD_VIDEO;
+import static e.ToolTip.TOOLTIP_EXIT;
+import static e.ToolTip.TOOLTIP_EXPORT_EPORTFOLIO;
+import static e.ToolTip.TOOLTIP_LOAD_EPORTFOLIO;
+import static e.ToolTip.TOOLTIP_NEW_EPORTFOLIO;
+import static e.ToolTip.TOOLTIP_SAVE_AS_EPORTFOLIO;
+import static e.ToolTip.TOOLTIP_SAVE_EPORTFOLIO;
 import e.controller.FileController;
 import e.controller.SlideShowController;
 import e.error.ErrorHandler;
@@ -25,7 +40,6 @@ import e.file.EPortfolioFileManager;
 import e.file.EPortfolioSiteExporter;
 import e.model.EPortfolio;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -73,7 +87,7 @@ public class EPortfolioMakerView {
     //right
     TabPane tabPane;
     Tab pagesEditorTab;
-    Tab pageViewerTab;
+    Tab pagesViewerTab;
     Button addPageButton;
     Button removePageButton;
     Button bannerImageButton;
@@ -159,9 +173,11 @@ public class EPortfolioMakerView {
         tabPane = new TabPane();
         pagesEditorTab = new Tab();
         pagesEditorTab.setText("Editor");
-        pageViewerTab = new Tab();
-        pagesEditorTab.setText("Viewer");
-        tabPane.getTabs().addAll(pagesEditorTab,pageViewerTab);
+        pagesEditorTab.setClosable(false);
+        pagesViewerTab = new Tab();
+        pagesViewerTab.setText("Viewer");
+        pagesViewerTab.setClosable(false);
+        tabPane.getTabs().addAll(pagesEditorTab,pagesViewerTab);
         
         workspace.setLeft(pageEditToolbar);
         workspace.setCenter(pageEditorScrollPane);
@@ -170,16 +186,26 @@ public class EPortfolioMakerView {
         // SETUP ALL THE STYLE CLASSES
         workspace.getStyleClass().add(CSS_CLASS_WORKSPACE);
         pageEditToolbar.getStyleClass().add(CSS_CLASS_VERTICAL_TOOLBAR_PANE);
-        //@TODO
+        pageEditorPane.getStyleClass().add(CSS_CLASS_SLIDES_EDITOR_PANE);
+        pageEditorScrollPane.getStyleClass().add(CSS_CLASS_SLIDES_EDITOR_PANE);
         
     }
 
     private void initEventHandlers() {
         
     }
+    
     private void initFileToolbar() {
-        
+        fileToolbarPane = new FlowPane();
+        fileToolbarPane.getStyleClass().add(CSS_CLASS_HORIZONTAL_TOOLBAR_PANE);
+        newEPortfolioButton = this.initChildButton(fileToolbarPane, ICON_NEW_EPORTFOLIO, TOOLTIP_NEW_EPORTFOLIO,CSS_CLASS_HORIZONTAL_TOOLBAR_BUTTON,false);
+        loadEPortfolioButton = this.initChildButton(fileToolbarPane, ICON_LOAD_EPORTFOLIO, TOOLTIP_LOAD_EPORTFOLIO,CSS_CLASS_HORIZONTAL_TOOLBAR_BUTTON,false);
+        saveEPortfolioButton = this.initChildButton(fileToolbarPane, ICON_SAVE_EPORTFOLIO, TOOLTIP_SAVE_EPORTFOLIO,CSS_CLASS_HORIZONTAL_TOOLBAR_BUTTON,false);
+        saveAsEPortfolioButton = this.initChildButton(fileToolbarPane, ICON_SAVE_AS_EPORTFOLIO, TOOLTIP_SAVE_AS_EPORTFOLIO,CSS_CLASS_HORIZONTAL_TOOLBAR_BUTTON,false);
+        exportEPortfolioButton = this.initChildButton(fileToolbarPane, ICON_EXPORT_EPORTFOLIO, TOOLTIP_EXPORT_EPORTFOLIO,CSS_CLASS_HORIZONTAL_TOOLBAR_BUTTON,false);
+        exitButton = this.initChildButton(fileToolbarPane, ICON_EXIT, TOOLTIP_EXIT,CSS_CLASS_HORIZONTAL_TOOLBAR_BUTTON,false);
     }
+    
     private void initWindow(String windowTitle) {
         //set the title
         primaryStage.setTitle(windowTitle);
@@ -197,6 +223,7 @@ public class EPortfolioMakerView {
         ePane = new BorderPane();
         ePane.getStyleClass().add(CSS_CLASS_WORKSPACE);
         ePane.setTop(fileToolbarPane);
+        ePane.setCenter(workspace);
         primaryScene = new Scene(ePane);
         
         primaryScene.getStylesheets().add(STYLE_SHEET_UI);

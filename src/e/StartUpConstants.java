@@ -20,7 +20,7 @@ public class StartUpConstants {
     public static String PATH_DATA = "./data/";
     public static String PATH_IMAGES = "./images/";
     public static String PATH_ICONS = PATH_IMAGES + "icons/";
-    public static String PATH_CSS = "/ssm/style/";
+    public static String PATH_CSS = "/e/style/";
     public static String STYLE_SHEET_UI = PATH_CSS + "EPortfolioMakerStyle.css";
 
     // HERE ARE THE LANGUAGE INDEPENDENT GUI ICONS
@@ -29,16 +29,16 @@ public class StartUpConstants {
     public static String ICON_LOAD_EPORTFOLIO  = "Load.png";
     public static String ICON_SAVE_EPORTFOLIO  = "Save.png";
     public static String ICON_SAVE_AS_EPORTFOLIO  = "SaveAs.png";
-    public static String ICON_EXPORT_EPORTFOLIO = "View.png";
+    public static String ICON_EXPORT_EPORTFOLIO = "Export.png";
     public static String ICON_EXIT = "Exit.png";
     public static String ICON_ADD_PAGE = "Add.png";
     public static String ICON_REMOVE_PAGE = "Remove.png";
     
     
-    public static String ICON_ADD_TEXT = "MoveUp.png";
-    public static String ICON_ADD_IMAGE = "MoveUp.png";
-    public static String ICON_ADD_VIDEO = "MoveUp.png";
-    public static String ICON_ADD_SLIDESHOW = "MoveUp.png";
+    public static String ICON_ADD_TEXT = "Text.png";
+    public static String ICON_ADD_IMAGE = "pic.png";
+    public static String ICON_ADD_VIDEO = "Video.png";
+    public static String ICON_ADD_SLIDESHOW = "Slideshow.png";
 
     // UI SETTINGS
     public static String    DEFAULT_SLIDE_IMAGE = "DefaultStartSlide.png";

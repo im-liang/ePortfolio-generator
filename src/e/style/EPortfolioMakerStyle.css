@@ -8,3 +8,88 @@ and open the template in the editor.
     Author     : jieliang
 */
 
+// TOOLBAR CONTROLS
+.horizontal_toolbar_pane, .vertical_toolbar_pane {
+    -fx-background-color: transparent;    
+    -fx-padding:5;
+}
+
+.horizontal_toolbar_pane {
+    -fx-hgap:2;
+}
+
+.vertical_toolbar_pane {
+    -fx-alignment: center;
+    -fx-orientation: vertical;
+    -fx-vgap:10;
+}
+
+.vertical_toolbar_button {
+    -fx-background-color: #FFF373;
+    -fx-padding: 10px 10px 10px 10px;
+    -fx-spacing: 50px;
+}
+
+.horizontal_toolbar_button {
+    -fx-background-color: #78C0A8;
+    -fx-padding-left: 10px;
+    -fx-padding-right: 20px;
+}
+
+// WORKSPACE AND IT'S CONTAINERS
+
+.workspace {
+    -fx-background-image: url("http://www.ic.sunysb.edu/Stu/jieliang/images/crossword.png");
+}
+
+.slides_editor_pane {
+    -fx-background-color: #FFF373;
+    -fx-padding: 30;    
+    -fx-hgap:35;
+    -fx-vgap:40;
+}
+
+.slide_edit_view, .selected_slide_edit_view {
+    -fx-border-width: 5;
+    -fx-border-radius: 15 15 15 15;
+    -fx-background-radius: 15 15 15 15;
+}
+
+.slide_edit_view {
+    -fx-background-color: #C89E00;
+    -fx-border-color: black;
+}
+
+.selected_slide_edit_view {
+    -fx-background-color: #FFDC73;
+    -fx-border-color: #BFB330;
+}
+
+// SLIDE EDIT CONTROLS
+.title_pane {   
+    -fx-hgap:10;
+    -fx-vgap:10;
+    -fx-padding: 0 0 20 0;
+}
+
+.title_prompt {
+    -fx-font: 18pt bold;
+}
+
+.title_text_field {
+    -fx-font: 16pt normal;
+    -fx-background-color: #C89E00;
+    -fx-min-width:300px;
+}
+
+.caption_prompt {
+    -fx-font-size: 16pt;
+    -fx-padding: 5 5 5 20;
+}
+
+.caption_text_field {
+    -fx-font-size: 14pt;
+    -fx-background-color: #FFF373; 
+    -fx-min-width:600px;
+    -fx-padding: 5 5 5 20;
+}
