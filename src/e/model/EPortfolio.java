@@ -58,6 +58,15 @@ public class EPortfolio {
     public void setStudentName(String initStudentName) {
         studentName = initStudentName;
     }
+    
+    //temp wait for better solution
+    public String getSelectedPageTitle() {
+        return selectedPage.getPageTitle();
+    }
+    
+    public void setSelectedPageTitle(String initSelectedPageTitle) {
+        selectedPage.setPageTitle(initSelectedPageTitle);
+    }
 
     /**
      * Resets the slide show to have no slides and a default title.

@@ -13,7 +13,7 @@ import javafx.collections.ObservableList;
  *
  * @author jieliang
  */
-class Page {
+public class Page {
 
     String pageTitle;
     ObservableList<Component> components;
