@@ -5,19 +5,42 @@
  */
 package e.view;
 
+import static e.StartUpConstants.CSS_CLASS_VERTICAL_TOOLBAR_BUTTON;
+import static e.StartUpConstants.CSS_CLASS_VERTICAL_TOOLBAR_PANE;
+import static e.StartUpConstants.CSS_CLASS_WORKSPACE;
+import static e.StartUpConstants.ICON_ADD_IMAGE;
+import static e.StartUpConstants.ICON_ADD_SLIDESHOW;
+import static e.StartUpConstants.ICON_ADD_TEXT;
+import static e.StartUpConstants.ICON_ADD_VIDEO;
+import static e.StartUpConstants.PATH_ICONS;
+import static e.StartUpConstants.STYLE_SHEET_UI;
+import static e.ToolTip.TOOLTIP_ADD_IMAGE;
+import static e.ToolTip.TOOLTIP_ADD_SLIDESHOW;
+import static e.ToolTip.TOOLTIP_ADD_TEXT;
+import static e.ToolTip.TOOLTIP_ADD_VIDEO;
 import e.controller.FileController;
 import e.controller.SlideShowController;
 import e.error.ErrorHandler;
 import e.file.EPortfolioFileManager;
 import e.file.EPortfolioSiteExporter;
 import e.model.EPortfolio;
+import javafx.geometry.Rectangle2D;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 /**
@@ -25,15 +48,17 @@ import javafx.stage.Stage;
  * @author jieliang
  */
 public class EPortfolioMakerView {
-        // THIS IS THE MAIN APPLICATION UI WINDOW AND ITS SCENE GRAPH
+
+    // THIS IS THE MAIN APPLICATION UI WINDOW AND ITS SCENE GRAPH
+
     Stage primaryStage;
     Scene primaryScene;
-    
+
     // THIS PANE ORGANIZES THE BIG PICTURE CONTAINERS FOR THE
     // APPLICATION GUI
     BorderPane ePane;
-    
-    // THIS IS THE TOP TOOLBAR AND ITS CONTROLS
+
+    // THIS IS THE TOP LEFT TOOLBAR AND ITS CONTROLS
     FlowPane fileToolbarPane;
     Button newEPortfolioButton;
     Button loadEPortfolioButton;
@@ -41,25 +66,43 @@ public class EPortfolioMakerView {
     Button saveAsEPortfolioButton;
     Button exportEPortfolioButton;
     Button exitButton;
-    
-        // WORKSPACE
+
+    // WORKSPACE
     BorderPane workspace;
-    
-        // THIS WILL GO IN THE LEFT SIDE OF THE SCREEN
-    FlowPane siteToolbarPane;
+
+    //right
+    TabPane tabPane;
+    Tab pagesEditorTab;
+    Tab pageViewerTab;
     Button addPageButton;
     Button removePageButton;
-    Button selectPageButton;
-    
+    Button bannerImageButton;
+    Button layoutTemplateButton;
+    Button colorTemplateButton;
+
+    // THIS WILL GO IN THE LEFT SIDE OF THE SCREEN
+    FlowPane pageEditToolbar;
+    Button addTextButton;
+    Button addImageButton;
+    Button addVideoButton;
+    Button addSlideshowButton;
+    Button addHyperlinkButton;
+
     // FOR THE PAGE TITLE
     FlowPane titlePane;
+    Label titleLabel;
     TextField titleTextField;
+    Label studentNameLabel;
+    TextField studentNameTextField;
 
+    //Center
     ScrollPane pageEditorScrollPane;
     VBox pageEditorPane;
 
+    //current working eportfolio
     EPortfolio ePortfolio;
 
+    //save and load eportfolio
     EPortfolioFileManager fileManager;
 
     EPortfolioSiteExporter siteExporter;
@@ -69,14 +112,14 @@ public class EPortfolioMakerView {
     private FileController fileController;
 
     private SlideShowController editController;
-    
+
     public EPortfolioMakerView(EPortfolioFileManager initFileManager, EPortfolioSiteExporter initSiteExporter) {
         fileManager = initFileManager;
         siteExporter = initSiteExporter;
         ePortfolio = new EPortfolio(this);
         errorHandler = new ErrorHandler(this);
     }
-    
+
     public EPortfolio getEPortfolio() {
         return ePortfolio;
     }
@@ -92,11 +135,85 @@ public class EPortfolioMakerView {
     public void startUI(Stage initPrimaryStage, String windowTitle) {
         initFileToolbar();
         initWorkspace();
+        initEventHandlers();
         primaryStage = initPrimaryStage;
         initWindow(windowTitle);
     }
 
     private void initWorkspace() {
         workspace = new BorderPane();
+        //left side of the screen
+        pageEditToolbar = new FlowPane();
+        addTextButton = this.initChildButton(pageEditToolbar, ICON_ADD_TEXT, TOOLTIP_ADD_TEXT,CSS_CLASS_VERTICAL_TOOLBAR_BUTTON,false);
+        addImageButton = this.initChildButton(pageEditToolbar, ICON_ADD_IMAGE, TOOLTIP_ADD_IMAGE,CSS_CLASS_VERTICAL_TOOLBAR_BUTTON,false);
+        addSlideshowButton = this.initChildButton(pageEditToolbar, ICON_ADD_SLIDESHOW, TOOLTIP_ADD_SLIDESHOW,CSS_CLASS_VERTICAL_TOOLBAR_BUTTON,false);
+        addVideoButton = this.initChildButton(pageEditToolbar, ICON_ADD_VIDEO, TOOLTIP_ADD_VIDEO,CSS_CLASS_VERTICAL_TOOLBAR_BUTTON,false);
+        //center
+        pageEditorPane = new VBox();
+        pageEditorScrollPane = new ScrollPane(pageEditorPane);
+        pageEditorScrollPane.setFitToWidth(true);
+        pageEditorScrollPane.setFitToHeight(true);
+        //initTitleControls();
+        
+        //right
+        tabPane = new TabPane();
+        pagesEditorTab = new Tab();
+        pagesEditorTab.setText("Editor");
+        pageViewerTab = new Tab();
+        pagesEditorTab.setText("Viewer");
+        tabPane.getTabs().addAll(pagesEditorTab,pageViewerTab);
+        
+        workspace.setLeft(pageEditToolbar);
+        workspace.setCenter(pageEditorScrollPane);
+        workspace.setRight(tabPane);
+        
+        // SETUP ALL THE STYLE CLASSES
+        workspace.getStyleClass().add(CSS_CLASS_WORKSPACE);
+        pageEditToolbar.getStyleClass().add(CSS_CLASS_VERTICAL_TOOLBAR_PANE);
+        //@TODO
+        
+    }
+
+    private void initEventHandlers() {
+        
+    }
+    private void initFileToolbar() {
+        
+    }
+    private void initWindow(String windowTitle) {
+        //set the title
+        primaryStage.setTitle(windowTitle);
+
+        //get the size of the screen
+        Screen screen = Screen.getPrimary();
+        Rectangle2D bounds = screen.getVisualBounds();
+        // AND USE IT TO SIZE THE WINDOW
+        primaryStage.setX(bounds.getMinX());
+        primaryStage.setY(bounds.getMinY());
+        primaryStage.setWidth(bounds.getWidth());
+        primaryStage.setHeight(bounds.getHeight());
+        
+        //set up basic ui
+        ePane = new BorderPane();
+        ePane.getStyleClass().add(CSS_CLASS_WORKSPACE);
+        ePane.setTop(fileToolbarPane);
+        primaryScene = new Scene(ePane);
+        
+        primaryScene.getStylesheets().add(STYLE_SHEET_UI);
+        primaryStage.setScene(primaryScene);
+        primaryStage.show();
+    }
+    
+    public Button initChildButton(Pane toolbar, String iconFileName, String tooltip, String cssClass, boolean disabled) {
+        String iconPath = "file:" + PATH_ICONS + iconFileName;
+        Image buttonImage = new Image(iconPath);
+        Button button= new Button();
+        button.getStyleClass().add(cssClass);
+        button.setDisable(disabled);
+        button.setGraphic(new ImageView(buttonImage));
+        Tooltip buttonTooltip = new Tooltip(tooltip);
+        button.setTooltip(buttonTooltip);
+        toolbar.getChildren().add(button);
+        return button;
     }
 }

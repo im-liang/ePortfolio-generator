@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package e.file;
+package e.view;
 
 /**
- *Using JSON to read and write ePortfolio data files
+ *
  * @author jieliang
  */
-public class EPortfolioFileManager {
+public class ComponentEditView {
     
 }

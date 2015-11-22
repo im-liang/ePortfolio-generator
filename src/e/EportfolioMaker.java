@@ -5,7 +5,9 @@
  */
 package e;
 
-import e.error.ErrorHandler;
+import static e.StartUpConstants.ICON_WINDOW_LOGO;
+import static e.StartUpConstants.PATH_IMAGES;
+import static e.ToolTip.TITLE_WINDOW;
 import e.file.EPortfolioFileManager;
 import e.file.EPortfolioSiteExporter;
 import e.view.EPortfolioMakerView;
@@ -15,7 +17,6 @@ import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-
 /**
  *
  * @author jieliang
@@ -23,7 +24,6 @@ import javafx.stage.Stage;
 public class EportfolioMaker extends Application {
 
     // THIS WILL PERFORM SLIDESHOW READING AND WRITING
-
     EPortfolioFileManager fileManager = new EPortfolioFileManager();
 
     // THIS WILL EXPORT THE WEB SITES
@@ -46,46 +46,8 @@ public class EportfolioMaker extends Application {
         Image windowIcon = new Image(fileURL.toExternalForm());
         primaryStage.getIcons().add(windowIcon);
 
-        // LOAD APP SETTINGS INTO THE GUI AND START IT UP
-        boolean success = loadProperties(languageCode);
-        if (success) {
-            PropertiesManager props = PropertiesManager.getPropertiesManager();
-            String appTitle = props.getProperty(TITLE_WINDOW);
-
-            // NOW START THE UI IN EVENT HANDLING MODE
-            ui.startUI(primaryStage, appTitle);
-        } // THERE WAS A PROBLEM LOADING THE PROPERTIES FILE
-        else {
-            // LET THE ERROR HANDLER PROVIDE THE RESPONSE
-            ErrorHandler errorHandler = ui.getErrorHandler();
-            errorHandler.processError(LanguagePropertyType.ERROR_DATA_FILE_LOADING);
-            System.exit(0);
-        }
-    }
-
-    /**
-     * Loads this application's properties file, which has a number of settings
-     * for initializing the user interface.
-     *
-     * @return true if the properties file was loaded successfully, false
-     * otherwise.
-     */
-    public boolean loadProperties(String languageCode) {
-        try {
-            // FIGURE OUT THE PROPER FILE NAME
-            String propertiesFileName = "properties_" + languageCode + ".xml";
-
-            // LOAD THE SETTINGS FOR STARTING THE APP
-            PropertiesManager props = PropertiesManager.getPropertiesManager();
-            props.addProperty(PropertiesManager.DATA_PATH_PROPERTY, PATH_DATA);
-            props.loadProperties(propertiesFileName, PROPERTIES_SCHEMA_FILE_NAME);
-            return true;
-        } catch (InvalidXMLFileFormatException ixmlffe) {
-            // SOMETHING WENT WRONG INITIALIZING THE XML FILE
-            ErrorHandler eH = ui.getErrorHandler();
-            eH.processError(LanguagePropertyType.ERROR_PROPERTIES_FILE_LOADING);
-            return false;
-        }
+        // NOW START THE UI IN EVENT HANDLING MODE
+        ui.startUI(primaryStage, TITLE_WINDOW);
     }
 
     /**

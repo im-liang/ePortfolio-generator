@@ -15,6 +15,7 @@ import javafx.collections.ObservableList;
  * @author jieliang
  */
 public class EPortfolio {
+
     EPortfolioMakerView ui;
     String studentName;
     ObservableList<Page> pages;
@@ -22,6 +23,12 @@ public class EPortfolio {
 
     public EPortfolio() {
         pages = FXCollections.observableArrayList();
+    }
+
+    public EPortfolio(EPortfolioMakerView initUI) {
+        ui = initUI;
+        pages = FXCollections.observableArrayList();
+        reset();
     }
 
     public boolean isPageSelected() {
@@ -61,19 +68,18 @@ public class EPortfolio {
         selectedPage = null;
     }
 
-    public void addPage(String pageTitle, ) {
-        Page pageToAdd = new Page(pageTitle, );
+    public void addPage(String pageTitle) {
+        Page pageToAdd = new Page(pageTitle);
         pages.add(pageToAdd);
         ui.reloadComponentPane();
     }
-    
+
     public void removeSelectedPage() {
         if (isPageSelected()) {
             pages.remove(selectedPage);
             selectedPage = null;
-            ui.reloadSlideShowPane();
+            //ui.reloadSlideShowPane();
         }
     }
-    
-    
+
 }
