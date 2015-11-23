@@ -6,6 +6,8 @@
 package e.model;
 
 import static e.StartUpConstants.DEFAULT_PAGETITLE;
+import e.view.EPortfolioMakerView;
+import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -15,11 +17,13 @@ import javafx.collections.ObservableList;
  */
 public class Page {
 
+    EPortfolioMakerView ui;
     String pageTitle;
     ObservableList<Component> components;
     Component selectedComponent;
 
-    public Page() {
+    public Page(EPortfolioMakerView initUI) {
+        ui = initUI;
         components = FXCollections.observableArrayList();
         reset();
     }
@@ -63,9 +67,10 @@ public class Page {
         selectedComponent = null;
     }
     
-    public void addComponent() {
-        Component componentToAdd = new Component();
+    public void addComponent(String initComponentFileName, ArrayList<String> initComponentPath, String initComponentType, String initComponentFont, ArrayList<String> initComponentDesiredText) {
+        Component componentToAdd = new Component(initComponentFileName, initComponentPath, initComponentType, initComponentFont, initComponentDesiredText);
         components.add(componentToAdd);
+        ui.reloadComponentPane();
     }
     
     public void removeSelectedComponent() {

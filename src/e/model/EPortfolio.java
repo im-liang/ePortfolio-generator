@@ -78,16 +78,16 @@ public class EPortfolio {
     }
 
     public void addPage(String pageTitle) {
-        Page pageToAdd = new Page(pageTitle);
+        Page pageToAdd = new Page(ui);
         pages.add(pageToAdd);
-        ui.reloadComponentPane();
+        ui.reloadPagePane();
     }
 
     public void removeSelectedPage() {
         if (isPageSelected()) {
             pages.remove(selectedPage);
             selectedPage = null;
-            //ui.reloadSlideShowPane();
+            ui.reloadPagePane();
         }
     }
 

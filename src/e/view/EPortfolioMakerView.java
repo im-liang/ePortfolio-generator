@@ -9,6 +9,7 @@ import static e.StartUpConstants.CSS_CLASS_HORIZONTAL_TOOLBAR_BUTTON;
 import static e.StartUpConstants.CSS_CLASS_HORIZONTAL_TOOLBAR_PANE;
 import static e.StartUpConstants.CSS_CLASS_SELECTED_SLIDE_EDIT_VIEW;
 import static e.StartUpConstants.CSS_CLASS_SLIDES_EDITOR_PANE;
+import static e.StartUpConstants.CSS_CLASS_SLIDE_EDIT_VIEW;
 import static e.StartUpConstants.CSS_CLASS_TAB_PANE;
 import static e.StartUpConstants.CSS_CLASS_VERTICAL_TOOLBAR_BUTTON;
 import static e.StartUpConstants.CSS_CLASS_VERTICAL_TOOLBAR_PANE;
@@ -51,11 +52,13 @@ import static e.ToolTip.TOOLTIP_LOAD_EPORTFOLIO;
 import static e.ToolTip.TOOLTIP_NEW_EPORTFOLIO;
 import static e.ToolTip.TOOLTIP_SAVE_AS_EPORTFOLIO;
 import static e.ToolTip.TOOLTIP_SAVE_EPORTFOLIO;
+import e.controller.EPortfolioEditController;
 import e.controller.FileController;
 import e.controller.SlideShowController;
 import e.error.ErrorHandler;
 import e.file.EPortfolioFileManager;
 import e.file.EPortfolioSiteExporter;
+import e.model.Component;
 import e.model.EPortfolio;
 import e.model.Page;
 import javafx.geometry.Rectangle2D;
@@ -124,7 +127,7 @@ public class EPortfolioMakerView {
     Button addHyperlinkButton;
 
     // FOR THE PAGE TITLE
-    FlowPane bannerPane;
+    VBox bannerPane;
     Label titleLabel;
     TextField titleTextField;
     Label studentNameLabel;
@@ -148,7 +151,7 @@ public class EPortfolioMakerView {
 
     private FileController fileController;
 
-    private SlideShowController editController;
+    private EPortfolioEditController editController;
 
     public EPortfolioMakerView(EPortfolioFileManager initFileManager, EPortfolioSiteExporter initSiteExporter) {
         fileManager = initFileManager;
@@ -179,18 +182,17 @@ public class EPortfolioMakerView {
         pagesViewerTab.setText("Viewer");
         pagesViewerTab.setClosable(false);
         tabPane.getTabs().addAll(pagesEditorTab, pagesViewerTab);
-        
+
         //dummy
         BorderPane dumb = new BorderPane();
         WebView web = new WebView();
         web.getEngine().load("https://www.google.com");
         dumb.setCenter(web);
         pagesViewerTab.setContent(dumb);
-        
-        
+
         initWorkspace();
         pagesEditorTab.setContent(workspace);
-        
+
         initEventHandlers();
         primaryStage = initPrimaryStage;
         initWindow(windowTitle);
@@ -200,26 +202,27 @@ public class EPortfolioMakerView {
         workspace = new BorderPane();
         //left side of the screen
         pageEditToolbar = new FlowPane();
-        addTextButton = this.initChildButton(pageEditToolbar, ICON_ADD_TEXT, TOOLTIP_ADD_TEXT, CSS_CLASS_VERTICAL_TOOLBAR_BUTTON, false);
-        addImageButton = this.initChildButton(pageEditToolbar, ICON_ADD_IMAGE, TOOLTIP_ADD_IMAGE, CSS_CLASS_VERTICAL_TOOLBAR_BUTTON, false);
-        addSlideshowButton = this.initChildButton(pageEditToolbar, ICON_ADD_SLIDESHOW, TOOLTIP_ADD_SLIDESHOW, CSS_CLASS_VERTICAL_TOOLBAR_BUTTON, false);
-        addVideoButton = this.initChildButton(pageEditToolbar, ICON_ADD_VIDEO, TOOLTIP_ADD_VIDEO, CSS_CLASS_VERTICAL_TOOLBAR_BUTTON, false);
-        addHyperlinkButton = this.initChildButton(pageEditToolbar, ICON_ADD_LINK, TOOLTIP_ADD_TEXT_HYPERLINK, CSS_CLASS_VERTICAL_TOOLBAR_BUTTON, false);
+        addTextButton = this.initChildButton(pageEditToolbar, ICON_ADD_TEXT, TOOLTIP_ADD_TEXT, CSS_CLASS_VERTICAL_TOOLBAR_BUTTON, true);
+        addImageButton = this.initChildButton(pageEditToolbar, ICON_ADD_IMAGE, TOOLTIP_ADD_IMAGE, CSS_CLASS_VERTICAL_TOOLBAR_BUTTON, true);
+        addSlideshowButton = this.initChildButton(pageEditToolbar, ICON_ADD_SLIDESHOW, TOOLTIP_ADD_SLIDESHOW, CSS_CLASS_VERTICAL_TOOLBAR_BUTTON, true);
+        addVideoButton = this.initChildButton(pageEditToolbar, ICON_ADD_VIDEO, TOOLTIP_ADD_VIDEO, CSS_CLASS_VERTICAL_TOOLBAR_BUTTON, true);
+        addHyperlinkButton = this.initChildButton(pageEditToolbar, ICON_ADD_LINK, TOOLTIP_ADD_TEXT_HYPERLINK, CSS_CLASS_VERTICAL_TOOLBAR_BUTTON, true);
         //center
         pageEditorPane = new VBox();
+        initBannerControls();
+        pageEditorPane.getChildren().add(bannerPane);
         pageEditorScrollPane = new ScrollPane(pageEditorPane);
         pageEditorScrollPane.setFitToWidth(true);
         pageEditorScrollPane.setFitToHeight(true);
-        initBannerControls();
 
         //right
         BorderPane contentPane = new BorderPane();
 
         HBox hbox = new HBox();
         addPageButton = this.initChildButton(hbox, ICON_ADD_PAGE, TOOLTIP_ADD_PAGE, CSS_CLASS_HORIZONTAL_TOOLBAR_BUTTON, false);
-        bannerImageButton = this.initChildButton(hbox, ICON_BANNER_IMAGE, TOOLTIP_BANNER_IMAGE, CSS_CLASS_HORIZONTAL_TOOLBAR_BUTTON, false);
-        layoutTemplateButton = this.initChildButton(hbox, ICON_LAYOUT_TEMPLATE, TOOLTIP_LAYOUT_TEMPLATE, CSS_CLASS_HORIZONTAL_TOOLBAR_BUTTON, false);
-        colorTemplateButton = this.initChildButton(hbox, ICON_COLOR_TEMPLATE, TOOLTIP_COLOR_TEMPLATE, CSS_CLASS_HORIZONTAL_TOOLBAR_BUTTON, false);
+        bannerImageButton = this.initChildButton(hbox, ICON_BANNER_IMAGE, TOOLTIP_BANNER_IMAGE, CSS_CLASS_HORIZONTAL_TOOLBAR_BUTTON, true);
+        layoutTemplateButton = this.initChildButton(hbox, ICON_LAYOUT_TEMPLATE, TOOLTIP_LAYOUT_TEMPLATE, CSS_CLASS_HORIZONTAL_TOOLBAR_BUTTON, true);
+        colorTemplateButton = this.initChildButton(hbox, ICON_COLOR_TEMPLATE, TOOLTIP_COLOR_TEMPLATE, CSS_CLASS_HORIZONTAL_TOOLBAR_BUTTON, true);
 
         VBox pageTitlePane = new VBox();
         ScrollPane pageTitlesScrollPane = new ScrollPane(pageTitlePane);
@@ -259,8 +262,40 @@ public class EPortfolioMakerView {
         exitButton.setOnAction(e -> {
             fileController.handleExitRequest();
         });
-        
-        
+
+        editController = new EPortfolioEditController(this);
+        addPageButton.setOnAction(e -> {
+            editController.handleAddPageRequest();
+        });
+//        removePageButton.setOnAction(e -> {
+//            editController.handleRemovePageRequest();
+//        });
+//        bannerImageButton.setOnAction(e -> {
+//            editController.handleBannerImageRequest();
+//        });
+//        layoutTemplateButton.setOnAction(e -> {
+//            editController.handleLayoutTemplateRequest();
+//        });
+//        colorTemplateButton.setOnAction(e -> {
+//            editController.handleColorTemplateRequest();
+//        });
+//
+//        addTextButton.setOnAction(e -> {
+//            editController.handleAddTextRequest();
+//        });
+//        addImageButton.setOnAction(e -> {
+//            editController.handleAddImageRequest();
+//        });
+//        addVideoButton.setOnAction(e -> {
+//            editController.handleAddVideoRequest();
+//        });
+//        addSlideshowButton.setOnAction(e -> {
+//            editController.handleAddSlideshowRequest();
+//        });
+//        addHyperlinkButton.setOnAction(e -> {
+//            editController.handleAddHyperlinkRequest();
+//        });
+
     }
 
     private void initFileToolbar() {
@@ -316,35 +351,56 @@ public class EPortfolioMakerView {
         ePane.setCenter(workspace);
         saveEPortfolioButton.setDisable(saved);
         saveAsEPortfolioButton.setDisable(saved);
-        updateEPortfolioEditToolbarControls();
+        updatePageEditToolbarControls();
     }
 
-    public void updateEPortfolioEditToolbarControls() {
+    public void updatePageEditToolbarControls() {
         addPageButton.setDisable(false);
         boolean pageSelected = ePortfolio.isPageSelected();
         removePageButton.setDisable(!pageSelected);
+        bannerImageButton.setDisable(!pageSelected);
+        layoutTemplateButton.setDisable(!pageSelected);
+        colorTemplateButton.setDisable(!pageSelected);
     }
 
-    public void reloadEPortfolioPane() {
+    public void reloadComponentPane() {
+//        pageEditorPane.getChildren().clear();
+//        reloadBannerControls();
+//        for (Component component : ePortfolio.getSelectedPage().getComponents()) {
+//            ComponentEditView pageEditor = new PageEditView(this, component);
+//            if(ePortfolio.isSelectedPage(page))
+//                pageEditor.getStyleClass().add(CSS_CLASS_SELECTED_SLIDE_EDIT_VIEW);
+//            else
+//               pageEditor.getStyleClass().add(CSS_CLASS_SLIDE_EDIT_VIEW);
+//            pageEditorPane.getChildren().add(pageEditor);
+//            pageEditor.setOnMousePressed(e -> {
+//               ePortfolio.setSelectedPage(page);
+//               this.reloadComponentPane();
+//            });
+//        }
+//        updateEPortfolioEditToolbarControls();
+    }
+    
+    public void reloadPagePane() {
         pageEditorPane.getChildren().clear();
         reloadBannerControls();
         for (Page page : ePortfolio.getPages()) {
             PageEditView pageEditor = new PageEditView(this, page);
-//            if(ePortfolio.isSelectedPage(page))
-//                //pageEditor.getStyleClass().add(CSS_CLASS_SELECTED_SLIDE_EDIT_VIEW);
-//            else
-//               // pageEditor.
-//            pageEditorPane.getChildren().add(pageEditor);
-//            pageEditor.setOnMousePressed(e -> {
-//               ePortfolio.setSelectedPage(page);
-//               this.reloadEPortfolioPane();
-//            });
-
+            if(ePortfolio.isSelectedPage(page))
+                pageEditor.getStyleClass().add(CSS_CLASS_SELECTED_SLIDE_EDIT_VIEW);
+            else
+               pageEditor.getStyleClass().add(CSS_CLASS_SLIDE_EDIT_VIEW);
+            pageEditorPane.getChildren().add(pageEditor);
+            pageEditor.setOnMousePressed(e -> {
+               ePortfolio.setSelectedPage(page);
+               this.reloadPagePane();
+            });
         }
+        updatePageEditToolbarControls();
     }
 
     private void initBannerControls() {
-        bannerPane = new FlowPane();
+        bannerPane = new VBox();
         titleLabel = new Label(LABEL_PAGE_TITLE);
         titleTextField = new TextField();
         titleTextField.setText(DEFAULT_PAGE_TITLE);
@@ -360,7 +416,7 @@ public class EPortfolioMakerView {
         bannerPane.getChildren().addAll(titleLabel, titleTextField, studentNameLabel, studentNameTextField, footerLabel, footerTextField);
 
         titleTextField.textProperty().addListener(e -> {
-            //ePortfolio.;
+            ePortfolio.setSelectedPageTitle(titleTextField.getText());
             updateFileToolbarControls(false);
         });
         studentNameTextField.textProperty().addListener(e -> {
@@ -374,6 +430,7 @@ public class EPortfolioMakerView {
     }
 
     public void reloadBannerControls() {
+        if()
         //titleTextField.setText(ePortfolio.setSelectedPageTitle());
         studentNameTextField.setText(ePortfolio.getStudentName());
         //footerTextField.setText(ePortfolio.getSelectedPage().);
