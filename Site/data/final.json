@@ -1,0 +1,67 @@
+
+{
+    "student_name":"Utah",
+    "pages":[
+        {
+            "page_title":"lol",
+            "page_path":"",
+            "banner":"Welcome To My e-Portfolio!",
+            "banner_file_name":"banner.jpg",
+            "banner_file_path":"./img/",
+            "components":[
+                {
+                    "component_type":"list",
+                    "component_name":"ArchesUtah",
+                    "component_path":"",
+                    "component_font":"Arches",
+                    "component_desiredText":""
+                },
+                {
+                    "component_type":"image",
+                    "component_name":"BryceCanyonUtah.jpg",
+                    "component_path":"",
+                    "component_font":"Bryce Canyon",
+                    "component_desiredText":""
+                },
+                {
+                    "component_type":"",
+                    "component_name":"SaltUtah.jpg",
+                    "component_path":"",
+                    "component_font":"Salt Flats",
+                    "component_desiredText":""
+                }
+            ],
+            "footer":"you are at the end of the page"
+        },
+        {
+            "page_title":"happy",
+            "banner":"Welcome To My e-Portfolio!",
+            "banner_file_name":"banner.jpg",
+            "banner_file_path":"./img/",
+            "components":[
+                {
+                    "component_type":"",
+                    "component_name":"ArchesUtah.jpg",
+                    "component_path":"",
+                    "component_font":"Arches",
+                    "component_desiredText":""
+                },
+                {
+                    "component_type":"",
+                    "component_name":"BryceCanyonUtah.jpg",
+                    "component_path":"",
+                    "component_font":"Bryce Canyon",
+                    "component_desiredText":""
+                },
+                {
+                    "component_type":"",
+                    "component_name":"SaltUtah.jpg",
+                    "component_path":"",
+                    "component_font":"Salt Flats",
+                    "component_desiredText":""
+                }
+            ],
+            "footer":"you are at the end of the page"
+        }
+    ]
+}

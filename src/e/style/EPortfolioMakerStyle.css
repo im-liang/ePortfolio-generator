@@ -41,7 +41,9 @@ and open the template in the editor.
 .workspace {
     -fx-background-image: url("http://www.ic.sunysb.edu/Stu/jieliang/images/crossword.png");
 }
-
+.tab_pane {
+    -fx-width:100px;
+}
 .slides_editor_pane {
     -fx-background-color: #FFF373;
     -fx-padding: 30;    

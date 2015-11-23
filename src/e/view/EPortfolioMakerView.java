@@ -7,7 +7,9 @@ package e.view;
 
 import static e.StartUpConstants.CSS_CLASS_HORIZONTAL_TOOLBAR_BUTTON;
 import static e.StartUpConstants.CSS_CLASS_HORIZONTAL_TOOLBAR_PANE;
+import static e.StartUpConstants.CSS_CLASS_SELECTED_SLIDE_EDIT_VIEW;
 import static e.StartUpConstants.CSS_CLASS_SLIDES_EDITOR_PANE;
+import static e.StartUpConstants.CSS_CLASS_TAB_PANE;
 import static e.StartUpConstants.CSS_CLASS_VERTICAL_TOOLBAR_BUTTON;
 import static e.StartUpConstants.CSS_CLASS_VERTICAL_TOOLBAR_PANE;
 import static e.StartUpConstants.CSS_CLASS_WORKSPACE;
@@ -72,6 +74,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.web.WebView;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
@@ -168,7 +171,26 @@ public class EPortfolioMakerView {
 
     public void startUI(Stage initPrimaryStage, String windowTitle) {
         initFileToolbar();
+        tabPane = new TabPane();
+        pagesEditorTab = new Tab();
+        pagesEditorTab.setText("Editor");
+        pagesEditorTab.setClosable(false);
+        pagesViewerTab = new Tab();
+        pagesViewerTab.setText("Viewer");
+        pagesViewerTab.setClosable(false);
+        tabPane.getTabs().addAll(pagesEditorTab, pagesViewerTab);
+        
+        //dummy
+        BorderPane dumb = new BorderPane();
+        WebView web = new WebView();
+        web.getEngine().load("https://www.google.com");
+        dumb.setCenter(web);
+        pagesViewerTab.setContent(dumb);
+        
+        
         initWorkspace();
+        pagesEditorTab.setContent(workspace);
+        
         initEventHandlers();
         primaryStage = initPrimaryStage;
         initWindow(windowTitle);
@@ -191,11 +213,23 @@ public class EPortfolioMakerView {
         initBannerControls();
 
         //right
-        initTabControls();
+        BorderPane contentPane = new BorderPane();
+
+        HBox hbox = new HBox();
+        addPageButton = this.initChildButton(hbox, ICON_ADD_PAGE, TOOLTIP_ADD_PAGE, CSS_CLASS_HORIZONTAL_TOOLBAR_BUTTON, false);
+        bannerImageButton = this.initChildButton(hbox, ICON_BANNER_IMAGE, TOOLTIP_BANNER_IMAGE, CSS_CLASS_HORIZONTAL_TOOLBAR_BUTTON, false);
+        layoutTemplateButton = this.initChildButton(hbox, ICON_LAYOUT_TEMPLATE, TOOLTIP_LAYOUT_TEMPLATE, CSS_CLASS_HORIZONTAL_TOOLBAR_BUTTON, false);
+        colorTemplateButton = this.initChildButton(hbox, ICON_COLOR_TEMPLATE, TOOLTIP_COLOR_TEMPLATE, CSS_CLASS_HORIZONTAL_TOOLBAR_BUTTON, false);
+
+        VBox pageTitlePane = new VBox();
+        ScrollPane pageTitlesScrollPane = new ScrollPane(pageTitlePane);
+
+        contentPane.setTop(hbox);
+        contentPane.setCenter(pageTitlesScrollPane);
 
         workspace.setLeft(pageEditToolbar);
         workspace.setCenter(pageEditorScrollPane);
-        workspace.setRight(tabPane);
+        workspace.setRight(contentPane);
 
         // SETUP ALL THE STYLE CLASSES
         workspace.getStyleClass().add(CSS_CLASS_WORKSPACE);
@@ -211,20 +245,22 @@ public class EPortfolioMakerView {
             fileController.handleNewEPortfolioRequest();
         });
         loadEPortfolioButton.setOnAction(e -> {
-            fileController.handleNewEPortfolioRequest();
+            fileController.handleLoadEPortfolioRequest();
         });
         saveEPortfolioButton.setOnAction(e -> {
-            fileController.handleNewEPortfolioRequest();
+            fileController.handleSaveEPortfolioRequest();
         });
         saveAsEPortfolioButton.setOnAction(e -> {
-            fileController.handleNewEPortfolioRequest();
+            fileController.handleSaveEPortfolioRequest();
         });
         exportEPortfolioButton.setOnAction(e -> {
-            fileController.handleNewEPortfolioRequest();
+            fileController.handleViewEPortfolioRequest();
         });
         exitButton.setOnAction(e -> {
-            fileController.handleNewEPortfolioRequest();
+            fileController.handleExitRequest();
         });
+        
+        
     }
 
     private void initFileToolbar() {
@@ -255,7 +291,7 @@ public class EPortfolioMakerView {
         ePane = new BorderPane();
         ePane.getStyleClass().add(CSS_CLASS_WORKSPACE);
         ePane.setTop(fileToolbarPane);
-        ePane.setCenter(workspace);
+        ePane.setCenter(tabPane);
         primaryScene = new Scene(ePane);
 
         primaryScene.getStylesheets().add(STYLE_SHEET_UI);
@@ -282,6 +318,7 @@ public class EPortfolioMakerView {
         saveAsEPortfolioButton.setDisable(saved);
         updateEPortfolioEditToolbarControls();
     }
+
     public void updateEPortfolioEditToolbarControls() {
         addPageButton.setDisable(false);
         boolean pageSelected = ePortfolio.isPageSelected();
@@ -291,12 +328,21 @@ public class EPortfolioMakerView {
     public void reloadEPortfolioPane() {
         pageEditorPane.getChildren().clear();
         reloadBannerControls();
-        for(Page page : ePortfolio.getPages()) {
+        for (Page page : ePortfolio.getPages()) {
             PageEditView pageEditor = new PageEditView(this, page);
-            if(ePortfolio.isSelectedPage(page))
-                
+//            if(ePortfolio.isSelectedPage(page))
+//                //pageEditor.getStyleClass().add(CSS_CLASS_SELECTED_SLIDE_EDIT_VIEW);
+//            else
+//               // pageEditor.
+//            pageEditorPane.getChildren().add(pageEditor);
+//            pageEditor.setOnMousePressed(e -> {
+//               ePortfolio.setSelectedPage(page);
+//               this.reloadEPortfolioPane();
+//            });
+
         }
     }
+
     private void initBannerControls() {
         bannerPane = new FlowPane();
         titleLabel = new Label(LABEL_PAGE_TITLE);
@@ -328,33 +374,8 @@ public class EPortfolioMakerView {
     }
 
     public void reloadBannerControls() {
-        //titleTextField.setText(ePortfolio.getSelectedPage().);
+        //titleTextField.setText(ePortfolio.setSelectedPageTitle());
         studentNameTextField.setText(ePortfolio.getStudentName());
         //footerTextField.setText(ePortfolio.getSelectedPage().);
-    }
-
-    private void initTabControls() {
-        tabPane = new TabPane();
-        pagesEditorTab = new Tab();
-        pagesEditorTab.setText("Editor");
-        pagesEditorTab.setClosable(false);
-        pagesViewerTab = new Tab();
-        pagesViewerTab.setText("Viewer");
-        pagesViewerTab.setClosable(false);
-
-        BorderPane contentPane = new BorderPane();
-        pagesEditorTab.setContent(contentPane);
-        HBox hbox = new HBox();
-        addPageButton = this.initChildButton(hbox, ICON_ADD_PAGE, TOOLTIP_ADD_PAGE, CSS_CLASS_HORIZONTAL_TOOLBAR_BUTTON, false);
-        bannerImageButton = this.initChildButton(hbox, ICON_BANNER_IMAGE, TOOLTIP_BANNER_IMAGE, CSS_CLASS_HORIZONTAL_TOOLBAR_BUTTON, false);
-        layoutTemplateButton = this.initChildButton(hbox, ICON_LAYOUT_TEMPLATE, TOOLTIP_LAYOUT_TEMPLATE, CSS_CLASS_HORIZONTAL_TOOLBAR_BUTTON, false);
-        colorTemplateButton = this.initChildButton(hbox, ICON_COLOR_TEMPLATE, TOOLTIP_COLOR_TEMPLATE, CSS_CLASS_HORIZONTAL_TOOLBAR_BUTTON, false);
-        
-        VBox pageTitlePane = new VBox();
-        ScrollPane pageTitlesScrollPane = new ScrollPane(pageTitlePane);
-        
-        contentPane.setTop(hbox);
-        contentPane.setCenter(pageTitlesScrollPane);
-        tabPane.getTabs().addAll(pagesEditorTab, pagesViewerTab);
     }
 }

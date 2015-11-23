@@ -5,10 +5,16 @@
  */
 package e.file;
 
+import e.model.EPortfolio;
+
 /**
  *
  * @author jieliang
  */
 public class EPortfolioSiteExporter {
+
+    public void exportSite(EPortfolio ePortfolio) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }

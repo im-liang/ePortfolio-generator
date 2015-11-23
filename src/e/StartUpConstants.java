@@ -69,8 +69,12 @@ public class StartUpConstants {
     public static String    CSS_CLASS_VERTICAL_TOOLBAR_BUTTON = "vertical_toolbar_button";
     public static String    CSS_CLASS_HORIZONTAL_TOOLBAR_BUTTON = "horizontal_toolbar_button";
 
+    //CSS - TAB
+    public static String    CSS_CLASS_TAB_PANE = "tab_pane";
+    public static String    CSS_CLASS_TAB_BUTTON = "tab_button";
+    public static String    CSS_CLASS_TAB_PAGE_TITLES_BUTTON = "tab_page_titles_button";
     // CSS - SLIDESHOW EDITING
-    public static String    CSS_CLASS_TITLE_PANE = "title_pane";
+    public static String    CSS_CLASS_BANNER_PANE = "title_pane";
     public static String    CSS_CLASS_TITLE_PROMPT = "title_prompt";
     public static String    CSS_CLASS_TITLE_TEXT_FIELD = "title_text_field";
     public static String    CSS_CLASS_CAPTION_PROMPT = "caption_prompt";

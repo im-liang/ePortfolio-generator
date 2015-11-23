@@ -5,10 +5,18 @@
  */
 package e.view;
 
+import e.model.Page;
+
 /**
  *
  * @author jieliang
  */
 public class PageEditView {
+    EPortfolioMakerView ui;
+    Page page;
     
+    public PageEditView(EPortfolioMakerView initUI, Page initPage) {
+        ui = initUI;
+        page = initPage;
+    }
 }

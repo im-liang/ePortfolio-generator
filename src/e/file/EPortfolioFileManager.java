@@ -5,10 +5,16 @@
  */
 package e.file;
 
+import e.model.EPortfolio;
+
 /**
  *Using JSON to read and write ePortfolio data files
  * @author jieliang
  */
 public class EPortfolioFileManager {
+
+    public void saveEPortfolio(EPortfolio ePortfolioToSave) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }
