@@ -30,6 +30,10 @@ public class ToolTip {
     public static String TOOLTIP_COLOR_TEMPLATE = "Select the color theme";
     public static String TOOLTIP_BANNER_IMAGE = "Select Banner Image";
     
+    public static String TOOLTIP_ADD_HEADING = "Add heading";
+    public static String TOOLTIP_ADD_P = "Add paragraph";
+    public static String TOOLTIP_ADD_LIST = "Add list";
+    
     public static String TOOLTIP_PAGE_EDITOR_WORKSPACE = "Page Ediotor Workspace";
     public static String TOOLTIP_SITE_VIEWER_WORKSPACE = "Site Viewer Workspace";
 

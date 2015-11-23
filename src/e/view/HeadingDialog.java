@@ -3,7 +3,18 @@ package e.view;
 import static e.StartUpConstants.CSS_CLASS_LANG_DIALOG_PANE;
 import static e.StartUpConstants.CSS_CLASS_LANG_OK_BUTTON;
 import static e.StartUpConstants.CSS_CLASS_LANG_PROMPT;
+import static e.StartUpConstants.ICON_ADD_HEADING;
+import static e.StartUpConstants.ICON_ADD_LINK;
+import static e.StartUpConstants.ICON_ADD_LIST;
+import static e.StartUpConstants.ICON_ADD_P;
+import static e.StartUpConstants.ICON_ADD_PAGE;
+import static e.StartUpConstants.ICON_REMOVE_PAGE;
+import static e.StartUpConstants.PATH_ICONS;
 import static e.StartUpConstants.STYLE_SHEET_UI;
+import static e.ToolTip.TOOLTIP_ADD_HEADING;
+import static e.ToolTip.TOOLTIP_ADD_LIST;
+import static e.ToolTip.TOOLTIP_ADD_P;
+import static e.ToolTip.TOOLTIP_ADD_TEXT_HYPERLINK;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -13,8 +24,13 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 
 /**
@@ -31,6 +47,7 @@ public class HeadingDialog extends Stage {
     Label messageLabel;
     TextField headingTextField;
     HBox choice;
+    ScrollPane scrollPane;
     VBox nextChoice;
     Button yesButton;
     Button noButton;
@@ -65,10 +82,42 @@ public class HeadingDialog extends Stage {
         };
         
         choice = new HBox();
-        Button heading = new Button();
-        Button p = new Button();
-        Button list = new Button();
-        choice.getChildren().addAll(heading,p,list);
+        Button heading = initChildButton(choice,ICON_ADD_HEADING, TOOLTIP_ADD_HEADING, "dialog_button");
+        Button p = initChildButton(choice,ICON_ADD_P, TOOLTIP_ADD_P, "dialog_button");
+        Button list = initChildButton(choice,ICON_ADD_LIST, TOOLTIP_ADD_LIST, "dialog_button");
+        heading.setOnAction(e -> {
+            Label header = new Label("Header: ");
+            TextField headert = new TextField();
+            nextChoice.getChildren().clear();
+            nextChoice.getChildren().addAll(header,headert);
+        });
+        p.setOnAction(e -> {
+            Label header = new Label("Paragraph: ");
+            TextField headert = new TextField();
+            Label font = new Label("Font: ");
+            TextField fontt = new TextField();
+            Label link = new Label("HyperLink: ");
+            TextField linkt = new TextField();
+            nextChoice.getChildren().clear();
+            nextChoice.getChildren().addAll(header,headert,font,fontt, link,linkt);
+        });
+        list.setOnAction(e -> {
+            nextChoice.getChildren().clear();
+            Label header = new Label("List: ");
+            Button addButton = initChildButton(nextChoice,ICON_ADD_PAGE, TOOLTIP_ADD_LIST, "dialog_button");
+            addButton.setOnAction(ee -> {
+                HBox item = new HBox();
+                Button removeButton = initChildButton(item,ICON_REMOVE_PAGE, "Remove the list item", "dialog_button");
+                TextField i = new TextField();
+                item.getChildren().add(i);
+                nextChoice.getChildren().add(item);
+                removeButton.setOnAction(eee -> {
+                    nextChoice.getChildren().remove(item);
+                });
+            });
+            
+            nextChoice.getChildren().addAll(header,addButton);
+        });
         
         // YES, NO, AND CANCEL BUTTONS
         yesButton = new Button(YES);
@@ -85,7 +134,9 @@ public class HeadingDialog extends Stage {
         buttonBox.getChildren().add(cancelButton);
 	       
         // WE'LL PUT EVERYTHING HERE
+        //scrollPane = new ScrollPane();
         nextChoice = new VBox();
+        //scrollPane.setContent(nextChoice);
         messagePane = new VBox();
         messagePane.setAlignment(Pos.CENTER);
         messagePane.getChildren().add(messageLabel);
@@ -102,7 +153,7 @@ public class HeadingDialog extends Stage {
 	buttonBox.getStyleClass().add(CSS_CLASS_LANG_DIALOG_PANE);
 	
         // MAKE IT LOOK NICE
-        messagePane.setPadding(new Insets(10, 20, 20, 20));
+        messagePane.setPadding(new Insets(100, 100, 100, 100));
         messagePane.setSpacing(10);
 
         // AND PUT IT IN THE WINDOW
@@ -134,5 +185,17 @@ public class HeadingDialog extends Stage {
     public void show(String message) {
         messageLabel.setText(message);
         this.showAndWait();
+    }
+    
+    public Button initChildButton(Pane toolbar, String iconFileName, String tooltip, String cssClass) {
+        String iconPath = "file:" + PATH_ICONS + iconFileName;
+        Image buttonImage = new Image(iconPath);
+        Button button = new Button();
+        button.getStyleClass().add(cssClass);
+        button.setGraphic(new ImageView(buttonImage));
+        Tooltip buttonTooltip = new Tooltip(tooltip);
+        button.setTooltip(buttonTooltip);
+        toolbar.getChildren().add(button);
+        return button;
     }
 }

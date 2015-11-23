@@ -44,6 +44,10 @@ public class StartUpConstants {
     public static String ICON_ADD_VIDEO = "Video.png";
     public static String ICON_ADD_SLIDESHOW = "Slideshow.png";
     public static String ICON_ADD_LINK = "Link.png";
+    
+    public static String ICON_ADD_HEADING = "heading.png";
+    public static String ICON_ADD_P = "p.png";
+    public static String ICON_ADD_LIST = "list.png";
 
     // UI SETTINGS
     public static String    DEFAULT_SLIDE_IMAGE = "DefaultStartSlide.png";

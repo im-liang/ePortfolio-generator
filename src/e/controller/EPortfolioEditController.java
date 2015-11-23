@@ -60,6 +60,7 @@ public class EPortfolioEditController {
 
     public void handleAddTextRequest() {
         HeadingDialog head = new HeadingDialog(ui.getWindow());
+        head.show("Text");
     }
 
     public void handleAddImageRequest() {
