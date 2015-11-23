@@ -39,6 +39,8 @@ public class StartUpConstants {
     public static String ICON_COLOR_TEMPLATE = "Color.png";
     
     
+    public static String ICON_PAGE = "page.png";
+    
     public static String ICON_ADD_TEXT = "Text.png";
     public static String ICON_ADD_IMAGE = "pic.png";
     public static String ICON_ADD_VIDEO = "Video.png";
@@ -70,11 +72,13 @@ public class StartUpConstants {
     // CSS - FOR THE TOOLBARS
     public static String    CSS_CLASS_HORIZONTAL_TOOLBAR_PANE = "horizontal_toolbar_pane";
     public static String    CSS_CLASS_VERTICAL_TOOLBAR_PANE = "vertical_toolbar_pane";
+    public static String    CSS_CLASS_PAGE_EDIT_TOOLBAR_PANE = "page_edit_toolbar_pane";
+    public static String    CSS_CLASS_PAGE_EDIT_TOOLBAR_BUTTON = "page_edit_toolbar_button";
     public static String    CSS_CLASS_VERTICAL_TOOLBAR_BUTTON = "vertical_toolbar_button";
     public static String    CSS_CLASS_HORIZONTAL_TOOLBAR_BUTTON = "horizontal_toolbar_button";
 
     //CSS - TAB
-    public static String    CSS_CLASS_TAB_PANE = "tab_pane";
+    public static String    CSS_CLASS_PAGE_EDIT_PANE = "page_edit_pane";
     public static String    CSS_CLASS_TAB_BUTTON = "tab_button";
     public static String    CSS_CLASS_TAB_PAGE_TITLES_BUTTON = "tab_page_titles_button";
     // CSS - SLIDESHOW EDITING

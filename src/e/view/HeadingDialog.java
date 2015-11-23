@@ -25,6 +25,7 @@ import javafx.stage.Stage;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
@@ -93,7 +94,7 @@ public class HeadingDialog extends Stage {
         });
         p.setOnAction(e -> {
             Label header = new Label("Paragraph: ");
-            TextField headert = new TextField();
+            TextArea headert = new TextArea();
             Label font = new Label("Font: ");
             TextField fontt = new TextField();
             Label link = new Label("HyperLink: ");

@@ -15,13 +15,20 @@ and open the template in the editor.
 }
 
 .horizontal_toolbar_pane {
-    -fx-hgap:2;
+    -fx-hgap:5;
 }
 
 .vertical_toolbar_pane {
     -fx-alignment: center;
     -fx-orientation: vertical;
     -fx-vgap:10;
+}
+.page_edit_toolbar_pane {
+    -fx-padding-left: 10px;
+}
+
+.page_edit_toolbar_button {
+    -fx-hgap:5;
 }
 
 .vertical_toolbar_button {
@@ -41,7 +48,7 @@ and open the template in the editor.
 .workspace {
     -fx-background-image: url("http://www.ic.sunysb.edu/Stu/jieliang/images/crossword.png");
 }
-.tab_pane {
+.page_edit_pane {
     -fx-width:100px;
 }
 .slides_editor_pane {
