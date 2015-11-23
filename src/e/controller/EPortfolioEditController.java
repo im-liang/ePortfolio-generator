@@ -8,6 +8,9 @@ package e.controller;
 import static e.StartUpConstants.LABEL_PAGE_TITLE;
 import e.model.EPortfolio;
 import e.view.EPortfolioMakerView;
+import e.view.HeadingDialog;
+import e.view.ImageDialog;
+import e.view.VideoDialog;
 
 /**
  *
@@ -22,10 +25,19 @@ public class EPortfolioEditController {
     }
 
     public void handleAddPageRequest() {
-        EPortfolio ePortfolio = ui.getEPortfolio();
-        ePortfolio.addPage(LABEL_PAGE_TITLE);
-        ui.updateFileToolbarControls(false);
-        ui.reloadPagePane();
+        HeadingDialog headingDialog = new HeadingDialog(ui.getWindow());
+        headingDialog.show(LABEL_PAGE_TITLE);
+
+        // AND NOW GET THE USER'S SELECTION
+        String selection = headingDialog.getSelection();
+        boolean saveWork = selection.equals(headingDialog.YES);
+        if (saveWork) {
+            EPortfolio ePortfolio = ui.getEPortfolio();
+            ePortfolio.addPage(headingDialog.getContent());
+            ui.updateFileToolbarControls(false);
+            ui.reloadPagePane();
+        }
+
     }
 
     public void handleRemovePageRequest() {
@@ -35,7 +47,7 @@ public class EPortfolioEditController {
     }
 
     public void handleBannerImageRequest() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ImageController image = new ImageController(ui.getWindow());
     }
 
     public void handleLayoutTemplateRequest() {
@@ -47,15 +59,22 @@ public class EPortfolioEditController {
     }
 
     public void handleAddTextRequest() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        HeadingDialog head = new HeadingDialog(ui.getWindow());
     }
 
     public void handleAddImageRequest() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ImageDialog imageDialog = new ImageDialog(ui.getWindow());
+        imageDialog.updatePic(ui.getWindow());
+        imageDialog.show("Image");
+        imageDialog.hide();
+        imageDialog.setPath();
+        imageDialog.updatePic(ui.getWindow());
+        imageDialog.show("Image");
     }
 
     public void handleAddVideoRequest() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        VideoDialog imageDialog = new VideoDialog(ui.getWindow());
+        imageDialog.show("Video");
     }
 
     public void handleAddSlideshowRequest() {

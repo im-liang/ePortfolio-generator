@@ -73,7 +73,8 @@ public class FileController {
 
                 // MAKE SURE THE TITLE CONTROLS ARE ENABLED
                 ui.reloadBannerControls();
-                ui.reloadEPortfolioPane();
+                ui.reloadPagePane();
+                ui.reloadComponentPane();
             }
         } catch (IOException ioe) {
             ErrorHandler eH = ui.getErrorHandler();

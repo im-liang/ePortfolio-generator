@@ -79,6 +79,7 @@ public class EPortfolio {
 
     public void addPage(String pageTitle) {
         Page pageToAdd = new Page(ui);
+        pageToAdd.setPageTitle(pageTitle);
         pages.add(pageToAdd);
         ui.reloadPagePane();
     }

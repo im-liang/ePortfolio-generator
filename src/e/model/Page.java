@@ -19,6 +19,7 @@ public class Page {
 
     EPortfolioMakerView ui;
     String pageTitle;
+    String footer;
     ObservableList<Component> components;
     Component selectedComponent;
 
@@ -48,6 +49,10 @@ public class Page {
     public String getPageTitle() {
         return pageTitle;
     }
+    
+    public String getFooter() {
+        return footer;
+    }
 
     // mutator methods
     public void setSelectedComponent(Component initSelectedComponent) {
@@ -56,6 +61,10 @@ public class Page {
 
     public void setPageTitle(String initPageTitle) {
         pageTitle = initPageTitle;
+    }
+    
+    public void setFooter(String initFooter) {
+        footer = initFooter;
     }
 
     /*
