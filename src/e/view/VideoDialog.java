@@ -139,9 +139,9 @@ public class VideoDialog extends Stage {
         messagePane.getChildren().add(buttonBox);
 
         // CSS CLASSES
-        yesButton.getStyleClass().add(CSS_CLASS_LANG_OK_BUTTON);
-        noButton.getStyleClass().add(CSS_CLASS_LANG_OK_BUTTON);
-        cancelButton.getStyleClass().add(CSS_CLASS_LANG_OK_BUTTON);
+        yesButton.getStyleClass().add("dialog_button");
+        noButton.getStyleClass().add("dialog_button");
+        cancelButton.getStyleClass().add("dialog_button");
         messageLabel.getStyleClass().add(CSS_CLASS_LANG_PROMPT);
         messagePane.getStyleClass().add(CSS_CLASS_LANG_DIALOG_PANE);
         buttonBox.getStyleClass().add(CSS_CLASS_LANG_DIALOG_PANE);

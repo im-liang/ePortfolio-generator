@@ -64,7 +64,7 @@ public class StartUpConstants {
     // CSS STYLE SHEET CLASSES
     
     // CSS - FOR THE LANGUAGE SELECTION DIALOG
-    public static String    CSS_CLASS_LANG_DIALOG_PANE = "lang_dialog_pane";
+    public static String    CSS_CLASS_LANG_DIALOG_PANE = "dialog_pane";
     public static String    CSS_CLASS_LANG_PROMPT = "lang_prompt";
     public static String    CSS_CLASS_LANG_COMBO_BOX = "lang_combo_box";
     public static String    CSS_CLASS_LANG_OK_BUTTON = "lang_ok_button";

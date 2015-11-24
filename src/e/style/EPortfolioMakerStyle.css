@@ -105,6 +105,12 @@ and open the template in the editor.
 }
 
 .banner_text, .dialog_button {
-    -fx-font-family:sans-serif;  
-    
+    -fx-font: 16pt bold;  
+}
+.dialog_pane {
+    -fx-background-image: url("http://www.ic.sunysb.edu/Stu/jieliang/images/5.jpg");
+}
+.tempButton {
+    -fx-background-color: #8ED2C9;
+    -fx-font: 14pt normal; 
 }

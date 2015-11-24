@@ -225,9 +225,9 @@ public class EPortfolioMakerView {
         pageEditorScrollPane.setFitToHeight(true);
 
         //right
-       BorderPane contentPane = new BorderPane();
+        BorderPane contentPane = new BorderPane();
         HBox hbox = new HBox();
-       
+
         //hbox.getStyleClass().add(CSS_CLASS_PAGE_EDIT_TOOLBAR_PANE);
         addPageButton = this.initChildButton(hbox, ICON_ADD_PAGE, TOOLTIP_ADD_PAGE, CSS_CLASS_PAGE_EDIT_TOOLBAR_BUTTON, false);
         bannerImageButton = this.initChildButton(hbox, ICON_BANNER_IMAGE, TOOLTIP_BANNER_IMAGE, CSS_CLASS_PAGE_EDIT_TOOLBAR_BUTTON, false);
@@ -240,14 +240,14 @@ public class EPortfolioMakerView {
         hbox.getStyleClass().add(CSS_CLASS_PAGE_EDIT_PANE);
         contentPane.setTop(hbox);
         contentPane.setCenter(pageTitlesScrollPane);
-        
+
         workspace.setLeft(pageEditToolbar);
         workspace.setCenter(pageEditorScrollPane);
         workspace.setRight(contentPane);
 
         // SETUP ALL THE STYLE CLASSES
         workspace.getStyleClass().add(CSS_CLASS_WORKSPACE);
-       
+
         pageEditToolbar.getStyleClass().add(CSS_CLASS_VERTICAL_TOOLBAR_PANE);
         pageEditorPane.getStyleClass().add(CSS_CLASS_SLIDES_EDITOR_PANE);
         pageEditorScrollPane.getStyleClass().add(CSS_CLASS_SLIDES_EDITOR_PANE);
@@ -279,10 +279,11 @@ public class EPortfolioMakerView {
         addPageButton.setOnAction(e -> {
             //ObservableList<Node> panes= pageTitlePane.getChildren();
             //pageTitlePane.getChildren().clear();
-            
+
             HBox item = new HBox();
             Button removeButton = initChildButton(item, ICON_REMOVE_PAGE, "Remove the Page", "dialog_button", false);
             Button i = new Button();
+            i.getStyleClass().add("tempButton");
             i.setText("Title");
             item.getChildren().add(i);
             pageTitlePane.getChildren().add(item);
@@ -296,26 +297,26 @@ public class EPortfolioMakerView {
         });
         layoutTemplateButton.setOnAction(e -> {
             pageTitlePane.getChildren().clear();
-            Button a = initChildButton(pageTitlePane, "L1.png", "1", "dialog_button", false); 
-            Button b = initChildButton(pageTitlePane, "L2.png", "2", "dialog_button", false); 
-            Button c = initChildButton(pageTitlePane, "L3.png", "3", "dialog_button", false); 
-            Button d = initChildButton(pageTitlePane, "L4.png", "4", "dialog_button", false); 
-            Button ee = initChildButton(pageTitlePane, "L5.png", "5", "dialog_button", false); 
+            Button a = initChildButton(pageTitlePane, "L1.png", "1", "dialog_button", false);
+            Button b = initChildButton(pageTitlePane, "L2.png", "2", "dialog_button", false);
+            Button c = initChildButton(pageTitlePane, "L3.png", "3", "dialog_button", false);
+            Button d = initChildButton(pageTitlePane, "L4.png", "4", "dialog_button", false);
+            Button ee = initChildButton(pageTitlePane, "L5.png", "5", "dialog_button", false);
         });
         colorTemplateButton.setOnAction(e -> {
             pageTitlePane.getChildren().clear();
-            Button a = initChildButton(pageTitlePane, "C1.png", "1", "dialog_button", false); 
-            Button b = initChildButton(pageTitlePane, "C2.png", "2", "dialog_button", false); 
-            Button c = initChildButton(pageTitlePane, "C3.png", "3", "dialog_button", false); 
-            Button d = initChildButton(pageTitlePane, "C4.png", "4", "dialog_button", false); 
-            Button ee = initChildButton(pageTitlePane, "C5.png", "5", "dialog_button", false); 
+            Button a = initChildButton(pageTitlePane, "C1.png", "1", "dialog_button", false);
+            Button b = initChildButton(pageTitlePane, "C2.png", "2", "dialog_button", false);
+            Button c = initChildButton(pageTitlePane, "C3.png", "3", "dialog_button", false);
+            Button d = initChildButton(pageTitlePane, "C4.png", "4", "dialog_button", false);
+            Button ee = initChildButton(pageTitlePane, "C5.png", "5", "dialog_button", false);
         });
         fontButton.setOnAction(e -> {
             pageTitlePane.getChildren().clear();
             TextField font = new TextField();
             pageTitlePane.getChildren().add(font);
-            Button ok = initChildButton(pageTitlePane, "ok.png", "ok", "dialog_button", false); 
-            
+            Button ok = initChildButton(pageTitlePane, "ok.png", "ok", "dialog_button", false);
+
         });
 
         addTextButton.setOnAction(e -> {
@@ -445,10 +446,14 @@ public class EPortfolioMakerView {
         studentNameLabel = new Label(LABEL_STUDENT_NAME);
         studentNameTextField = new TextField();
         studentNameTextField.setText(DEFAULT_STUDENT_NAME);
+        studentNameLabel.getStyleClass().add(CSS_CLASS_BANNER_TEXT);
+        studentNameTextField.getStyleClass().add(CSS_CLASS_BANNER_TEXT);
 
         footerLabel = new Label(LABEL_FOOTER);
         footerTextField = new TextField();
         footerTextField.setText(DEFAULT_FOOTER);
+        footerLabel.getStyleClass().add(CSS_CLASS_BANNER_TEXT);
+        footerTextField.getStyleClass().add(CSS_CLASS_BANNER_TEXT);
 
         bannerPane.getChildren().addAll(titleLabel, titleTextField, studentNameLabel, studentNameTextField, footerLabel, footerTextField);
 
@@ -474,7 +479,7 @@ public class EPortfolioMakerView {
         studentNameTextField.setText(ePortfolio.getStudentName());
         footerTextField.setText(ePortfolio.getSelectedPage().getFooter());
     }
-    
+
     public VBox getComponentPane() {
         return pageEditorPane;
     }
