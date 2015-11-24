@@ -9,6 +9,9 @@ and open the template in the editor.
 */
 
 // TOOLBAR CONTROLS
+.lang_prompt {
+    -fx-font: 17pt bold;
+}
 .horizontal_toolbar_pane, .vertical_toolbar_pane {
     -fx-background-color: transparent;    
     -fx-padding:5;

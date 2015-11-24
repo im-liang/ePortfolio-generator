@@ -99,7 +99,7 @@ public class HeadingDialog extends Stage {
             Label font = new Label("Font: ");
             TextField fontt = new TextField();
             Label link = new Label("HyperLink: ");
-            TextField linkt = new TextField();
+            TextField linkt = new TextField("Add desired text first,then add link.");
             nextChoice.getChildren().clear();
             nextChoice.getChildren().addAll(header, headert, font, fontt, link, linkt);
         });

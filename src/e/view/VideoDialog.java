@@ -36,7 +36,6 @@ import javafx.stage.Modality;
 public class VideoDialog extends Stage {
 
     // GUI CONTROLS FOR OUR DIALOG
-
     VBox messagePane;
     Scene messageScene;
     Label messageLabel;
@@ -117,6 +116,10 @@ public class VideoDialog extends Stage {
         height = new Label("Height: ");
         heightt = new TextField();
         widthBox.getChildren().addAll(height, heightt);
+
+        caption.getStyleClass().add("dialog_button");
+        width.getStyleClass().add("dialog_button");
+        height.getStyleClass().add("dialog_button");
 
         // NOW ORGANIZE OUR BUTTONS
         HBox buttonBox = new HBox();

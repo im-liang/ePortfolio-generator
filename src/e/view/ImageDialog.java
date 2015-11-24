@@ -98,6 +98,7 @@ public class ImageDialog extends Stage {
         updatePic(primaryStage);
         captionBox = new HBox();
         caption = new Label("Caption: ");
+        
         captiont = new TextField();
         captionBox.getChildren().addAll(caption, captiont);
         widthBox = new HBox();
@@ -116,6 +117,10 @@ public class ImageDialog extends Stage {
         neither = new Button();
         neither.setText("neither");
         floatBox.getChildren().addAll(left, right, neither);
+        
+        caption.getStyleClass().add("dialog_button");
+        width.getStyleClass().add("dialog_button");
+        height.getStyleClass().add("dialog_button");
 
         // NOW ORGANIZE OUR BUTTONS
         HBox buttonBox = new HBox();
