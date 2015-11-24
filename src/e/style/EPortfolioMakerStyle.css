@@ -49,8 +49,9 @@ and open the template in the editor.
     -fx-background-image: url("http://www.ic.sunysb.edu/Stu/jieliang/images/crossword.png");
 }
 .page_edit_pane {
-    -fx-width:100px;
+    -fx-padding: 0 10 0 10;
 }
+
 .slides_editor_pane {
     -fx-background-color: #FFF373;
     -fx-padding: 30;    
@@ -103,6 +104,7 @@ and open the template in the editor.
     -fx-padding: 5 5 5 20;
 }
 
-.dialog_button {
+.banner_text, .dialog_button {
     -fx-font-family:sans-serif;  
+    
 }

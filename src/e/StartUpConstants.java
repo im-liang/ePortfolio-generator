@@ -77,13 +77,15 @@ public class StartUpConstants {
     public static String    CSS_CLASS_VERTICAL_TOOLBAR_BUTTON = "vertical_toolbar_button";
     public static String    CSS_CLASS_HORIZONTAL_TOOLBAR_BUTTON = "horizontal_toolbar_button";
 
+    public static String    CSS_CLASS_DIALOG_BUTTON = "dialog_button";
+    
     //CSS - TAB
     public static String    CSS_CLASS_PAGE_EDIT_PANE = "page_edit_pane";
     public static String    CSS_CLASS_TAB_BUTTON = "tab_button";
     public static String    CSS_CLASS_TAB_PAGE_TITLES_BUTTON = "tab_page_titles_button";
     // CSS - SLIDESHOW EDITING
     public static String    CSS_CLASS_BANNER_PANE = "title_pane";
-    public static String    CSS_CLASS_TITLE_PROMPT = "title_prompt";
+    public static String    CSS_CLASS_BANNER_TEXT = "banner_text";
     public static String    CSS_CLASS_TITLE_TEXT_FIELD = "title_text_field";
     public static String    CSS_CLASS_CAPTION_PROMPT = "caption_prompt";
     public static String    CSS_CLASS_CAPTION_TEXT_FIELD = "caption_text_field";
@@ -95,7 +97,7 @@ public class StartUpConstants {
     public static String    CSS_CLASS_SELECTED_SLIDE_EDIT_VIEW = "selected_slide_edit_view";
 
     // UI LABELS
-    public static String    LABEL_SLIDE_SHOW_TITLE = "slide_show_title";
+    public static String    LABEL_SLIDE_SHOW_TITLE= "slide_show_title";
     public static String    LABEL_LANGUAGE_SELECTION_PROMPT = "Select a Language:";
     public static String    OK_BUTTON_TEXT = "OK";
 }

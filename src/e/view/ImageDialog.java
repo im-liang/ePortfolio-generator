@@ -125,7 +125,12 @@ public class ImageDialog extends Stage {
 
         // WE'LL PUT EVERYTHING HERE
         messagePane = new VBox();
-        messagePane.setAlignment(Pos.CENTER);
+        messagePane.setAlignment(Pos.TOP_CENTER);
+        captionBox.setAlignment(Pos.TOP_CENTER);
+        widthBox.setAlignment(Pos.TOP_CENTER);
+        heightBox.setAlignment(Pos.TOP_CENTER);
+        floatBox.setAlignment(Pos.TOP_CENTER);
+        buttonBox.setAlignment(Pos.TOP_CENTER);
         messagePane.getChildren().add(messageLabel);
         messagePane.getChildren().add(image);
         messagePane.getChildren().add(captionBox);

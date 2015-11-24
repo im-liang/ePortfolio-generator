@@ -10,6 +10,7 @@ import e.model.EPortfolio;
 import e.view.EPortfolioMakerView;
 import e.view.HeadingDialog;
 import e.view.ImageDialog;
+import e.view.SlideshowDialog;
 import e.view.VideoDialog;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -71,7 +72,7 @@ public class EPortfolioEditController {
     public void handleAddTextRequest() {
         HeadingDialog head = new HeadingDialog(ui.getWindow());
         head.show("Text");
-                String selection = head.getSelection();
+        String selection = head.getSelection();
         boolean addComponent = selection.equals(head.YES);
         if (addComponent) {
             VBox componentBox = ui.getComponentPane();
@@ -90,7 +91,7 @@ public class EPortfolioEditController {
             v.getChildren().add(image);
             component.setContent(v);
             componentBox.getChildren().add(component);
-            
+
             button.setOnAction(e -> {
                 componentBox.getChildren().remove(component);
             });
@@ -161,6 +162,31 @@ public class EPortfolioEditController {
     }
 
     public void handleAddSlideshowRequest() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        SlideshowDialog slideshowDialog = new SlideshowDialog(ui.getWindow());
+        slideshowDialog.show("Slideshow");
+        String selection = slideshowDialog.getSelection();
+        boolean addComponent = selection.equals(slideshowDialog.YES);
+        if (addComponent) {
+            VBox componentBox = ui.getComponentPane();
+            ScrollPane component = new ScrollPane();
+
+            HBox v = new HBox();
+            Button remove = new Button();
+            String iconPath = "file:./images/icons/Remove.png";
+            Image buttonImage = new Image(iconPath);
+            Button button = new Button();
+            button.setGraphic(new ImageView(buttonImage));
+            Tooltip buttonTooltip = new Tooltip("Remove the Component");
+            button.setTooltip(buttonTooltip);
+            Label image = new Label("Slideshow");
+            v.getChildren().add(button);
+            v.getChildren().add(image);
+            component.setContent(v);
+            componentBox.getChildren().add(component);
+
+            button.setOnAction(e -> {
+                componentBox.getChildren().remove(component);
+            });
+        }
     }
 }

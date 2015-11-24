@@ -5,6 +5,7 @@
  */
 package e.view;
 
+import static e.StartUpConstants.CSS_CLASS_BANNER_TEXT;
 import static e.StartUpConstants.CSS_CLASS_HORIZONTAL_TOOLBAR_BUTTON;
 import static e.StartUpConstants.CSS_CLASS_HORIZONTAL_TOOLBAR_PANE;
 import static e.StartUpConstants.CSS_CLASS_PAGE_EDIT_TOOLBAR_BUTTON;
@@ -65,8 +66,10 @@ import e.file.EPortfolioSiteExporter;
 import e.model.Component;
 import e.model.EPortfolio;
 import e.model.Page;
+import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -222,10 +225,10 @@ public class EPortfolioMakerView {
         pageEditorScrollPane.setFitToHeight(true);
 
         //right
-        BorderPane contentPane = new BorderPane();
-
+       BorderPane contentPane = new BorderPane();
         HBox hbox = new HBox();
-        hbox.getStyleClass().add(CSS_CLASS_PAGE_EDIT_TOOLBAR_PANE);
+       
+        //hbox.getStyleClass().add(CSS_CLASS_PAGE_EDIT_TOOLBAR_PANE);
         addPageButton = this.initChildButton(hbox, ICON_ADD_PAGE, TOOLTIP_ADD_PAGE, CSS_CLASS_PAGE_EDIT_TOOLBAR_BUTTON, false);
         bannerImageButton = this.initChildButton(hbox, ICON_BANNER_IMAGE, TOOLTIP_BANNER_IMAGE, CSS_CLASS_PAGE_EDIT_TOOLBAR_BUTTON, false);
         layoutTemplateButton = this.initChildButton(hbox, ICON_LAYOUT_TEMPLATE, TOOLTIP_LAYOUT_TEMPLATE, CSS_CLASS_PAGE_EDIT_TOOLBAR_BUTTON, false);
@@ -234,17 +237,17 @@ public class EPortfolioMakerView {
 
         pageTitlePane = new VBox();
         ScrollPane pageTitlesScrollPane = new ScrollPane(pageTitlePane);
-
+        hbox.getStyleClass().add(CSS_CLASS_PAGE_EDIT_PANE);
         contentPane.setTop(hbox);
         contentPane.setCenter(pageTitlesScrollPane);
-        contentPane.getStyleClass().add(CSS_CLASS_PAGE_EDIT_PANE);
-
+        
         workspace.setLeft(pageEditToolbar);
         workspace.setCenter(pageEditorScrollPane);
         workspace.setRight(contentPane);
 
         // SETUP ALL THE STYLE CLASSES
         workspace.getStyleClass().add(CSS_CLASS_WORKSPACE);
+       
         pageEditToolbar.getStyleClass().add(CSS_CLASS_VERTICAL_TOOLBAR_PANE);
         pageEditorPane.getStyleClass().add(CSS_CLASS_SLIDES_EDITOR_PANE);
         pageEditorScrollPane.getStyleClass().add(CSS_CLASS_SLIDES_EDITOR_PANE);
@@ -274,7 +277,9 @@ public class EPortfolioMakerView {
 
         editController = new EPortfolioEditController(this);
         addPageButton.setOnAction(e -> {
+            //ObservableList<Node> panes= pageTitlePane.getChildren();
             //pageTitlePane.getChildren().clear();
+            
             HBox item = new HBox();
             Button removeButton = initChildButton(item, ICON_REMOVE_PAGE, "Remove the Page", "dialog_button", false);
             Button i = new Button();
@@ -434,6 +439,8 @@ public class EPortfolioMakerView {
         titleLabel = new Label(LABEL_PAGE_TITLE);
         titleTextField = new TextField();
         titleTextField.setText(DEFAULT_PAGE_TITLE);
+        titleLabel.getStyleClass().add(CSS_CLASS_BANNER_TEXT);
+        titleTextField.getStyleClass().add(CSS_CLASS_BANNER_TEXT);
 
         studentNameLabel = new Label(LABEL_STUDENT_NAME);
         studentNameTextField = new TextField();
