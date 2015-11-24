@@ -99,7 +99,7 @@ public class SlideshowDialog extends Stage {
             Label captionLabel = new Label("caption: ");
             TextField captionTextField = new TextField();
             updatePic(primaryStage);
-            captionBox.getChildren().addAll(image,captionLabel, captionTextField);
+            captionBox.getChildren().addAll(image, captionLabel, captionTextField);
             slide.getChildren().add(captionBox);
             slides.getChildren().add(slide);
             removeButton.setOnAction(ee -> {
@@ -107,11 +107,18 @@ public class SlideshowDialog extends Stage {
             });
             upButton.setOnAction(ee -> {
                 int currentPosition = slides.getChildren().indexOf(slide);
-                
-                
+                if (currentPosition != 0) {
+                    slides.getChildren().remove(slide);
+                    slides.getChildren().add(currentPosition - 1, slide);
+                }
+
             });
             downButton.setOnAction(ee -> {
-                
+                int currentPosition = slides.getChildren().indexOf(slide);
+                if (currentPosition != slides.getChildren().size()-1) {
+                    slides.getChildren().remove(slide);
+                    slides.getChildren().add(currentPosition + 1, slide);
+                }
             });
         });
 
@@ -191,7 +198,8 @@ public class SlideshowDialog extends Stage {
         toolbar.getChildren().add(button);
         return button;
     }
-        public void updatePic(Stage primaryStage) {
+
+    public void updatePic(Stage primaryStage) {
         image = new ImageView();
         File file = new File(path);
         imageController = new ImageController(primaryStage);
