@@ -23,6 +23,8 @@ public class ToolTip {
     public static String TOOLTIP_SAVE_AS_EPORTFOLIO = "Save as this ePortfolio";
     public static String TOOLTIP_EXPORT_EPORTFOLIO = "Export this ePortfolio";
     public static String TOOLTIP_EXIT = "Exit the application";
+    public static String TOOLTIP_PAGE_EDITOR = "Page editor workspace";
+    public static String TOOLTIP_PAGE_VIEWER = "Page Viewer workspace";
 
     public static String TOOLTIP_ADD_PAGE = "Add Page";
     public static String TOOLTIP_REMOVE_PAGE = "Remove Page";

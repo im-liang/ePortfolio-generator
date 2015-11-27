@@ -40,7 +40,7 @@ import javafx.stage.Modality;
  *
  * @author Jie Liang
  */
-public class HeadingDialog extends Stage {
+public class TextDialog extends Stage {
 
     // GUI CONTROLS FOR OUR DIALOG
 
@@ -67,7 +67,7 @@ public class HeadingDialog extends Stage {
      *
      * @param primaryStage The owner of this modal dialog.
      */
-    public HeadingDialog(Stage primaryStage) {
+    public TextDialog(Stage primaryStage) {
         // MAKE THIS DIALOG MODAL, MEANING OTHERS WILL WAIT
         // FOR IT WHEN IT IS DISPLAYED
         initModality(Modality.WINDOW_MODAL);
@@ -79,8 +79,8 @@ public class HeadingDialog extends Stage {
 
         EventHandler yesNoCancelHandler = (EventHandler<ActionEvent>) (ActionEvent ae) -> {
             Button sourceButton = (Button) ae.getSource();
-            HeadingDialog.this.selection = sourceButton.getText();
-            HeadingDialog.this.hide();
+            TextDialog.this.selection = sourceButton.getText();
+            TextDialog.this.hide();
         };
 
         choice = new HBox();

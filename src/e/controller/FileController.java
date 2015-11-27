@@ -6,7 +6,7 @@
 package e.controller;
 
 import static e.StartUpConstants.LABEL_SAVE_UNSAVED_WORK;
-import static e.ToolTip.ERROR_UNEXPECTED;
+import static e.StartUpConstants.PATH_DATA;
 import e.error.ErrorHandler;
 import e.file.EPortfolioFileManager;
 import e.file.EPortfolioSiteExporter;
@@ -223,23 +223,24 @@ public class FileController {
      */
     private void promptToOpen() {
         // AND NOW ASK THE USER FOR THE COURSE TO OPEN
-//        FileChooser slideShowFileChooser = new FileChooser();
-//        slideShowFileChooser.setInitialDirectory(new File(PATH_SLIDE_SHOWS));
-//        File selectedFile = slideShowFileChooser.showOpenDialog(ui.getWindow());
-//
-//        // ONLY OPEN A NEW FILE IF THE USER SAYS OK
-//        if (selectedFile != null) {
-//            try {
-//                EPortfolio ePortfolioToLoad = ui.getEPortfolio();
-//                ePortfolioIO.loadSlideShow(ePortfolioToLoad, selectedFile.getAbsolutePath());
-//                ui.reloadSlideShowPane();
-//                saved = true;
-//                ui.updateFileToolbarControls(saved);
-//            } catch (Exception e) {
-//                ErrorHandler eH = ui.getErrorHandler();
-//                eH.processError();
-//            }
-//        }
+        FileChooser slideShowFileChooser = new FileChooser();
+        slideShowFileChooser.setInitialDirectory(new File(PATH_DATA));
+        File selectedFile = slideShowFileChooser.showOpenDialog(ui.getWindow());
+
+        // ONLY OPEN A NEW FILE IF THE USER SAYS OK
+        if (selectedFile != null) {
+            try {
+                EPortfolio ePortfolioToLoad = ui.getEPortfolio();
+                ePortfolioIO.loadEPortfolio(ePortfolioToLoad, selectedFile.getAbsolutePath());
+                ui.reloadPageTitlePane();
+                ui.reloadComponentPane();
+                saved = true;
+                ui.updateFileToolbarControls(saved);
+            } catch (Exception e) {
+                ErrorHandler eH = ui.getErrorHandler();
+                eH.processError();
+            }
+        }
     }
 
     /**

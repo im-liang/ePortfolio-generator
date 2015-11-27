@@ -31,6 +31,8 @@ public class StartUpConstants {
     public static String ICON_SAVE_AS_EPORTFOLIO  = "SaveAs.png";
     public static String ICON_EXPORT_EPORTFOLIO = "Export.png";
     public static String ICON_EXIT = "Exit.png";
+    public static String ICON_PAGE_EDITOR = "Editor.png";
+    public static String ICON_PAGE_VIEWER = "Viewer.png";
     
     public static String ICON_ADD_PAGE = "Add.png";
     public static String ICON_REMOVE_PAGE = "Remove.png";
@@ -63,11 +65,9 @@ public class StartUpConstants {
     public static String LABEL_SAVE_UNSAVED_WORK = "Save unsaved work?";
     // CSS STYLE SHEET CLASSES
     
-    // CSS - FOR THE LANGUAGE SELECTION DIALOG
-    public static String    CSS_CLASS_LANG_DIALOG_PANE = "dialog_pane";
-    public static String    CSS_CLASS_LANG_PROMPT = "lang_prompt";
-    public static String    CSS_CLASS_LANG_COMBO_BOX = "lang_combo_box";
-    public static String    CSS_CLASS_LANG_OK_BUTTON = "lang_ok_button";
+    // CSS - FOR THE DIALOG
+    public static String    CSS_CLASS_DIALOG_PANE = "dialog_pane";
+    public static String    CSS_CLASS_DIALOG_BUTTON = "dialog_button";
 
     // CSS - FOR THE TOOLBARS
     public static String    CSS_CLASS_HORIZONTAL_TOOLBAR_PANE = "horizontal_toolbar_pane";
@@ -76,28 +76,17 @@ public class StartUpConstants {
     public static String    CSS_CLASS_PAGE_EDIT_TOOLBAR_BUTTON = "page_edit_toolbar_button";
     public static String    CSS_CLASS_VERTICAL_TOOLBAR_BUTTON = "vertical_toolbar_button";
     public static String    CSS_CLASS_HORIZONTAL_TOOLBAR_BUTTON = "horizontal_toolbar_button";
-
-    public static String    CSS_CLASS_DIALOG_BUTTON = "dialog_button";
     
+    public static String    CSS_CLASS_COMPONENT_PANE = "component_pane";
     //CSS - TAB
     public static String    CSS_CLASS_PAGE_EDIT_PANE = "page_edit_pane";
-    public static String    CSS_CLASS_TAB_BUTTON = "tab_button";
-    public static String    CSS_CLASS_TAB_PAGE_TITLES_BUTTON = "tab_page_titles_button";
+
     // CSS - SLIDESHOW EDITING
     public static String    CSS_CLASS_BANNER_PANE = "title_pane";
     public static String    CSS_CLASS_BANNER_TEXT = "banner_text";
     public static String    CSS_CLASS_TITLE_TEXT_FIELD = "title_text_field";
-    public static String    CSS_CLASS_CAPTION_PROMPT = "caption_prompt";
-    public static String    CSS_CLASS_CAPTION_TEXT_FIELD = "caption_text_field";
     
     // CSS - PANELS
     public static String    CSS_CLASS_WORKSPACE = "workspace";
-    public static String    CSS_CLASS_SLIDES_EDITOR_PANE = "slides_editor_pane";
-    public static String    CSS_CLASS_SLIDE_EDIT_VIEW = "slide_edit_view";
-    public static String    CSS_CLASS_SELECTED_SLIDE_EDIT_VIEW = "selected_slide_edit_view";
 
-    // UI LABELS
-    public static String    LABEL_SLIDE_SHOW_TITLE= "slide_show_title";
-    public static String    LABEL_LANGUAGE_SELECTION_PROMPT = "Select a Language:";
-    public static String    OK_BUTTON_TEXT = "OK";
 }

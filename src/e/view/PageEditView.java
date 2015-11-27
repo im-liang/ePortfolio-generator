@@ -6,7 +6,6 @@
 package e.view;
 
 import static e.StartUpConstants.CSS_CLASS_HORIZONTAL_TOOLBAR_BUTTON;
-import static e.StartUpConstants.CSS_CLASS_SLIDE_EDIT_VIEW;
 import static e.StartUpConstants.ICON_REMOVE_PAGE;
 import static e.ToolTip.TOOLTIP_REMOVE_PAGE;
 import e.controller.EPortfolioEditController;

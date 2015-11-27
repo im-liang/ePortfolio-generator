@@ -8,7 +8,7 @@ package e.controller;
 import static e.StartUpConstants.LABEL_PAGE_TITLE;
 import e.model.EPortfolio;
 import e.view.EPortfolioMakerView;
-import e.view.HeadingDialog;
+import e.view.TextDialog;
 import e.view.ImageDialog;
 import e.view.SlideshowDialog;
 import e.view.VideoDialog;
@@ -34,7 +34,7 @@ public class EPortfolioEditController {
     }
 
     public void handleAddPageRequest() {
-        HeadingDialog headingDialog = new HeadingDialog(ui.getWindow());
+        TextDialog headingDialog = new TextDialog(ui.getWindow());
         headingDialog.show(LABEL_PAGE_TITLE);
 
         // AND NOW GET THE USER'S SELECTION
@@ -70,7 +70,7 @@ public class EPortfolioEditController {
     }
 
     public void handleAddTextRequest() {
-        HeadingDialog head = new HeadingDialog(ui.getWindow());
+        TextDialog head = new TextDialog(ui.getWindow());
         head.show("Text");
         String selection = head.getSelection();
         boolean addComponent = selection.equals(head.YES);

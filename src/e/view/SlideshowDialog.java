@@ -1,9 +1,6 @@
 package e.view;
 
 import static e.StartUpConstants.CSS_CLASS_DIALOG_BUTTON;
-import static e.StartUpConstants.CSS_CLASS_LANG_DIALOG_PANE;
-import static e.StartUpConstants.CSS_CLASS_LANG_OK_BUTTON;
-import static e.StartUpConstants.CSS_CLASS_LANG_PROMPT;
 import static e.StartUpConstants.PATH_ICONS;
 import static e.StartUpConstants.STYLE_SHEET_UI;
 import e.controller.ImageController;
@@ -147,9 +144,9 @@ public class SlideshowDialog extends Stage {
         buttonBox.setAlignment(Pos.BOTTOM_CENTER);
 
         // CSS CLASSES
-        yesButton.getStyleClass().add(CSS_CLASS_LANG_OK_BUTTON);
-        noButton.getStyleClass().add(CSS_CLASS_LANG_OK_BUTTON);
-        cancelButton.getStyleClass().add(CSS_CLASS_LANG_OK_BUTTON);
+        yesButton.getStyleClass().add(CSS_CLASS_DIALOG_BUTTON);
+        noButton.getStyleClass().add(CSS_CLASS_DIALOG_BUTTON);
+        cancelButton.getStyleClass().add(CSS_CLASS_DIALOG_BUTTON);
         messageLabel.getStyleClass().add(CSS_CLASS_LANG_PROMPT);
         messagePane.getStyleClass().add(CSS_CLASS_LANG_DIALOG_PANE);
         buttonBox.getStyleClass().add(CSS_CLASS_LANG_DIALOG_PANE);
