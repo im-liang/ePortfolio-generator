@@ -72,7 +72,6 @@ public class FileController {
                 ui.updateFileToolbarControls(saved);
 
                 // MAKE SURE THE TITLE CONTROLS ARE ENABLED
-                ui.reloadBannerControls();
                 ui.reloadPagePane();
                 ui.reloadComponentPane();
             }

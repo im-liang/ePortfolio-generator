@@ -54,10 +54,13 @@ and open the template in the editor.
     -fx-background-image: url("http://www.ic.sunysb.edu/Stu/jieliang/images/crossword.png");
 }
 .page_edit_pane {
-    -fx-padding: 0 10 0 10;
+    //-fx-padding: 0 10 0 10;
 }
 .page_title {
     -fx-background-color: #8ED2C9;
+}
+.selected_page_title {
+    
 }
 
 .banner_text, .dialog_button {
@@ -69,4 +72,10 @@ and open the template in the editor.
 .tempButton {
     -fx-background-color: #8ED2C9;
     -fx-font: 14pt normal; 
+}
+.selected_page {
+    
+}
+.selected_component {
+    
 }

@@ -78,8 +78,12 @@ public class StartUpConstants {
     public static String    CSS_CLASS_HORIZONTAL_TOOLBAR_BUTTON = "horizontal_toolbar_button";
     
     public static String    CSS_CLASS_COMPONENT_PANE = "component_pane";
-    //CSS - TAB
+    
     public static String    CSS_CLASS_PAGE_EDIT_PANE = "page_edit_pane";
+    
+    public static String    CSS_CLASS_SELECTED_COMPONENT = "selected_component";
+    public static String    CSS_CLASS_SELECTED_PAGE = "selected_page";
+    
 
     // CSS - SLIDESHOW EDITING
     public static String    CSS_CLASS_BANNER_PANE = "title_pane";
