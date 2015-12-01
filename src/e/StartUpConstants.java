@@ -81,6 +81,8 @@ public class StartUpConstants {
     
     public static String    CSS_CLASS_PAGE_EDIT_PANE = "page_edit_pane";
     
+    public static String    CSS_CLASS_COMPONENT = "component";
+    public static String    CSS_CLASS_PAGE = "page";
     public static String    CSS_CLASS_SELECTED_COMPONENT = "selected_component";
     public static String    CSS_CLASS_SELECTED_PAGE = "selected_page";
     

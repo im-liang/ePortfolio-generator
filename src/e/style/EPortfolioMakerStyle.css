@@ -73,9 +73,15 @@ and open the template in the editor.
     -fx-background-color: #8ED2C9;
     -fx-font: 14pt normal; 
 }
+component {
+    -fx-background-color:darkolivegreen;
+}
+page {
+    -fx-background-color: #8ED2C9;
+}
 .selected_page {
-    
+    -fx-background-color: #8ED2C9;
 }
 .selected_component {
-    
+    -fx-background-color:darkolivegreen;
 }

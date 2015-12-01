@@ -147,9 +147,9 @@ public class SlideshowDialog extends Stage {
         yesButton.getStyleClass().add(CSS_CLASS_DIALOG_BUTTON);
         noButton.getStyleClass().add(CSS_CLASS_DIALOG_BUTTON);
         cancelButton.getStyleClass().add(CSS_CLASS_DIALOG_BUTTON);
-        messageLabel.getStyleClass().add(CSS_CLASS_LANG_PROMPT);
-        messagePane.getStyleClass().add(CSS_CLASS_LANG_DIALOG_PANE);
-        buttonBox.getStyleClass().add(CSS_CLASS_LANG_DIALOG_PANE);
+//        messageLabel.getStyleClass().add(CSS_CLASS_LANG_PROMPT);
+//        messagePane.getStyleClass().add(CSS_CLASS_LANG_DIALOG_PANE);
+//        buttonBox.getStyleClass().add(CSS_CLASS_LANG_DIALOG_PANE);
 
         // MAKE IT LOOK NICE
         messagePane.setPadding(new Insets(20, 20, 20, 20));

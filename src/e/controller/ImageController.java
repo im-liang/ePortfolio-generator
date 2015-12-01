@@ -2,7 +2,6 @@ package e.controller;
 
 import e.model.Page;
 import e.view.EPortfolioMakerView;
-import e.view.PageEditView;
 import java.io.File;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -54,9 +53,7 @@ public class ImageController {
             String fileName = file.getName();
 
             setPath(path+fileName);
-	    //slideToEdit.setImage(path, fileName);
-            //view.updateSlideImage();
-            //ui.updateFileToolbarControls(false);
+
         }
     }
 

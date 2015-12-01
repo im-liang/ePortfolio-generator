@@ -10,6 +10,7 @@ import e.view.EPortfolioMakerView;
 import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.image.Image;
 
 /**
  *
@@ -19,6 +20,8 @@ public class Page {
 
     EPortfolioMakerView ui;
     String pageTitle;
+    String banner;
+    Image bannerImage;
     String footer;
     ObservableList<Component> components;
     Component selectedComponent;
@@ -49,9 +52,17 @@ public class Page {
     public String getPageTitle() {
         return pageTitle;
     }
-    
+
     public String getFooter() {
         return footer;
+    }
+
+    public String banner() {
+        return banner;
+    }
+
+    public Image getBannerImage() {
+        return bannerImage;
     }
 
     // mutator methods
@@ -62,28 +73,36 @@ public class Page {
     public void setPageTitle(String initPageTitle) {
         pageTitle = initPageTitle;
     }
-    
+
+    public void setBanner(String initBanner) {
+        banner = initBanner;
+    }
+
+    public void setBannerImage(Image initBannerImage) {
+        bannerImage = initBannerImage;
+    }
+
     public void setFooter(String initFooter) {
         footer = initFooter;
     }
 
     /*
-    * Reset the Page to have no components and a default title
-    */
+     * Reset the Page to have no components and a default title
+     */
     public void reset() {
         components.clear();
         pageTitle = DEFAULT_PAGETITLE;
         selectedComponent = null;
     }
-    
+
     public void addComponent(String initComponentFileName, ArrayList<String> initComponentPath, String initComponentType, String initComponentFont, ArrayList<String> initComponentDesiredText) {
         Component componentToAdd = new Component(initComponentFileName, initComponentPath, initComponentType, initComponentFont, initComponentDesiredText);
         components.add(componentToAdd);
         ui.reloadComponentPane();
     }
-    
+
     public void removeSelectedComponent() {
-        if(isComponentSelected()) {
+        if (isComponentSelected()) {
             components.remove(selectedComponent);
             selectedComponent = null;
             ui.reloadComponentPane();

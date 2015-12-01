@@ -5,13 +5,20 @@
  */
 package e.controller;
 
+import static e.StartUpConstants.DEFAULT_PAGETITLE;
 import static e.StartUpConstants.LABEL_PAGE_TITLE;
+import e.error.ErrorHandler;
 import e.model.EPortfolio;
 import e.view.EPortfolioMakerView;
 import e.view.TextDialog;
 import e.view.ImageDialog;
 import e.view.SlideshowDialog;
 import e.view.VideoDialog;
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -34,34 +41,35 @@ public class EPortfolioEditController {
     }
 
     public void handleAddPageRequest() {
-        TextDialog headingDialog = new TextDialog(ui.getWindow());
-        headingDialog.show(LABEL_PAGE_TITLE);
-
-        // AND NOW GET THE USER'S SELECTION
-        String selection = headingDialog.getSelection();
-        boolean saveWork = selection.equals(headingDialog.YES);
-        if (saveWork) {
-            EPortfolio ePortfolio = ui.getEPortfolio();
-            ePortfolio.addPage(headingDialog.getContent());
-            ui.updateFileToolbarControls(false);
-            ui.reloadPagePane();
-        }
-
+        ui.getEPortfolio().addPage(DEFAULT_PAGETITLE);
     }
 
     public void handleRemovePageRequest() {
         EPortfolio ePortfolio = ui.getEPortfolio();
         ePortfolio.removeSelectedPage();
-        ui.updatePageEditToolbarControls();
     }
 
     public void handleBannerImageRequest() {
-        ImageDialog imageDialog = new ImageDialog(ui.getWindow());
-        imageDialog.updatePic(ui.getWindow());
-        imageDialog.show("Banner Image");
+        try {
+            ImageController imageController = new ImageController(ui.getWindow());
+            imageController.processSelectImage();
+            ImageView image = new ImageView();
+            File file = new File(imageController.getPath());
+            URL fileURL = file.toURI().toURL();
+            Image i = new Image(fileURL.toExternalForm());
+            image.setImage(i);
+            image.setFitWidth(200);
+            image.setFitHeight(200);
+            ui.getPagePane().getChildren().add(image);
+            ui.getEPortfolio().getSelectedPage().setBannerImage(i);
+        } catch (MalformedURLException ex) {
+            ErrorHandler error = new ErrorHandler(ui);
+            error.processError();
+        }
     }
 
     public void handleLayoutTemplateRequest() {
+        // DIFFERENT CSS
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -70,15 +78,15 @@ public class EPortfolioEditController {
     }
 
     public void handleAddTextRequest() {
-        TextDialog head = new TextDialog(ui.getWindow());
-        head.show("Text");
-        String selection = head.getSelection();
-        boolean addComponent = selection.equals(head.YES);
+        TextDialog textDialog = new TextDialog(ui.getWindow());
+        textDialog.show("Text");
+        String selection = textDialog.getSelection();
+        boolean addComponent = selection.equals(textDialog.YES);
         if (addComponent) {
             VBox componentBox = ui.getComponentPane();
             ScrollPane component = new ScrollPane();
 
-            HBox v = new HBox();
+            HBox textHBox = new HBox();
             Button remove = new Button();
             String iconPath = "file:./images/icons/Remove.png";
             Image buttonImage = new Image(iconPath);
@@ -86,13 +94,16 @@ public class EPortfolioEditController {
             button.setGraphic(new ImageView(buttonImage));
             Tooltip buttonTooltip = new Tooltip("Remove the Component");
             button.setTooltip(buttonTooltip);
-            Label image = new Label("Text");
-            v.getChildren().add(button);
-            v.getChildren().add(image);
-            component.setContent(v);
+            Label image = new Label(textDialog.getChoice());
+            textHBox.getChildren().add(button);
+            textHBox.getChildren().add(image);
+            component.setContent(textHBox);
+
+            ui.getEPortfolio().getSelectedPage().addComponent(textDialog.getChoice(), null, iconPath, iconPath, null);
             componentBox.getChildren().add(component);
 
             button.setOnAction(e -> {
+                ui.getEPortfolio().getSelectedPage().removeSelectedComponent();
                 componentBox.getChildren().remove(component);
             });
         }
@@ -120,9 +131,12 @@ public class EPortfolioEditController {
             v.getChildren().add(button);
             v.getChildren().add(image);
             component.setContent(v);
+
+            ui.getEPortfolio().getSelectedPage().addComponent("image", null, iconPath, iconPath, null);
             componentBox.getChildren().add(component);
 
             button.setOnAction(e -> {
+                ui.getEPortfolio().getSelectedPage().removeSelectedComponent();
                 componentBox.getChildren().remove(component);
             });
         }
@@ -133,10 +147,10 @@ public class EPortfolioEditController {
     }
 
     public void handleAddVideoRequest() {
-        VideoDialog imageDialog = new VideoDialog(ui.getWindow());
-        imageDialog.show("Video");
-        String selection = imageDialog.getSelection();
-        boolean addComponent = selection.equals(imageDialog.YES);
+        VideoDialog videoDialog = new VideoDialog(ui.getWindow());
+        videoDialog.show("Video");
+        String selection = videoDialog.getSelection();
+        boolean addComponent = selection.equals(videoDialog.YES);
         if (addComponent) {
             VBox componentBox = ui.getComponentPane();
             ScrollPane component = new ScrollPane();
@@ -153,9 +167,12 @@ public class EPortfolioEditController {
             v.getChildren().add(button);
             v.getChildren().add(image);
             component.setContent(v);
+
+            ui.getEPortfolio().getSelectedPage().addComponent("video", null, iconPath, iconPath, null);
             componentBox.getChildren().add(component);
 
             button.setOnAction(e -> {
+                ui.getEPortfolio().getSelectedPage().removeSelectedComponent();
                 componentBox.getChildren().remove(component);
             });
         }
@@ -182,9 +199,12 @@ public class EPortfolioEditController {
             v.getChildren().add(button);
             v.getChildren().add(image);
             component.setContent(v);
+
+            ui.getEPortfolio().getSelectedPage().addComponent("slideshow", null, iconPath, iconPath, null);
             componentBox.getChildren().add(component);
 
             button.setOnAction(e -> {
+                ui.getEPortfolio().getSelectedPage().removeSelectedComponent();
                 componentBox.getChildren().remove(component);
             });
         }

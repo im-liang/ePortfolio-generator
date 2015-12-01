@@ -1,10 +1,6 @@
 package e.view;
 
-import static e.StartUpConstants.CSS_CLASS_LANG_DIALOG_PANE;
-import static e.StartUpConstants.CSS_CLASS_LANG_OK_BUTTON;
-import static e.StartUpConstants.CSS_CLASS_LANG_PROMPT;
 import static e.StartUpConstants.ICON_ADD_HEADING;
-import static e.StartUpConstants.ICON_ADD_LINK;
 import static e.StartUpConstants.ICON_ADD_LIST;
 import static e.StartUpConstants.ICON_ADD_P;
 import static e.StartUpConstants.ICON_ADD_PAGE;
@@ -14,7 +10,6 @@ import static e.StartUpConstants.STYLE_SHEET_UI;
 import static e.ToolTip.TOOLTIP_ADD_HEADING;
 import static e.ToolTip.TOOLTIP_ADD_LIST;
 import static e.ToolTip.TOOLTIP_ADD_P;
-import static e.ToolTip.TOOLTIP_ADD_TEXT_HYPERLINK;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -55,6 +50,8 @@ public class TextDialog extends Stage {
     Button noButton;
     Button cancelButton;
     String selection;
+    
+    String userChoice;
 
     // CONSTANT CHOICES
     public static final String YES = "Yes";
@@ -85,40 +82,44 @@ public class TextDialog extends Stage {
 
         choice = new HBox();
         Button heading = initChildButton(choice, ICON_ADD_HEADING, TOOLTIP_ADD_HEADING, "dialog_button");
-        Button p = initChildButton(choice, ICON_ADD_P, TOOLTIP_ADD_P, "dialog_button");
+        Button paragraph = initChildButton(choice, ICON_ADD_P, TOOLTIP_ADD_P, "dialog_button");
         Button list = initChildButton(choice, ICON_ADD_LIST, TOOLTIP_ADD_LIST, "dialog_button");
         heading.setOnAction(e -> {
-            Label header = new Label("Header: ");
+            userChoice = "header";
+            Label headerLabel = new Label("Header: ");
             TextField headert = new TextField();
             nextChoice.getChildren().clear();
-            nextChoice.getChildren().addAll(header, headert);
+            nextChoice.getChildren().addAll(headerLabel, headert);
         });
-        p.setOnAction(e -> {
-            Label header = new Label("Paragraph: ");
-            TextArea headert = new TextArea();
+        paragraph.setOnAction(e -> {
+            userChoice = "paragraph";
+            Label paragraphLabel = new Label("Paragraph: ");
+            TextArea paragraphTextArea = new TextArea();
             Label font = new Label("Font: ");
             TextField fontt = new TextField();
             Label link = new Label("HyperLink: ");
             TextField linkt = new TextField("Add desired text first,then add link.");
             nextChoice.getChildren().clear();
-            nextChoice.getChildren().addAll(header, headert, font, fontt, link, linkt);
+            nextChoice.getChildren().addAll(paragraphLabel, paragraphTextArea, font, fontt, link, linkt);
         });
         list.setOnAction(e -> {
+            userChoice = "list";
             nextChoice.getChildren().clear();
-            Label header = new Label("List: ");
+            Label listLabel = new Label("List: ");
             Button addButton = initChildButton(nextChoice, ICON_ADD_PAGE, TOOLTIP_ADD_LIST, "dialog_button");
             addButton.setOnAction(ee -> {
                 HBox item = new HBox();
                 Button removeButton = initChildButton(item, ICON_REMOVE_PAGE, "Remove the list item", "dialog_button");
-                TextField i = new TextField();
-                item.getChildren().add(i);
+                TextField itemTextField = new TextField();
+                item.getChildren().add(itemTextField);
                 nextChoice.getChildren().add(item);
                 removeButton.setOnAction(eee -> {
                     nextChoice.getChildren().remove(item);
                 });
+                
             });
 
-            nextChoice.getChildren().addAll(header, addButton);
+            nextChoice.getChildren().addAll(listLabel, addButton);
         });
 
         // YES, NO, AND CANCEL BUTTONS
@@ -148,12 +149,12 @@ public class TextDialog extends Stage {
         messagePane.getChildren().add(buttonBox);
 
         // CSS CLASSES
-        yesButton.getStyleClass().add(CSS_CLASS_LANG_OK_BUTTON);
-        noButton.getStyleClass().add(CSS_CLASS_LANG_OK_BUTTON);
-        cancelButton.getStyleClass().add(CSS_CLASS_LANG_OK_BUTTON);
-        messageLabel.getStyleClass().add(CSS_CLASS_LANG_PROMPT);
-        messagePane.getStyleClass().add(CSS_CLASS_LANG_DIALOG_PANE);
-        buttonBox.getStyleClass().add(CSS_CLASS_LANG_DIALOG_PANE);
+//        yesButton.getStyleClass().add(CSS_CLASS_LANG_OK_BUTTON);
+//        noButton.getStyleClass().add(CSS_CLASS_LANG_OK_BUTTON);
+//        cancelButton.getStyleClass().add(CSS_CLASS_LANG_OK_BUTTON);
+//        messageLabel.getStyleClass().add(CSS_CLASS_LANG_PROMPT);
+//        messagePane.getStyleClass().add(CSS_CLASS_DIALOG_PANE);
+//        buttonBox.getStyleClass().add(CSS_CLASS_LANG_DIALOG_PANE);
 
         // MAKE IT LOOK NICE
         messagePane.setPadding(new Insets(10, 10, 10, 10));
@@ -176,9 +177,9 @@ public class TextDialog extends Stage {
     public String getSelection() {
         return selection;
     }
-
-    public String getContent() {
-        return headingTextField.getText();
+    
+    public String getChoice() {
+        return userChoice;
     }
 
     /**

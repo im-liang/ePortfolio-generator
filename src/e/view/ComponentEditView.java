@@ -36,9 +36,19 @@ public class ComponentEditView extends HBox {
         ui = initUI;
         component = initComponent;
         selectionView = new ImageView();
-        updateComponentImage();
-        
         contentVBox = new VBox();
+        
+        switch(component.getComponentType()) {
+            case "list":
+                component.getComponentFileName();
+                break;
+            case "paragraph":
+            case "header":
+            case "slideshow":
+            case "image":
+            case "video":
+                
+        }
         
     }
     

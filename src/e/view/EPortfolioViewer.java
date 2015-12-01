@@ -6,7 +6,10 @@
 package e.view;
 
 import e.model.EPortfolio;
+import java.io.File;
 import java.net.MalformedURLException;
+import java.net.URL;
+import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
@@ -36,11 +39,26 @@ public class EPortfolioViewer extends Stage {
     * initializes the UI and open the window with the first page displayed
     */
     public void startEPortfolio() throws MalformedURLException {
-        //set up the UI
-        webView = new WebView();
-        scrollPane = new ScrollPane(webView);
-        
-        //get the url
-        String indexPath = 
+	// SETUP THE UI
+	webView = new WebView();
+	scrollPane = new ScrollPane(webView);
+	
+	// GET THE URL
+	String indexPath = SITES_DIR + slides.getTitle() + SLASH + INDEX_FILE;
+	File indexFile = new File(indexPath);
+	URL indexURL = indexFile.toURI().toURL();
+	
+	// SETUP THE WEB ENGINE AND LOAD THE URL
+	webEngine = webView.getEngine();
+	webEngine.load(indexURL.toExternalForm());
+	webEngine.setJavaScriptEnabled(true);
+	
+	// SET THE WINDOW TITLE
+	this.setTitle(pages.getStudentName());
+
+	// NOW PUT STUFF IN THE STAGE'S SCENE
+	Scene scene = new Scene(webView, 1100, 650);
+	setScene(scene);
+	this.showAndWait();
     }
 }
