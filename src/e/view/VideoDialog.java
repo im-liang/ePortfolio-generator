@@ -2,9 +2,7 @@ package e.view;
 
 import static e.StartUpConstants.CSS_CLASS_DIALOG_BUTTON;
 import static e.StartUpConstants.STYLE_SHEET_UI;
-import e.controller.ImageController;
 import e.controller.VideoController;
-import e.error.ErrorHandler;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;

@@ -66,10 +66,14 @@ import e.file.EPortfolioSiteExporter;
 import e.model.Component;
 import e.model.EPortfolio;
 import e.model.Page;
+import java.util.Optional;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
@@ -264,7 +268,16 @@ public class EPortfolioMakerView {
 
         editController = new EPortfolioEditController(this);
         addPageButton.setOnAction(e -> {
-            editController.handleAddPageRequest();
+            Alert alert = new Alert(AlertType.CONFIRMATION);
+            alert.setTitle("Conformation Dialog");
+            alert.setHeaderText("Do you want to add a Page?");
+            alert.setContentText("OK for adding page, cancel for displaying pages.");
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK) {
+                editController.handleAddPageRequest();
+            } else {
+                reloadPagePane();
+            }
         });
         bannerImageButton.setOnAction(e -> {
             pageTitlePane.getChildren().clear();
@@ -288,13 +301,7 @@ public class EPortfolioMakerView {
         });
         fontButton.setOnAction(e -> {
             pageTitlePane.getChildren().clear();
-            TextField font = new TextField();
-            pageTitlePane.getChildren().add(font);
-            Button ok = initChildButton(pageTitlePane, "ok.png", "ok", "dialog_button", false);
-            ok.setOnAction(ee -> {
-                ePortfolio.getSelectedPage().getSelectedComponent().setComponentFont(font.getText());
-            });
-
+            editController.handleAddFontRequest();
         });
 
         addTextButton.setOnAction(e -> {
@@ -389,30 +396,6 @@ public class EPortfolioMakerView {
         return button;
     }
 
-    private void addPage(Page page) {
-        HBox currentPageHBox = new HBox();
-        Button removeButton = initChildButton(currentPageHBox, ICON_REMOVE_PAGE, "Remove the Page", "dialog_button", false);
-        TextField currentPageTextField = new TextField(page.getPageTitle());
-        currentPageHBox.getChildren().add(currentPageTextField);
-        pageTitlePane.getChildren().add(currentPageHBox);
-        
-        currentPageHBox.setOnMouseClicked(e -> {
-            reloadComponentPane();
-            currentPageHBox.getStyleClass().add(CSS_CLASS_SELECTED_PAGE);
-        });
-        currentPageTextField.textProperty().addListener(e -> {
-            page.setPageTitle(currentPageTextField.getText());
-            updateFileToolbarControls(false);
-        });
-        removeButton.setOnAction(eee -> {
-            ePortfolio.removeSelectedPage();
-            pageTitlePane.getChildren().remove(currentPageHBox);
-            updateFileToolbarControls(false);
-        });
-        
-        ePortfolio.setSelectedPage(page);
-    }
-
     public void updateFileToolbarControls(boolean saved) {
         ePane.setCenter(workspace);
         saveEPortfolioButton.setDisable(saved);
@@ -439,7 +422,7 @@ public class EPortfolioMakerView {
 
     }
 
-    public void reloadComponentPane() {
+    public void reloadComponentPane(Page page) {
         pageEditorPane.getChildren().clear();
         if (ePortfolio.getSelectedPage() != null) {
             reloadBannerControls();
@@ -451,10 +434,6 @@ public class EPortfolioMakerView {
                     componentEditor.getStyleClass().add(CSS_CLASS_COMPONENT);
                 }
                 pageEditorPane.getChildren().add(componentEditor);
-                componentEditor.setOnMousePressed(e -> {
-                    ePortfolio.getSelectedPage().setSelectedComponent(component);
-                    this.reloadComponentPane();
-                });
             }
         }
     }
@@ -462,9 +441,19 @@ public class EPortfolioMakerView {
     public void reloadPagePane() {
         pageTitlePane.getChildren().clear();
         for (Page page : ePortfolio.getPages()) {
-            addPage(page);
+            PageEditView pageEditView = new PageEditView(this, page);
+            if (ePortfolio.isSelectedPage(page)) {
+                pageEditView.getStyleClass().add(CSS_CLASS_SELECTED_PAGE);
+            } else {
+                pageEditView.getStyleClass().add(CSS_CLASS_PAGE);
+            }
+            pageTitlePane.getChildren().add(pageEditView);
+            pageEditView.setOnMouseClicked(e -> {
+                ePortfolio.setSelectedPage(page);
+                this.reloadPagePane();
+                reloadComponentPane(page);
+            });
         }
-        reloadComponentPane();
         updatePageEditToolbarControls();
     }
 

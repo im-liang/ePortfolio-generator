@@ -43,21 +43,20 @@ public class ImageDialog extends Stage {
 
     ImageView image;
     ImageController imageController;
-    //String path = "./images/img/banner.jpg";
     String path;
-    HBox captionBox;
-    Label caption;
-    TextField captiont;
-    HBox widthBox;
-    Label width;
-    TextField widtht;
-    HBox heightBox;
-    Label height;
-    TextField heightt;
-    HBox floatBox;
-    Button left;
-    Button right;
-    Button neither;
+    HBox captionHBox;
+    Label captionLabel;
+    TextField captionTextField;
+    HBox widthHBox;
+    Label widthLabel;
+    TextField widthTextField;
+    HBox heightHBox;
+    Label heightLabel;
+    TextField heightTextField;
+    HBox floatHBox;
+    Button leftButton;
+    Button rightButton;
+    Button neitherButton;
 
     // CONSTANT CHOICES
     public static final String YES = "Yes";
@@ -93,33 +92,35 @@ public class ImageDialog extends Stage {
         noButton.setOnAction(yesNoCancelHandler);
         cancelButton.setOnAction(yesNoCancelHandler);
 
-        setPath0("./images/img/banner.jpg");
         updatePic(primaryStage);
-        captionBox = new HBox();
-        caption = new Label("Caption: ");
         
-        captiont = new TextField();
-        captionBox.getChildren().addAll(caption, captiont);
-        widthBox = new HBox();
-        width = new Label("width: ");
-        widtht = new TextField();
-        widthBox.getChildren().addAll(width, widtht);
-        heightBox = new HBox();
-        height = new Label("Height: ");
-        heightt = new TextField();
-        widthBox.getChildren().addAll(height, heightt);
-        floatBox = new HBox();
-        left = new Button();
-        left.setText("left");
-        right = new Button();
-        right.setText("right");
-        neither = new Button();
-        neither.setText("neither");
-        floatBox.getChildren().addAll(left, right, neither);
+        captionHBox = new HBox();
+        captionLabel = new Label("Caption: ");
+        captionTextField = new TextField();
+        captionHBox.getChildren().addAll(captionLabel, captionTextField);
         
-        caption.getStyleClass().add("dialog_button");
-        width.getStyleClass().add("dialog_button");
-        height.getStyleClass().add("dialog_button");
+        widthHBox = new HBox();
+        widthLabel = new Label("width: ");
+        widthTextField = new TextField();
+        widthHBox.getChildren().addAll(widthLabel, widthTextField);
+        
+        heightHBox = new HBox();
+        heightLabel = new Label("Height: ");
+        heightTextField = new TextField();
+        heightHBox.getChildren().addAll(heightLabel, heightTextField);
+        
+        floatHBox = new HBox();
+        leftButton = new Button();
+        leftButton.setText("left");
+        rightButton = new Button();
+        rightButton.setText("right");
+        neitherButton = new Button();
+        neitherButton.setText("neither");
+        floatHBox.getChildren().addAll(leftButton, rightButton, neitherButton);
+        
+        captionLabel.getStyleClass().add("dialog_button");
+        widthHBox.getStyleClass().add("dialog_button");
+        heightHBox.getStyleClass().add("dialog_button");
 
         // NOW ORGANIZE OUR BUTTONS
         HBox buttonBox = new HBox();
@@ -130,24 +131,23 @@ public class ImageDialog extends Stage {
         // WE'LL PUT EVERYTHING HERE
         messagePane = new VBox();
         messagePane.setAlignment(Pos.TOP_CENTER);
-        captionBox.setAlignment(Pos.TOP_CENTER);
-        widthBox.setAlignment(Pos.TOP_CENTER);
-        heightBox.setAlignment(Pos.TOP_CENTER);
-        floatBox.setAlignment(Pos.TOP_CENTER);
+        captionHBox.setAlignment(Pos.TOP_CENTER);
+        widthHBox.setAlignment(Pos.TOP_CENTER);
+        heightHBox.setAlignment(Pos.TOP_CENTER);
+        floatHBox.setAlignment(Pos.TOP_CENTER);
         buttonBox.setAlignment(Pos.TOP_CENTER);
         messagePane.getChildren().add(messageLabel);
         messagePane.getChildren().add(image);
-        messagePane.getChildren().add(captionBox);
-        messagePane.getChildren().add(widthBox);
-        messagePane.getChildren().add(heightBox);
-        messagePane.getChildren().add(floatBox);
+        messagePane.getChildren().add(captionHBox);
+        messagePane.getChildren().add(widthHBox);
+        messagePane.getChildren().add(heightHBox);
+        messagePane.getChildren().add(floatHBox);
         messagePane.getChildren().add(buttonBox);
 
         // CSS CLASSES
         yesButton.getStyleClass().add(CSS_CLASS_DIALOG_BUTTON);
         noButton.getStyleClass().add(CSS_CLASS_DIALOG_BUTTON);
         cancelButton.getStyleClass().add(CSS_CLASS_DIALOG_BUTTON);
-        //messageLabel.getStyleClass().add(CSS_CLASS_LANG_PROMPT);
         messagePane.getStyleClass().add(CSS_CLASS_DIALOG_PANE);
         buttonBox.getStyleClass().add(CSS_CLASS_DIALOG_PANE);
 
@@ -198,17 +198,5 @@ public class ImageDialog extends Stage {
         } catch (MalformedURLException ex) {
             Logger.getLogger(ImageDialog.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath() {
-        path = imageController.getPath();
-    }
-
-    public void setPath0(String initPath) {
-        path = initPath;
     }
 }

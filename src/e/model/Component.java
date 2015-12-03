@@ -13,63 +13,96 @@ import java.util.ArrayList;
  */
 public class Component {
 
-    String componentFileName;
-    ArrayList<String> componentPath;//
+    ArrayList<String> componentContent = new ArrayList<String>();
+    String componentPath;
     String componentType;
-    String componentFont;
-    ArrayList<String> componentDesiredText;//
+    String componentFont_Float;
+    String componentWidth;
+    String componentHeight;
+    ArrayList<String> componentCaption = new ArrayList<String>();
 
-    public Component(String initComponentFileName, ArrayList<String> initComponentPath, String initComponentType, String initComponentFont, ArrayList<String> initComponentDesiredText) {
-        componentFileName = initComponentFileName;
+    //image
+    public Component(String initComponentType, ArrayList<String> initComponentContent, String initComponentPath, String initComponentWidth, String initComponentHeight, String initComponentFont_Float, ArrayList<String> initComponentCaption) {
+        componentContent = initComponentContent;
         componentPath = initComponentPath;
+        componentWidth = initComponentWidth;
+        componentHeight = initComponentHeight;
         componentType = initComponentType;
-        componentFont = initComponentFont;
-        componentDesiredText = initComponentDesiredText;
+        componentFont_Float = initComponentFont_Float;
+        componentCaption = initComponentCaption;
     }
-    public String getComponentFileName() {
-        return componentFileName;
+
+    // header & list
+    public Component() {
+        this("",null,"","","","",null);
     }
-    public void setComponentFileName(String initComponentFileName) {
-        componentFileName = initComponentFileName;
+//
+//    // paragraph
+//    public Component(String initComponentType, ArrayList<String> initComponentContent,String initComponentFont_Float) {
+//        this(initComponentType,initComponentContent,"","","",initComponentFont_Float,null);
+//    }
+//
+//    // video
+//    public Component(String initComponentType, ArrayList<String> initComponentContent, String initComponentPath, String initComponentWidth, String initComponentHeight, ArrayList<String> initComponentCaption) {
+//        this(initComponentType,initComponentContent,initComponentPath, initComponentWidth, initComponentHeight, "", initComponentCaption);
+//    }
+//
+//    // slideshow
+//    public Component(String initComponentType, ArrayList<String> initComponentContent,) {
+//
+//    }
+//
+//    // header
+//    public Component(String initComponentType, ArrayList<String> initComponentContent,) {
+//
+//    }
+
+    public ArrayList<String> getComponentContent() {
+        return componentContent;
     }
-    
-    public ArrayList<String> getComponentPath() {
+
+    public String getComponentPath() {
         return componentPath;
     }
-    public void setComponentPath(int position, String initComponentPath) {
-        componentPath.set(position, initComponentPath);
+
+    public void setComponentPath(String initComponentPath) {
+        componentPath = initComponentPath;
     }
-    public void addComponentPath(String initComponentPath) {
-        componentPath.add(initComponentPath);
-    }
-    public void removeComponentPath(int position) {
-        componentPath.remove(position);
-    }
-    
+
     public String getComponentType() {
         return componentType;
     }
+
+    public String getComponentWidth() {
+        return componentWidth;
+    }
+
+    public void setComponentWidth(String initComponentWidth) {
+        componentWidth = initComponentWidth;
+    }
+
+    public void setComponentHeight(String initComponentHeight) {
+        componentHeight = initComponentHeight;
+    }
+
+    public String getComponentHeight() {
+        return componentHeight;
+    }
+
     public void setComponentType(String initComponentType) {
         componentType = initComponentType;
-    } 
-    
-    public String getComponentFont() {
-        return componentFont;
     }
-    public void setComponentFont(String initComponentFont) {
-        componentFont = initComponentFont;
+
+    public String getComponentFont_Float() {
+        return componentFont_Float;
     }
-    
-    public ArrayList<String> getComponentDesiredText() {
-        return componentDesiredText;
+
+    public void setComponentFont_Float(String initComponentFont_Float) {
+        componentFont_Float = initComponentFont_Float;
     }
-    public void setComponentDesiredText(int position, String initComponentDesiredText) {
-        componentDesiredText.set(position, initComponentDesiredText);
+
+    public ArrayList<String> getComponentCaption() {
+        return componentCaption;
     }
-    public void addComponentDesiredText(String initComponentDesiredText) {
-        componentDesiredText.add(initComponentDesiredText);
-    }
-    public void removeComponentDesiredText(int position) {
-        componentDesiredText.remove(position);
-    }
+
 }

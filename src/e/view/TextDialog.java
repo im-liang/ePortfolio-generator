@@ -10,6 +10,8 @@ import static e.StartUpConstants.STYLE_SHEET_UI;
 import static e.ToolTip.TOOLTIP_ADD_HEADING;
 import static e.ToolTip.TOOLTIP_ADD_LIST;
 import static e.ToolTip.TOOLTIP_ADD_P;
+import e.model.Component;
+import java.util.ArrayList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -38,19 +40,17 @@ import javafx.stage.Modality;
 public class TextDialog extends Stage {
 
     // GUI CONTROLS FOR OUR DIALOG
-
     VBox messagePane;
     Scene messageScene;
     Label messageLabel;
-    TextField headingTextField;
-    HBox choice;
+    HBox textChoiceHBox;
     ScrollPane scrollPane;
-    VBox nextChoice;
+    VBox selectTextChoiceVBox;
     Button yesButton;
     Button noButton;
     Button cancelButton;
     String selection;
-    
+    Component initComponent = new Component();
     String userChoice;
 
     // CONSTANT CHOICES
@@ -72,7 +72,7 @@ public class TextDialog extends Stage {
 
         // LABEL TO DISPLAY THE CUSTOM MESSAGE
         messageLabel = new Label();
-        headingTextField = new TextField();
+        selectTextChoiceVBox = new VBox();
 
         EventHandler yesNoCancelHandler = (EventHandler<ActionEvent>) (ActionEvent ae) -> {
             Button sourceButton = (Button) ae.getSource();
@@ -80,46 +80,73 @@ public class TextDialog extends Stage {
             TextDialog.this.hide();
         };
 
-        choice = new HBox();
-        Button heading = initChildButton(choice, ICON_ADD_HEADING, TOOLTIP_ADD_HEADING, "dialog_button");
-        Button paragraph = initChildButton(choice, ICON_ADD_P, TOOLTIP_ADD_P, "dialog_button");
-        Button list = initChildButton(choice, ICON_ADD_LIST, TOOLTIP_ADD_LIST, "dialog_button");
+        textChoiceHBox = new HBox();
+        Button heading = initChildButton(textChoiceHBox, ICON_ADD_HEADING, TOOLTIP_ADD_HEADING, "dialog_button");
+        Button paragraph = initChildButton(textChoiceHBox, ICON_ADD_P, TOOLTIP_ADD_P, "dialog_button");
+        Button list = initChildButton(textChoiceHBox, ICON_ADD_LIST, TOOLTIP_ADD_LIST, "dialog_button");
+
+        userChoice = "header";
+        initComponent.setComponentType(userChoice);
+        Label headerLabel = new Label("Header: ");
+        TextField headerTextField = new TextField();
+        selectTextChoiceVBox.getChildren().clear();
+        selectTextChoiceVBox.getChildren().addAll(headerLabel, headerTextField);
+        headerTextField.textProperty().addListener(e -> {
+            initComponent.getComponentContent().removeAll(initComponent.getComponentContent());
+            initComponent.getComponentContent().add(headerTextField.getText());
+        });
+
         heading.setOnAction(e -> {
             userChoice = "header";
-            Label headerLabel = new Label("Header: ");
-            TextField headert = new TextField();
-            nextChoice.getChildren().clear();
-            nextChoice.getChildren().addAll(headerLabel, headert);
+            selectTextChoiceVBox.getChildren().clear();
+            selectTextChoiceVBox.getChildren().addAll(headerLabel, headerTextField);
+            initComponent.setComponentType(userChoice);
+            initComponent.getComponentContent().removeAll(initComponent.getComponentContent());
+            initComponent.getComponentContent().add(headerTextField.getText());
         });
         paragraph.setOnAction(e -> {
             userChoice = "paragraph";
+            initComponent.setComponentType(userChoice);
             Label paragraphLabel = new Label("Paragraph: ");
             TextArea paragraphTextArea = new TextArea();
-            Label font = new Label("Font: ");
-            TextField fontt = new TextField();
-            Label link = new Label("HyperLink: ");
-            TextField linkt = new TextField("Add desired text first,then add link.");
-            nextChoice.getChildren().clear();
-            nextChoice.getChildren().addAll(paragraphLabel, paragraphTextArea, font, fontt, link, linkt);
+            Label fontLabel = new Label("Font: ");
+            TextField fontTextField = new TextField();
+            paragraphTextArea.textProperty().addListener(ee -> {
+                initComponent.getComponentContent().removeAll(initComponent.getComponentContent());
+                initComponent.getComponentContent().add(paragraphTextArea.getText());
+            });
+            fontTextField.textProperty().addListener(ee -> {
+                initComponent.setComponentFont_Float(fontTextField.getText());
+            });
+
+            selectTextChoiceVBox.getChildren().clear();
+            selectTextChoiceVBox.getChildren().addAll(paragraphLabel, paragraphTextArea, fontLabel, fontTextField);
         });
         list.setOnAction(e -> {
             userChoice = "list";
-            nextChoice.getChildren().clear();
+            selectTextChoiceVBox.getChildren().clear();
             Label listLabel = new Label("List: ");
-            Button addButton = initChildButton(nextChoice, ICON_ADD_PAGE, TOOLTIP_ADD_LIST, "dialog_button");
+            selectTextChoiceVBox.getChildren().add(listLabel);
+            Button addButton = initChildButton(selectTextChoiceVBox, ICON_ADD_PAGE, TOOLTIP_ADD_LIST, "dialog_button");
+            
+            initComponent.setComponentType(userChoice);
+            initComponent.getComponentContent().removeAll(initComponent.getComponentContent());
+            
             addButton.setOnAction(ee -> {
                 HBox item = new HBox();
                 Button removeButton = initChildButton(item, ICON_REMOVE_PAGE, "Remove the list item", "dialog_button");
                 TextField itemTextField = new TextField();
                 item.getChildren().add(itemTextField);
-                nextChoice.getChildren().add(item);
+                selectTextChoiceVBox.getChildren().add(item);
+                initComponent.getComponentContent().add(itemTextField.getText());
                 removeButton.setOnAction(eee -> {
-                    nextChoice.getChildren().remove(item);
+                    selectTextChoiceVBox.getChildren().remove(item);
+                    initComponent.getComponentContent().remove(itemTextField.getText());
                 });
-                
+                itemTextField.textProperty().addListener(eee -> {
+                    initComponent.getComponentContent()
+                });
             });
-
-            nextChoice.getChildren().addAll(listLabel, addButton);
         });
 
         // YES, NO, AND CANCEL BUTTONS
@@ -136,15 +163,11 @@ public class TextDialog extends Stage {
         buttonBox.getChildren().add(noButton);
         buttonBox.getChildren().add(cancelButton);
 
-        // WE'LL PUT EVERYTHING HERE
-        //scrollPane = new ScrollPane();
-        nextChoice = new VBox();
-        //scrollPane.setContent(nextChoice);
         messagePane = new VBox();
         messagePane.setAlignment(Pos.TOP_CENTER);
         messagePane.getChildren().add(messageLabel);
-        messagePane.getChildren().add(choice);
-        ScrollPane scroll = new ScrollPane(nextChoice);
+        messagePane.getChildren().add(textChoiceHBox);
+        ScrollPane scroll = new ScrollPane(selectTextChoiceVBox);
         messagePane.getChildren().add(scroll);
         messagePane.getChildren().add(buttonBox);
 
@@ -155,7 +178,6 @@ public class TextDialog extends Stage {
 //        messageLabel.getStyleClass().add(CSS_CLASS_LANG_PROMPT);
 //        messagePane.getStyleClass().add(CSS_CLASS_DIALOG_PANE);
 //        buttonBox.getStyleClass().add(CSS_CLASS_LANG_DIALOG_PANE);
-
         // MAKE IT LOOK NICE
         messagePane.setPadding(new Insets(10, 10, 10, 10));
         messagePane.setSpacing(10);
@@ -177,7 +199,7 @@ public class TextDialog extends Stage {
     public String getSelection() {
         return selection;
     }
-    
+
     public String getChoice() {
         return userChoice;
     }
@@ -203,5 +225,9 @@ public class TextDialog extends Stage {
         button.setTooltip(buttonTooltip);
         toolbar.getChildren().add(button);
         return button;
+    }
+
+    public Component getComponent() {
+        return initComponent;
     }
 }

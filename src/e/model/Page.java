@@ -20,6 +20,7 @@ public class Page {
 
     EPortfolioMakerView ui;
     String pageTitle;
+    String font;
     String banner;
     Image bannerImage;
     String footer;
@@ -64,6 +65,10 @@ public class Page {
     public Image getBannerImage() {
         return bannerImage;
     }
+    
+    public String getFont() {
+        return font;
+    }
 
     // mutator methods
     public void setSelectedComponent(Component initSelectedComponent) {
@@ -85,6 +90,10 @@ public class Page {
     public void setFooter(String initFooter) {
         footer = initFooter;
     }
+    
+    public void setFont(String initFont) {
+        font = initFont;
+    }
 
     /*
      * Reset the Page to have no components and a default title
@@ -95,17 +104,22 @@ public class Page {
         selectedComponent = null;
     }
 
-    public void addComponent(String initComponentFileName, ArrayList<String> initComponentPath, String initComponentType, String initComponentFont, ArrayList<String> initComponentDesiredText) {
-        Component componentToAdd = new Component(initComponentFileName, initComponentPath, initComponentType, initComponentFont, initComponentDesiredText);
-        components.add(componentToAdd);
-        ui.reloadComponentPane();
+//    public void addComponent(String initComponentType, ArrayList<String> initComponentContent, String initComponentPath, String initComponentWidth, String initComponentHeight, String initComponentFont_Float, ArrayList<String> initComponentCaption) {
+//        Component componentToAdd = new Component(initComponentType, initComponentContent, initComponentPath, initComponentWidth, initComponentHeight, initComponentFont_Float, initComponentCaption);
+//        components.add(componentToAdd);
+//        ui.reloadComponentPane(this);
+//    }
+    
+    public void addComponent(Component initComponent) {
+        components.add(initComponent);
+        ui.reloadComponentPane(this);
     }
 
     public void removeSelectedComponent() {
         if (isComponentSelected()) {
             components.remove(selectedComponent);
             selectedComponent = null;
-            ui.reloadComponentPane();
+            ui.reloadComponentPane(this);
         }
     }
 }

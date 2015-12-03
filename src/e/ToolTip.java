@@ -44,7 +44,12 @@ public class ToolTip {
     public static String TOOLTIP_ADD_SLIDESHOW = "Add Slideshow Component";
     public static String TOOLTIP_ADD_VIDEO = "Add Video Component";
     public static String TOOLTIP_ADD_TEXT_HYPERLINK = "Add Hyperlink";
-
+    
+    public static String TOOLTIP_REMOVE_TEXT = "Remove Text Component";
+    public static String TOOLTIP_REMOVE_IMAGE = "Remove Image Component";
+    public static String TOOLTIP_REMOVE_SLIDESHOW = "Remove Slideshow Component";
+    public static String TOOLTIP_REMOVE_VIDEO = "Remove Video Component";
+    
     public static String DEFAULT_PAGE_TITLE = "TITLE";
     public static String DEFAULT_STUDENT_NAME = "Student Name";
     public static String DEFAULT_FOOTER = "Footer";

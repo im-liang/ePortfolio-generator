@@ -231,7 +231,7 @@ public class FileController {
                 EPortfolio ePortfolioToLoad = ui.getEPortfolio();
                 ePortfolioIO.loadEPortfolio(ePortfolioToLoad, selectedFile.getAbsolutePath());
                 ui.reloadPageTitlePane();
-                ui.reloadComponentPane();
+                ui.reloadPagePane();
                 saved = true;
                 ui.updateFileToolbarControls(saved);
             } catch (Exception e) {

@@ -6,8 +6,8 @@
 package e.controller;
 
 import static e.StartUpConstants.DEFAULT_PAGETITLE;
-import static e.StartUpConstants.LABEL_PAGE_TITLE;
 import e.error.ErrorHandler;
+import e.model.Component;
 import e.model.EPortfolio;
 import e.view.EPortfolioMakerView;
 import e.view.TextDialog;
@@ -17,12 +17,8 @@ import e.view.VideoDialog;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Tooltip;
+import javafx.scene.control.ComboBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -83,29 +79,7 @@ public class EPortfolioEditController {
         String selection = textDialog.getSelection();
         boolean addComponent = selection.equals(textDialog.YES);
         if (addComponent) {
-            VBox componentBox = ui.getComponentPane();
-            ScrollPane component = new ScrollPane();
-
-            HBox textHBox = new HBox();
-            Button remove = new Button();
-            String iconPath = "file:./images/icons/Remove.png";
-            Image buttonImage = new Image(iconPath);
-            Button button = new Button();
-            button.setGraphic(new ImageView(buttonImage));
-            Tooltip buttonTooltip = new Tooltip("Remove the Component");
-            button.setTooltip(buttonTooltip);
-            Label image = new Label(textDialog.getChoice());
-            textHBox.getChildren().add(button);
-            textHBox.getChildren().add(image);
-            component.setContent(textHBox);
-
-            ui.getEPortfolio().getSelectedPage().addComponent(textDialog.getChoice(), null, iconPath, iconPath, null);
-            componentBox.getChildren().add(component);
-
-            button.setOnAction(e -> {
-                ui.getEPortfolio().getSelectedPage().removeSelectedComponent();
-                componentBox.getChildren().remove(component);
-            });
+            ui.getEPortfolio().getSelectedPage().addComponent(textDialog.getComponent());
         }
     }
 
@@ -116,34 +90,9 @@ public class EPortfolioEditController {
         String selection = imageDialog.getSelection();
         boolean addComponent = selection.equals(imageDialog.YES);
         if (addComponent) {
-            VBox componentBox = ui.getComponentPane();
-            ScrollPane component = new ScrollPane();
-
-            HBox v = new HBox();
-            Button remove = new Button();
-            String iconPath = "file:./images/icons/Remove.png";
-            Image buttonImage = new Image(iconPath);
-            Button button = new Button();
-            button.setGraphic(new ImageView(buttonImage));
-            Tooltip buttonTooltip = new Tooltip("Remove the Component");
-            button.setTooltip(buttonTooltip);
-            Label image = new Label("image");
-            v.getChildren().add(button);
-            v.getChildren().add(image);
-            component.setContent(v);
-
-            ui.getEPortfolio().getSelectedPage().addComponent("image", null, iconPath, iconPath, null);
-            componentBox.getChildren().add(component);
-
-            button.setOnAction(e -> {
-                ui.getEPortfolio().getSelectedPage().removeSelectedComponent();
-                componentBox.getChildren().remove(component);
-            });
+            ui.getEPortfolio().getSelectedPage().addComponent(textDialog.getChoice(), iconPath, iconPath, iconPath, iconPath, iconPath, iconPath);
         }
-//        imageDialog.hide();
-//        imageDialog.setPath();
-//        imageDialog.updatePic(ui.getWindow());
-//        imageDialog.show("Image");
+
     }
 
     public void handleAddVideoRequest() {
@@ -152,29 +101,8 @@ public class EPortfolioEditController {
         String selection = videoDialog.getSelection();
         boolean addComponent = selection.equals(videoDialog.YES);
         if (addComponent) {
-            VBox componentBox = ui.getComponentPane();
-            ScrollPane component = new ScrollPane();
 
-            HBox v = new HBox();
-            Button remove = new Button();
-            String iconPath = "file:./images/icons/Remove.png";
-            Image buttonImage = new Image(iconPath);
-            Button button = new Button();
-            button.setGraphic(new ImageView(buttonImage));
-            Tooltip buttonTooltip = new Tooltip("Remove the Component");
-            button.setTooltip(buttonTooltip);
-            Label image = new Label("Video");
-            v.getChildren().add(button);
-            v.getChildren().add(image);
-            component.setContent(v);
-
-            ui.getEPortfolio().getSelectedPage().addComponent("video", null, iconPath, iconPath, null);
-            componentBox.getChildren().add(component);
-
-            button.setOnAction(e -> {
-                ui.getEPortfolio().getSelectedPage().removeSelectedComponent();
-                componentBox.getChildren().remove(component);
-            });
+            ui.getEPortfolio().getSelectedPage().addComponent(textDialog.getChoice(), iconPath, iconPath, iconPath, iconPath, iconPath, iconPath);
         }
     }
 
@@ -184,29 +112,28 @@ public class EPortfolioEditController {
         String selection = slideshowDialog.getSelection();
         boolean addComponent = selection.equals(slideshowDialog.YES);
         if (addComponent) {
-            VBox componentBox = ui.getComponentPane();
-            ScrollPane component = new ScrollPane();
 
-            HBox v = new HBox();
-            Button remove = new Button();
-            String iconPath = "file:./images/icons/Remove.png";
-            Image buttonImage = new Image(iconPath);
-            Button button = new Button();
-            button.setGraphic(new ImageView(buttonImage));
-            Tooltip buttonTooltip = new Tooltip("Remove the Component");
-            button.setTooltip(buttonTooltip);
-            Label image = new Label("Slideshow");
-            v.getChildren().add(button);
-            v.getChildren().add(image);
-            component.setContent(v);
-
-            ui.getEPortfolio().getSelectedPage().addComponent("slideshow", null, iconPath, iconPath, null);
-            componentBox.getChildren().add(component);
-
-            button.setOnAction(e -> {
-                ui.getEPortfolio().getSelectedPage().removeSelectedComponent();
-                componentBox.getChildren().remove(component);
-            });
+            ui.getEPortfolio().getSelectedPage().addComponent(textDialog.getChoice(), iconPath, iconPath, iconPath, iconPath, iconPath, iconPath);
         }
+    }
+
+    public void handleAddFontRequest() {
+        HBox fontHBox = new HBox();
+        ComboBox fontComboBox = new ComboBox();
+        fontComboBox.getItems().addAll(
+                "'Montserrat', sans-serif;",
+                "'Poiret One', cursive;",
+                "'Indie Flower', cursive;",
+                "'Lobster', cursive;",
+                "'Nunito', sans-serif;"
+        );
+        fontComboBox.setValue("'Montserrat', sans-serif;");
+        Button ok = ui.initChildButton(ui.getPagePane(), "ok.png", "ok", "dialog_button", false);
+        fontHBox.getChildren().addAll(fontComboBox,ok);
+        ui.getPagePane().getChildren().add(fontHBox);
+        
+        ok.setOnAction(ee -> {
+            ui.getEPortfolio().getSelectedPage().setFont(fontComboBox.getValue().toString());
+        });
     }
 }
