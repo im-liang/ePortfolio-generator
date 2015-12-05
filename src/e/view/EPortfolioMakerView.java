@@ -84,6 +84,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -280,13 +281,13 @@ public class EPortfolioMakerView {
 
         editController = new EPortfolioEditController(this);
         addPageButton.setOnAction(e -> {
-            Alert alert = new Alert(AlertType.CONFIRMATION);
+            TextInputDialog alert = new TextInputDialog("Title");
             alert.setTitle("Conformation Dialog");
             alert.setHeaderText("Do you want to add a Page?");
             alert.setContentText("OK for adding page, cancel for displaying pages.");
-            Optional<ButtonType> result = alert.showAndWait();
-            if (result.get() == ButtonType.OK) {
-                editController.handleAddPageRequest();
+            Optional<String> result = alert.showAndWait();
+            if (result.isPresent()) {
+                editController.handleAddPageRequest(result.get());
             } else {
                 reloadPagePane();
             }

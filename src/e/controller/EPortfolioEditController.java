@@ -38,8 +38,8 @@ public class EPortfolioEditController {
         ui = initUI;
     }
 
-    public void handleAddPageRequest() {
-        ui.getEPortfolio().addPage(DEFAULT_PAGETITLE);
+    public void handleAddPageRequest(String pageTitle) {
+        ui.getEPortfolio().addPage(pageTitle);
     }
 
     public void handleRemovePageRequest() {
