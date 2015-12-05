@@ -36,6 +36,9 @@ public class ToolTip {
     public static String TOOLTIP_ADD_P = "Add paragraph";
     public static String TOOLTIP_ADD_LIST = "Add list";
     
+    public static String TOOLTIP_ADD_LIST_ITEM = "add a list item";
+    public static String TOOLTIP_REMOVE_LIST_ITEM = "Remove the list item";
+    
     public static String TOOLTIP_PAGE_EDITOR_WORKSPACE = "Page Ediotor Workspace";
     public static String TOOLTIP_SITE_VIEWER_WORKSPACE = "Site Viewer Workspace";
 

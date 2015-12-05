@@ -109,7 +109,7 @@ public class FileController {
      * already know the name of the file, so we won't need to prompt the user.
      */
     public boolean handleSaveEPortfolioRequest() {
-//        try {
+        try {
             // GET THE SLIDE SHOW TO SAVE
             EPortfolio ePortfolioToSave = ui.getEPortfolio();
 
@@ -123,11 +123,11 @@ public class FileController {
             // THE APPROPRIATE CONTROLS
             ui.updateFileToolbarControls(saved);
             return true;
-//        } catch (IOException ioe) {
-//            ErrorHandler eH = ui.getErrorHandler();
-//            eH.processError();
-//            return false;
-//        }
+        } catch (IOException ioe) {
+            ErrorHandler eH = ui.getErrorHandler();
+            eH.processError();
+            return false;
+        }
     }
 
     /**
@@ -143,8 +143,9 @@ public class FileController {
             EPortfolioViewer viewer = new EPortfolioViewer(ui);
             viewer.startEPortfolio();
         } catch (Exception e) {
-            ErrorHandler eH = ui.getErrorHandler();
-            eH.processError();
+//            ErrorHandler eH = ui.getErrorHandler();
+//            eH.processError();
+            e.printStackTrace();
         }
     }
 
@@ -230,7 +231,6 @@ public class FileController {
             try {
                 EPortfolio ePortfolioToLoad = ui.getEPortfolio();
                 ePortfolioIO.loadEPortfolio(ePortfolioToLoad, selectedFile.getAbsolutePath());
-                ui.reloadPageTitlePane();
                 ui.reloadPagePane();
                 saved = true;
                 ui.updateFileToolbarControls(saved);

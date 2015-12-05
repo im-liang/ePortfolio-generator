@@ -1,14 +1,19 @@
 package e.view;
 
 import static e.StartUpConstants.CSS_CLASS_DIALOG_BUTTON;
+import static e.StartUpConstants.CSS_CLASS_DIALOG_LABEL;
 import static e.StartUpConstants.CSS_CLASS_DIALOG_PANE;
 import static e.StartUpConstants.STYLE_SHEET_UI;
 import e.controller.ImageController;
+import e.error.ErrorHandler;
+import e.model.Component;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -18,6 +23,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -41,22 +47,23 @@ public class ImageDialog extends Stage {
     Button cancelButton;
     String selection;
 
-    ImageView image;
+    ImageView imageSelectionView;
     ImageController imageController;
-    String path;
     HBox captionHBox;
     Label captionLabel;
     TextField captionTextField;
     HBox widthHBox;
     Label widthLabel;
-    TextField widthTextField;
+    DoubleTextField widthTextField;
     HBox heightHBox;
     Label heightLabel;
-    TextField heightTextField;
-    HBox floatHBox;
+    DoubleTextField heightTextField;
+    ComboBox floatComboBox;
     Button leftButton;
     Button rightButton;
     Button neitherButton;
+
+    Component componentToAdd;
 
     // CONSTANT CHOICES
     public static final String YES = "Yes";
@@ -69,7 +76,7 @@ public class ImageDialog extends Stage {
      *
      * @param primaryStage The owner of this modal dialog.
      */
-    public ImageDialog(Stage primaryStage) {
+    public ImageDialog(Stage primaryStage, EPortfolioMakerView initUI) {
         // MAKE THIS DIALOG MODAL, MEANING OTHERS WILL WAIT
         // FOR IT WHEN IT IS DISPLAYED
         initModality(Modality.WINDOW_MODAL);
@@ -92,35 +99,40 @@ public class ImageDialog extends Stage {
         noButton.setOnAction(yesNoCancelHandler);
         cancelButton.setOnAction(yesNoCancelHandler);
 
-        updatePic(primaryStage);
-        
         captionHBox = new HBox();
         captionLabel = new Label("Caption: ");
         captionTextField = new TextField();
         captionHBox.getChildren().addAll(captionLabel, captionTextField);
-        
+
         widthHBox = new HBox();
         widthLabel = new Label("width: ");
-        widthTextField = new TextField();
+        widthTextField = new DoubleTextField();
         widthHBox.getChildren().addAll(widthLabel, widthTextField);
-        
+
         heightHBox = new HBox();
         heightLabel = new Label("Height: ");
-        heightTextField = new TextField();
+        heightTextField = new DoubleTextField();
         heightHBox.getChildren().addAll(heightLabel, heightTextField);
-        
-        floatHBox = new HBox();
-        leftButton = new Button();
-        leftButton.setText("left");
-        rightButton = new Button();
-        rightButton.setText("right");
-        neitherButton = new Button();
-        neitherButton.setText("neither");
-        floatHBox.getChildren().addAll(leftButton, rightButton, neitherButton);
-        
-        captionLabel.getStyleClass().add("dialog_button");
-        widthHBox.getStyleClass().add("dialog_button");
-        heightHBox.getStyleClass().add("dialog_button");
+
+        ComboBox floatComboBox = new ComboBox();
+        floatComboBox.getItems().addAll(
+                "Neither",
+                "Left",
+                "Right"
+        );
+        floatComboBox.setValue("Neither");
+        floatComboBox.setOnAction(eh -> {
+            componentToAdd.setComponentFont_Float(floatComboBox.getValue().toString());
+        });
+        captionTextField.textProperty().addListener(e -> {
+            componentToAdd.getComponentCaption().add(captionTextField.getText());
+        });
+        widthTextField.textProperty().addListener(e -> {
+            componentToAdd.setComponentWidth(Double.parseDouble(widthTextField.getText()));
+        });
+        heightTextField.textProperty().addListener(e -> {
+            componentToAdd.setComponentHeight(Double.parseDouble(heightTextField.getText()));
+        });
 
         // NOW ORGANIZE OUR BUTTONS
         HBox buttonBox = new HBox();
@@ -134,22 +146,27 @@ public class ImageDialog extends Stage {
         captionHBox.setAlignment(Pos.TOP_CENTER);
         widthHBox.setAlignment(Pos.TOP_CENTER);
         heightHBox.setAlignment(Pos.TOP_CENTER);
-        floatHBox.setAlignment(Pos.TOP_CENTER);
         buttonBox.setAlignment(Pos.TOP_CENTER);
         messagePane.getChildren().add(messageLabel);
-        messagePane.getChildren().add(image);
         messagePane.getChildren().add(captionHBox);
         messagePane.getChildren().add(widthHBox);
         messagePane.getChildren().add(heightHBox);
-        messagePane.getChildren().add(floatHBox);
+        messagePane.getChildren().add(floatComboBox);
         messagePane.getChildren().add(buttonBox);
 
         // CSS CLASSES
+        widthLabel.getStyleClass().add(CSS_CLASS_DIALOG_LABEL);
+        heightLabel.getStyleClass().add(CSS_CLASS_DIALOG_LABEL);
+        captionLabel.getStyleClass().add(CSS_CLASS_DIALOG_LABEL);
         yesButton.getStyleClass().add(CSS_CLASS_DIALOG_BUTTON);
         noButton.getStyleClass().add(CSS_CLASS_DIALOG_BUTTON);
         cancelButton.getStyleClass().add(CSS_CLASS_DIALOG_BUTTON);
         messagePane.getStyleClass().add(CSS_CLASS_DIALOG_PANE);
         buttonBox.getStyleClass().add(CSS_CLASS_DIALOG_PANE);
+
+        //SET UP DATA
+        componentToAdd = new Component();
+        componentToAdd.setComponentType("image");
 
         // MAKE IT LOOK NICE
         messagePane.setPadding(new Insets(10, 20, 20, 20));
@@ -182,21 +199,7 @@ public class ImageDialog extends Stage {
         this.showAndWait();
     }
 
-    public void updatePic(Stage primaryStage) {
-        image = new ImageView();
-        File file = new File(getPath());
-        imageController = new ImageController(primaryStage);
-        image.setOnMousePressed(e -> {
-            imageController.processSelectImage();
-        });
-        try {
-            URL fileURL = file.toURI().toURL();
-            Image i = new Image(fileURL.toExternalForm());
-            image.setImage(i);
-            image.setFitWidth(200);
-            image.setFitHeight(200);
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(ImageDialog.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public Component getComponent() {
+        return componentToAdd;
     }
 }

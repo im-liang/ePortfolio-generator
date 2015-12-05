@@ -13,16 +13,16 @@ import java.util.ArrayList;
  */
 public class Component {
 
-    ArrayList<String> componentContent = new ArrayList<String>();
+    ArrayList<String> componentContent;
     String componentPath;
     String componentType;
     String componentFont_Float;
-    String componentWidth;
-    String componentHeight;
-    ArrayList<String> componentCaption = new ArrayList<String>();
+    double componentWidth;
+    double componentHeight;
+    ArrayList<String> componentCaption;
 
     //image
-    public Component(String initComponentType, ArrayList<String> initComponentContent, String initComponentPath, String initComponentWidth, String initComponentHeight, String initComponentFont_Float, ArrayList<String> initComponentCaption) {
+    public Component(String initComponentType, ArrayList<String> initComponentContent, String initComponentPath, double initComponentWidth, double initComponentHeight, String initComponentFont_Float, ArrayList<String> initComponentCaption) {
         componentContent = initComponentContent;
         componentPath = initComponentPath;
         componentWidth = initComponentWidth;
@@ -34,28 +34,9 @@ public class Component {
 
     // header & list
     public Component() {
-        this("",null,"","","","",null);
+        this("",new ArrayList<String>(),"",0.0,0.0,"",new ArrayList<String>());
+        componentContent.add("Content");
     }
-//
-//    // paragraph
-//    public Component(String initComponentType, ArrayList<String> initComponentContent,String initComponentFont_Float) {
-//        this(initComponentType,initComponentContent,"","","",initComponentFont_Float,null);
-//    }
-//
-//    // video
-//    public Component(String initComponentType, ArrayList<String> initComponentContent, String initComponentPath, String initComponentWidth, String initComponentHeight, ArrayList<String> initComponentCaption) {
-//        this(initComponentType,initComponentContent,initComponentPath, initComponentWidth, initComponentHeight, "", initComponentCaption);
-//    }
-//
-//    // slideshow
-//    public Component(String initComponentType, ArrayList<String> initComponentContent,) {
-//
-//    }
-//
-//    // header
-//    public Component(String initComponentType, ArrayList<String> initComponentContent,) {
-//
-//    }
 
     public ArrayList<String> getComponentContent() {
         return componentContent;
@@ -73,19 +54,19 @@ public class Component {
         return componentType;
     }
 
-    public String getComponentWidth() {
+    public double getComponentWidth() {
         return componentWidth;
     }
 
-    public void setComponentWidth(String initComponentWidth) {
+    public void setComponentWidth(double initComponentWidth) {
         componentWidth = initComponentWidth;
     }
 
-    public void setComponentHeight(String initComponentHeight) {
+    public void setComponentHeight(double initComponentHeight) {
         componentHeight = initComponentHeight;
     }
 
-    public String getComponentHeight() {
+    public double getComponentHeight() {
         return componentHeight;
     }
 

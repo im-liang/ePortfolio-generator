@@ -1,12 +1,15 @@
 package e.view;
 
 import static e.StartUpConstants.CSS_CLASS_DIALOG_BUTTON;
+import static e.StartUpConstants.CSS_CLASS_DIALOG_PANE;
 import static e.StartUpConstants.PATH_ICONS;
 import static e.StartUpConstants.STYLE_SHEET_UI;
 import e.controller.ImageController;
+import e.model.Component;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
@@ -48,6 +51,10 @@ public class SlideshowDialog extends Stage {
     Button cancelButton;
     String selection;
 
+    Component componentToAdd;
+    EPortfolioMakerView ui;
+    ArrayList<TextField> slidesList = new ArrayList<TextField>();
+
     VBox slides;
     ImageView image;
     String path = "./images/img/banner.jpg";
@@ -64,7 +71,7 @@ public class SlideshowDialog extends Stage {
      *
      * @param primaryStage The owner of this modal dialog.
      */
-    public SlideshowDialog(Stage primaryStage) {
+    public SlideshowDialog(Stage primaryStage, EPortfolioMakerView initUI) {
         // MAKE THIS DIALOG MODAL, MEANING OTHERS WILL WAIT
         // FOR IT WHEN IT IS DISPLAYED
         initModality(Modality.WINDOW_MODAL);
@@ -72,6 +79,9 @@ public class SlideshowDialog extends Stage {
 
         // LABEL TO DISPLAY THE CUSTOM MESSAGE
         messageLabel = new Label();
+
+        ui = initUI;
+        componentToAdd = new Component();
 
         EventHandler yesNoCancelHandler = (EventHandler<ActionEvent>) (ActionEvent ae) -> {
             Button sourceButton = (Button) ae.getSource();
@@ -83,14 +93,14 @@ public class SlideshowDialog extends Stage {
         BorderPane slideshowPane = new BorderPane();
         scroll.setContent(slideshowPane);
         VBox slideshowControls = new VBox();
-        Button addButton = initChildButton(slideshowControls, "Add.png", "add a slide", CSS_CLASS_DIALOG_BUTTON);
+        Button addButton = ui.initChildButton(slideshowControls, "Add.png", "add a slide", CSS_CLASS_DIALOG_BUTTON, false);
 
         slideshowPane.setLeft(slideshowControls);
         addButton.setOnAction(e -> {
             HBox slide = new HBox();
-            Button removeButton = initChildButton(slide, "Remove.png", "remove a slide", CSS_CLASS_DIALOG_BUTTON);
-            Button upButton = initChildButton(slide, "Up.png", "move up a slide", CSS_CLASS_DIALOG_BUTTON);
-            Button downButton = initChildButton(slide, "Down.png", "move down a slide", CSS_CLASS_DIALOG_BUTTON);
+            Button removeButton = ui.initChildButton(slide, "Remove.png", "remove a slide", CSS_CLASS_DIALOG_BUTTON, false);
+            Button upButton = ui.initChildButton(slide, "Up.png", "move up a slide", CSS_CLASS_DIALOG_BUTTON, false);
+            Button downButton = ui.initChildButton(slide, "Down.png", "move down a slide", CSS_CLASS_DIALOG_BUTTON, false);
             VBox captionBox = new VBox();
 
             Label captionLabel = new Label("caption: ");
@@ -112,7 +122,7 @@ public class SlideshowDialog extends Stage {
             });
             downButton.setOnAction(ee -> {
                 int currentPosition = slides.getChildren().indexOf(slide);
-                if (currentPosition != slides.getChildren().size()-1) {
+                if (currentPosition != slides.getChildren().size() - 1) {
                     slides.getChildren().remove(slide);
                     slides.getChildren().add(currentPosition + 1, slide);
                 }
@@ -147,9 +157,8 @@ public class SlideshowDialog extends Stage {
         yesButton.getStyleClass().add(CSS_CLASS_DIALOG_BUTTON);
         noButton.getStyleClass().add(CSS_CLASS_DIALOG_BUTTON);
         cancelButton.getStyleClass().add(CSS_CLASS_DIALOG_BUTTON);
-//        messageLabel.getStyleClass().add(CSS_CLASS_LANG_PROMPT);
-//        messagePane.getStyleClass().add(CSS_CLASS_LANG_DIALOG_PANE);
-//        buttonBox.getStyleClass().add(CSS_CLASS_LANG_DIALOG_PANE);
+        messagePane.getStyleClass().add(CSS_CLASS_DIALOG_PANE);
+        buttonBox.getStyleClass().add(CSS_CLASS_DIALOG_PANE);
 
         // MAKE IT LOOK NICE
         messagePane.setPadding(new Insets(20, 20, 20, 20));
@@ -184,33 +193,11 @@ public class SlideshowDialog extends Stage {
         this.showAndWait();
     }
 
-    public Button initChildButton(Pane toolbar, String iconFileName, String tooltip, String cssClass) {
-        String iconPath = "file:" + PATH_ICONS + iconFileName;
-        Image buttonImage = new Image(iconPath);
-        Button button = new Button();
-        button.getStyleClass().add(cssClass);
-        button.setGraphic(new ImageView(buttonImage));
-        Tooltip buttonTooltip = new Tooltip(tooltip);
-        button.setTooltip(buttonTooltip);
-        toolbar.getChildren().add(button);
-        return button;
+    public void updateslides() {
+
     }
 
-    public void updatePic(Stage primaryStage) {
-        image = new ImageView();
-        File file = new File(path);
-        imageController = new ImageController(primaryStage);
-        image.setOnMousePressed(e -> {
-            imageController.processSelectImage();
-        });
-        try {
-            URL fileURL = file.toURI().toURL();
-            Image i = new Image(fileURL.toExternalForm());
-            image.setImage(i);
-            image.setFitWidth(200);
-            image.setFitHeight(200);
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(SlideshowDialog.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public Component getComponent() {
+        return componentToAdd;
     }
 }

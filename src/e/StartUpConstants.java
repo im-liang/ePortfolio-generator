@@ -18,6 +18,7 @@ public class StartUpConstants {
 
     public static String PROPERTY_TYPES_LIST = "property_types.txt";
     public static String PATH_DATA = "./data/";
+    public static String PATH_EPORTFOLIO = PATH_DATA + "ePortfolio/";
     public static String PATH_IMAGES = "./images/";
     public static String PATH_ICONS = PATH_IMAGES + "icons/";
     public static String PATH_CSS = "/e/style/";
@@ -68,6 +69,7 @@ public class StartUpConstants {
     // CSS - FOR THE DIALOG
     public static String    CSS_CLASS_DIALOG_PANE = "dialog_pane";
     public static String    CSS_CLASS_DIALOG_BUTTON = "dialog_button";
+    public static String    CSS_CLASS_DIALOG_LABEL = "dialog_label";
 
     // CSS - FOR THE TOOLBARS
     public static String    CSS_CLASS_HORIZONTAL_TOOLBAR_PANE = "horizontal_toolbar_pane";
@@ -78,8 +80,7 @@ public class StartUpConstants {
     public static String    CSS_CLASS_HORIZONTAL_TOOLBAR_BUTTON = "horizontal_toolbar_button";
     
     public static String    CSS_CLASS_COMPONENT_PANE = "component_pane";
-    
-    public static String    CSS_CLASS_PAGE_EDIT_PANE = "page_edit_pane";
+    public static String    CSS_CLASS_PAGE_PANE = "page_pane";
     
     public static String    CSS_CLASS_COMPONENT = "component";
     public static String    CSS_CLASS_PAGE = "page";

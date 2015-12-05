@@ -10,8 +10,10 @@ import e.error.ErrorHandler;
 import e.model.Component;
 import e.model.EPortfolio;
 import e.view.EPortfolioMakerView;
-import e.view.TextDialog;
+import e.view.HeaderDialog;
 import e.view.ImageDialog;
+import e.view.ListDialog;
+import e.view.ParagraphDialog;
 import e.view.SlideshowDialog;
 import e.view.VideoDialog;
 import java.io.File;
@@ -73,47 +75,34 @@ public class EPortfolioEditController {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public void handleAddTextRequest() {
-        TextDialog textDialog = new TextDialog(ui.getWindow());
-        textDialog.show("Text");
-        String selection = textDialog.getSelection();
-        boolean addComponent = selection.equals(textDialog.YES);
-        if (addComponent) {
-            ui.getEPortfolio().getSelectedPage().addComponent(textDialog.getComponent());
-        }
-    }
-
     public void handleAddImageRequest() {
-        ImageDialog imageDialog = new ImageDialog(ui.getWindow());
-        imageDialog.updatePic(ui.getWindow());
+        ImageDialog imageDialog = new ImageDialog(ui.getWindow(), ui);
         imageDialog.show("Image");
         String selection = imageDialog.getSelection();
         boolean addComponent = selection.equals(imageDialog.YES);
         if (addComponent) {
-            ui.getEPortfolio().getSelectedPage().addComponent(textDialog.getChoice(), iconPath, iconPath, iconPath, iconPath, iconPath, iconPath);
+            ui.getEPortfolio().getSelectedPage().addComponent(imageDialog.getComponent());
         }
 
     }
 
     public void handleAddVideoRequest() {
-        VideoDialog videoDialog = new VideoDialog(ui.getWindow());
+        VideoDialog videoDialog = new VideoDialog(ui.getWindow(), ui);
         videoDialog.show("Video");
         String selection = videoDialog.getSelection();
         boolean addComponent = selection.equals(videoDialog.YES);
         if (addComponent) {
-
-            ui.getEPortfolio().getSelectedPage().addComponent(textDialog.getChoice(), iconPath, iconPath, iconPath, iconPath, iconPath, iconPath);
+            ui.getEPortfolio().getSelectedPage().addComponent(videoDialog.getComponent());
         }
     }
 
     public void handleAddSlideshowRequest() {
-        SlideshowDialog slideshowDialog = new SlideshowDialog(ui.getWindow());
+        SlideshowDialog slideshowDialog = new SlideshowDialog(ui.getWindow(), ui);
         slideshowDialog.show("Slideshow");
         String selection = slideshowDialog.getSelection();
         boolean addComponent = selection.equals(slideshowDialog.YES);
         if (addComponent) {
-
-            ui.getEPortfolio().getSelectedPage().addComponent(textDialog.getChoice(), iconPath, iconPath, iconPath, iconPath, iconPath, iconPath);
+            ui.getEPortfolio().getSelectedPage().addComponent(slideshowDialog.getComponent());
         }
     }
 
@@ -128,12 +117,41 @@ public class EPortfolioEditController {
                 "'Nunito', sans-serif;"
         );
         fontComboBox.setValue("'Montserrat', sans-serif;");
-        Button ok = ui.initChildButton(ui.getPagePane(), "ok.png", "ok", "dialog_button", false);
-        fontHBox.getChildren().addAll(fontComboBox,ok);
+        fontHBox.getChildren().addAll(fontComboBox);
         ui.getPagePane().getChildren().add(fontHBox);
-        
-        ok.setOnAction(ee -> {
+        fontComboBox.setOnAction(e -> {
             ui.getEPortfolio().getSelectedPage().setFont(fontComboBox.getValue().toString());
         });
+    }
+
+    public void handleAddHeaderRequest() {
+        HeaderDialog headerDialog = new HeaderDialog(ui.getWindow(), ui);
+        headerDialog.show("Header");
+        String selection = headerDialog.getSelection();
+        boolean addComponent = selection.equals(headerDialog.YES);
+        if (addComponent) {
+            ui.getEPortfolio().getSelectedPage().addComponent(headerDialog.getComponent());
+        }
+    }
+
+    public void handleAddParagraphRequest() {
+        ParagraphDialog paragraphDialog = new ParagraphDialog(ui.getWindow(), ui);
+        paragraphDialog.show("Paragraph");
+        String selection = paragraphDialog.getSelection();
+        boolean addComponent = selection.equals(paragraphDialog.YES);
+        if (addComponent) {
+            ui.getEPortfolio().getSelectedPage().addComponent(paragraphDialog.getComponent());
+        }
+    }
+
+    public void handleAddListRequest() {
+        ListDialog listDialog = new ListDialog(ui.getWindow(), ui);
+        listDialog.show("List");
+        String selection = listDialog.getSelection();
+        boolean addComponent = selection.equals(listDialog.YES);
+        if (addComponent) {
+            listDialog.updateList();
+            ui.getEPortfolio().getSelectedPage().addComponent(listDialog.getComponent());
+        }
     }
 }

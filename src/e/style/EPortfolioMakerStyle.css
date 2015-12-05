@@ -26,11 +26,13 @@ and open the template in the editor.
 }
 .page_edit_toolbar_pane {
     -fx-hgap:5;
+    //-fx-padding:5;
     -fx-background-color: #454e59;
 }
 
 .page_edit_toolbar_button {
     -fx-background-color: #D3D3D3;
+    -fx-padding: 10px 10px 10px 10px;
 }
 
 .vertical_toolbar_button {
@@ -53,8 +55,8 @@ and open the template in the editor.
 .component_pane {
     -fx-background-image: url("http://www.ic.sunysb.edu/Stu/jieliang/images/crossword.png");
 }
-.page_edit_pane {
-    //-fx-padding: 0 10 0 10;
+.page_pane {
+    -fx-border-color: #D3D3D3;
 }
 .page_title {
     -fx-background-color: #8ED2C9;
@@ -62,26 +64,28 @@ and open the template in the editor.
 .selected_page_title {
     
 }
-
-.banner_text, .dialog_button {
+.dialog_label {
+    
+}
+.dialog_button {
+    //-fx-background-color: #F0FFFF;
+    -fx-padding: 10px 10px 10px 10px;
+}
+.banner_text {
     -fx-font: 16pt bold;  
 }
 .dialog_pane {
-    -fx-background-image: url("http://www.ic.sunysb.edu/Stu/jieliang/images/5.jpg");
-}
-.tempButton {
-    -fx-background-color: #8ED2C9;
-    -fx-font: 14pt normal; 
+    -fx-background-image: url("http://www.ic.sunysb.edu/Stu/jieliang/images/swirl.png");
 }
 component {
     -fx-background-color:darkolivegreen;
+}
+.selected_component {
+    -fx-background-color: #5ccdde;
 }
 page {
     -fx-background-color: #8ED2C9;
 }
 .selected_page {
     -fx-background-color: #8ED2C9;
-}
-.selected_component {
-    -fx-background-color:darkolivegreen;
 }

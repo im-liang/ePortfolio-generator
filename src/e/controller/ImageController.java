@@ -1,6 +1,8 @@
 package e.controller;
 
+import e.model.Component;
 import e.model.Page;
+import e.view.ComponentEditView;
 import e.view.EPortfolioMakerView;
 import java.io.File;
 import javafx.stage.FileChooser;
@@ -34,7 +36,7 @@ public class ImageController {
      * @param view The user interface control group where the image will appear
      * after selection.
      */
-    public void processSelectImage() {
+    public void processSelectImage(Component componentToEdit, ComponentEditView view) {
         FileChooser imageFileChooser = new FileChooser();
 
         // SET THE STARTING DIRECTORY
@@ -51,17 +53,10 @@ public class ImageController {
         if (file != null) {
             String path = file.getPath().substring(0, file.getPath().indexOf(file.getName()));
             String fileName = file.getName();
-
-            setPath(path+fileName);
-
+            componentToEdit.getComponentContent().add(fileName);
+            componentToEdit.setComponentPath(path);
+            view.updateComponentImage();
         }
     }
 
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String initPath) {
-        path = initPath;
-    }
 }

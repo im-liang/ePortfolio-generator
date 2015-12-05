@@ -12,12 +12,16 @@ import static e.StartUpConstants.CSS_CLASS_HORIZONTAL_TOOLBAR_PANE;
 import static e.StartUpConstants.CSS_CLASS_PAGE;
 import static e.StartUpConstants.CSS_CLASS_PAGE_EDIT_TOOLBAR_BUTTON;
 import static e.StartUpConstants.CSS_CLASS_PAGE_EDIT_TOOLBAR_PANE;
+import static e.StartUpConstants.CSS_CLASS_PAGE_PANE;
 import static e.StartUpConstants.CSS_CLASS_SELECTED_COMPONENT;
 import static e.StartUpConstants.CSS_CLASS_SELECTED_PAGE;
 import static e.StartUpConstants.CSS_CLASS_VERTICAL_TOOLBAR_BUTTON;
 import static e.StartUpConstants.CSS_CLASS_VERTICAL_TOOLBAR_PANE;
 import static e.StartUpConstants.CSS_CLASS_WORKSPACE;
+import static e.StartUpConstants.ICON_ADD_HEADING;
 import static e.StartUpConstants.ICON_ADD_IMAGE;
+import static e.StartUpConstants.ICON_ADD_LIST;
+import static e.StartUpConstants.ICON_ADD_P;
 import static e.StartUpConstants.ICON_ADD_PAGE;
 import static e.StartUpConstants.ICON_ADD_SLIDESHOW;
 import static e.StartUpConstants.ICON_ADD_TEXT;
@@ -42,7 +46,10 @@ import static e.StartUpConstants.STYLE_SHEET_UI;
 import static e.ToolTip.DEFAULT_FOOTER;
 import static e.ToolTip.DEFAULT_PAGE_TITLE;
 import static e.ToolTip.DEFAULT_STUDENT_NAME;
+import static e.ToolTip.TOOLTIP_ADD_HEADING;
 import static e.ToolTip.TOOLTIP_ADD_IMAGE;
+import static e.ToolTip.TOOLTIP_ADD_LIST;
+import static e.ToolTip.TOOLTIP_ADD_P;
 import static e.ToolTip.TOOLTIP_ADD_PAGE;
 import static e.ToolTip.TOOLTIP_ADD_SLIDESHOW;
 import static e.ToolTip.TOOLTIP_ADD_TEXT;
@@ -124,11 +131,11 @@ public class EPortfolioMakerView {
     // WORKSPACE
     BorderPane workspace;
 
-    VBox pageTitlePane;
-
     // THIS WILL GO IN THE LEFT SIDE OF THE SCREEN
     FlowPane componentEditToolbarPane;
-    Button addTextButton;
+    Button addHeaderButton;
+    Button addParagraphButton;
+    Button addListButton;
     Button addImageButton;
     Button addVideoButton;
     Button addSlideshowButton;
@@ -148,6 +155,8 @@ public class EPortfolioMakerView {
 
     //Right SIDE OF THE WORKSPACE
     BorderPane pageUIPane;
+    ScrollPane pageTitlesScrollPane;
+    VBox pageTitlePane;
     FlowPane pageEditToolbarPane;
     Button addPageButton;
     Button removePageButton;
@@ -203,10 +212,13 @@ public class EPortfolioMakerView {
         workspace = new BorderPane();
         //left side of the screen
         componentEditToolbarPane = new FlowPane();
-        addTextButton = this.initChildButton(componentEditToolbarPane, ICON_ADD_TEXT, TOOLTIP_ADD_TEXT, CSS_CLASS_VERTICAL_TOOLBAR_BUTTON, true);
+        addHeaderButton = this.initChildButton(componentEditToolbarPane, ICON_ADD_HEADING, TOOLTIP_ADD_HEADING, CSS_CLASS_VERTICAL_TOOLBAR_BUTTON, true);
+        addParagraphButton = this.initChildButton(componentEditToolbarPane, ICON_ADD_P, TOOLTIP_ADD_P, CSS_CLASS_VERTICAL_TOOLBAR_BUTTON, true);
+        addListButton = this.initChildButton(componentEditToolbarPane, ICON_ADD_LIST, TOOLTIP_ADD_LIST, CSS_CLASS_VERTICAL_TOOLBAR_BUTTON, true);
         addImageButton = this.initChildButton(componentEditToolbarPane, ICON_ADD_IMAGE, TOOLTIP_ADD_IMAGE, CSS_CLASS_VERTICAL_TOOLBAR_BUTTON, true);
         addSlideshowButton = this.initChildButton(componentEditToolbarPane, ICON_ADD_SLIDESHOW, TOOLTIP_ADD_SLIDESHOW, CSS_CLASS_VERTICAL_TOOLBAR_BUTTON, true);
         addVideoButton = this.initChildButton(componentEditToolbarPane, ICON_ADD_VIDEO, TOOLTIP_ADD_VIDEO, CSS_CLASS_VERTICAL_TOOLBAR_BUTTON, true);
+
         //center
         pageEditorPane = new VBox();
 
@@ -226,7 +238,7 @@ public class EPortfolioMakerView {
         fontButton = this.initChildButton(pageEditToolbarPane, "page.png", "Select Font for the Page", CSS_CLASS_PAGE_EDIT_TOOLBAR_BUTTON, true);
 
         pageTitlePane = new VBox();
-        ScrollPane pageTitlesScrollPane = new ScrollPane(pageTitlePane);
+        pageTitlesScrollPane = new ScrollPane(pageTitlePane);
         pageUIPane.setTop(pageEditToolbarPane);
         pageUIPane.setCenter(pageTitlesScrollPane);
 
@@ -304,8 +316,14 @@ public class EPortfolioMakerView {
             editController.handleAddFontRequest();
         });
 
-        addTextButton.setOnAction(e -> {
-            editController.handleAddTextRequest();
+        addHeaderButton.setOnAction(e -> {
+            editController.handleAddHeaderRequest();
+        });
+        addParagraphButton.setOnAction(e-> {
+            editController.handleAddParagraphRequest();
+        });
+        addListButton.setOnAction(e->{
+            editController.handleAddListRequest();
         });
         addImageButton.setOnAction(e -> {
             editController.handleAddImageRequest();
@@ -372,6 +390,7 @@ public class EPortfolioMakerView {
 
         //CENTER
         pageEditorPane.getStyleClass().add(CSS_CLASS_COMPONENT_PANE);
+        pageTitlePane.getStyleClass().add(CSS_CLASS_PAGE_PANE);
 //        titleLabel.getStyleClass().add(CSS_CLASS_BANNER_TEXT);
 //        titleTextField.getStyleClass().add(CSS_CLASS_BANNER_TEXT);
 //        studentNameLabel.getStyleClass().add(CSS_CLASS_BANNER_TEXT);
@@ -410,7 +429,9 @@ public class EPortfolioMakerView {
         pageEditorButton.setDisable(!pageSelected);
         pageViewerButton.setDisable(!pageSelected);
 
-        addTextButton.setDisable(!pageSelected);
+        addHeaderButton.setDisable(!pageSelected);
+        addParagraphButton.setDisable(!pageSelected);
+        addListButton.setDisable(!pageSelected);
         addImageButton.setDisable(!pageSelected);
         addVideoButton.setDisable(!pageSelected);
         addSlideshowButton.setDisable(!pageSelected);
@@ -440,6 +461,7 @@ public class EPortfolioMakerView {
 
     public void reloadPagePane() {
         pageTitlePane.getChildren().clear();
+        pageEditorPane.getChildren().clear();
         for (Page page : ePortfolio.getPages()) {
             PageEditView pageEditView = new PageEditView(this, page);
             if (ePortfolio.isSelectedPage(page)) {
@@ -462,7 +484,7 @@ public class EPortfolioMakerView {
 
         studentNameLabel = new Label(LABEL_STUDENT_NAME);
         studentNameTextField = new TextField();
-        studentNameTextField.setText(DEFAULT_STUDENT_NAME);
+        studentNameTextField.setText(ePortfolio.getStudentName());
 
         footerLabel = new Label(LABEL_FOOTER);
         footerTextField = new TextField();
@@ -493,10 +515,6 @@ public class EPortfolioMakerView {
 
     public VBox getComponentPane() {
         return pageEditorPane;
-    }
-
-    public void reloadPageTitlePane() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public VBox getPagePane() {
