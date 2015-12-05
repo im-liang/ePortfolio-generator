@@ -16,6 +16,8 @@ import e.view.EPortfolioViewer;
 import e.view.YesNoCancelDialog;
 import java.io.File;
 import java.io.IOException;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.stage.FileChooser;
 
 /**
@@ -108,13 +110,13 @@ public class FileController {
      * This method will save the current slideshow to a file. Note that we
      * already know the name of the file, so we won't need to prompt the user.
      */
-    public boolean handleSaveEPortfolioRequest() {
+    public boolean handleSaveEPortfolioRequest(String studentName) {
         try {
             // GET THE SLIDE SHOW TO SAVE
             EPortfolio ePortfolioToSave = ui.getEPortfolio();
 
             // SAVE IT TO A FILE
-            ePortfolioIO.saveEPortfolio(ePortfolioToSave);
+            ePortfolioIO.saveEPortfolio(ePortfolioToSave, studentName);
 
             // MARK IT AS SAVED
             saved = true;
@@ -133,15 +135,22 @@ public class FileController {
     /**
      * This method shows the current slide show in a separate window.
      */
-    public void handleViewEPortfolioRequest() {
+    public void handleExportEPortfolioRequest() {
         try {
             // FIRST EXPORT THE SITE
             EPortfolio ePortfolio = ui.getEPortfolio();
-            siteExporter.exportSite(ePortfolio);
+            if (!saved) {
+                Alert saveAlert = new Alert(AlertType.WARNING);
+                saveAlert.setTitle("Warning Dialog");
+                saveAlert.setHeaderText("You have to save it First!");
+                saveAlert.showAndWait();
+            } else {
+                siteExporter.exportSite(ePortfolio);
 
-            // THEN VIEW THE SITE
-            EPortfolioViewer viewer = new EPortfolioViewer(ui);
-            viewer.startEPortfolio();
+                // THEN VIEW THE SITE
+                EPortfolioViewer viewer = new EPortfolioViewer(ui);
+                viewer.startEPortfolio();
+            }
         } catch (Exception e) {
 //            ErrorHandler eH = ui.getErrorHandler();
 //            eH.processError();
@@ -200,7 +209,7 @@ public class FileController {
         // IF THE USER SAID YES, THEN SAVE BEFORE MOVING ON
         if (saveWork) {
             EPortfolio ePortfolio = ui.getEPortfolio();
-            ePortfolioIO.saveEPortfolio(ePortfolio);
+            ePortfolioIO.saveEPortfolio(ePortfolio, ePortfolio.getStudentName());
             saved = true;
         } // IF THE USER SAID CANCEL, THEN WE'LL TELL WHOEVER
         // CALLED THIS THAT THE USER IS NOT INTERESTED ANYMORE
@@ -222,9 +231,9 @@ public class FileController {
      */
     private void promptToOpen() {
         // AND NOW ASK THE USER FOR THE COURSE TO OPEN
-        FileChooser slideShowFileChooser = new FileChooser();
-        slideShowFileChooser.setInitialDirectory(new File(PATH_DATA));
-        File selectedFile = slideShowFileChooser.showOpenDialog(ui.getWindow());
+        FileChooser ePortfolioFileChooser = new FileChooser();
+        ePortfolioFileChooser.setInitialDirectory(new File(PATH_DATA));
+        File selectedFile = ePortfolioFileChooser.showOpenDialog(ui.getWindow());
 
         // ONLY OPEN A NEW FILE IF THE USER SAYS OK
         if (selectedFile != null) {

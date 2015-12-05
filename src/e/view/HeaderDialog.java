@@ -43,7 +43,7 @@ public class HeaderDialog extends Stage {
     Button noButton;
     Button cancelButton;
     String selection;
-    Component componentToAdd = new Component();
+    Component componentToAdd;
     ArrayList<TextField> itemsList = new ArrayList<TextField>();
 
     EPortfolioMakerView ui;
@@ -53,13 +53,18 @@ public class HeaderDialog extends Stage {
     public static final String NO = "No";
     public static final String CANCEL = "Cancel";
 
+    
+    public HeaderDialog(Stage primaryStage,EPortfolioMakerView initUI) {
+        this(primaryStage,initUI,new Component());
+    }
     /**
      * Initializes this dialog so that it can be used repeatedly for all kinds
      * of messages.
      *
      * @param primaryStage The owner of this modal dialog.
      */
-    public HeaderDialog(Stage primaryStage, EPortfolioMakerView initUI) {
+    public HeaderDialog(Stage primaryStage, EPortfolioMakerView initUI,Component initComponentToAdd) {
+        componentToAdd = initComponentToAdd;
         ui = initUI;
         // MAKE THIS DIALOG MODAL, MEANING OTHERS WILL WAIT
         // FOR IT WHEN IT IS DISPLAYED
@@ -143,7 +148,6 @@ public class HeaderDialog extends Stage {
 
     public void addHeader() {
         componentToAdd.setComponentType("header");
-        componentToAdd.getComponentContent().clear();
 
         Label headerLabel = new Label("Header: ");
         if(componentToAdd.getComponentContent().isEmpty()) 

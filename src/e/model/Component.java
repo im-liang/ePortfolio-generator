@@ -35,7 +35,6 @@ public class Component {
     // header & list
     public Component() {
         this("",new ArrayList<String>(),"",0.0,0.0,"",new ArrayList<String>());
-        componentContent.add("Content");
     }
 
     public ArrayList<String> getComponentContent() {

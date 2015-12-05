@@ -5,6 +5,7 @@
  */
 package e.view;
 
+import static e.StartUpConstants.CSS_CLASS_BANNER_TEXT;
 import static e.StartUpConstants.CSS_CLASS_COMPONENT;
 import static e.StartUpConstants.CSS_CLASS_COMPONENT_PANE;
 import static e.StartUpConstants.CSS_CLASS_HORIZONTAL_TOOLBAR_BUTTON;
@@ -38,6 +39,7 @@ import static e.StartUpConstants.ICON_PAGE_VIEWER;
 import static e.StartUpConstants.ICON_REMOVE_PAGE;
 import static e.StartUpConstants.ICON_SAVE_AS_EPORTFOLIO;
 import static e.StartUpConstants.ICON_SAVE_EPORTFOLIO;
+import static e.StartUpConstants.LABEL_BANNER;
 import static e.StartUpConstants.LABEL_FOOTER;
 import static e.StartUpConstants.LABEL_PAGE_TITLE;
 import static e.StartUpConstants.LABEL_STUDENT_NAME;
@@ -81,6 +83,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
@@ -143,10 +146,11 @@ public class EPortfolioMakerView {
 
     // FOR THE PAGE TITLE
     VBox bannerPane;
-    Label titleLabel;
-    TextField titleTextField;
+    Label bannerLabel;
+    TextField bannerTextField;
     Label studentNameLabel;
     TextField studentNameTextField;
+
     Label footerLabel;
     TextField footerTextField;
 
@@ -257,13 +261,19 @@ public class EPortfolioMakerView {
             fileController.handleLoadEPortfolioRequest();
         });
         saveEPortfolioButton.setOnAction(e -> {
-            fileController.handleSaveEPortfolioRequest();
+            fileController.handleSaveEPortfolioRequest(ePortfolio.getStudentName());
         });
         saveAsEPortfolioButton.setOnAction(e -> {
-            fileController.handleSaveEPortfolioRequest();
+            TextInputDialog alert = new TextInputDialog();
+            alert.setTitle("Conformation Dialog");
+            alert.setHeaderText("Do you want to save the ePortfolio?");
+            Optional<String> result = alert.showAndWait();
+            if (result.isPresent()) {
+                fileController.handleSaveEPortfolioRequest(result.get());
+            }
         });
         exportEPortfolioButton.setOnAction(e -> {
-            fileController.handleViewEPortfolioRequest();
+            fileController.handleExportEPortfolioRequest();
         });
         exitButton.setOnAction(e -> {
             fileController.handleExitRequest();
@@ -272,11 +282,12 @@ public class EPortfolioMakerView {
             ePane.setCenter(workspace);
         });
         pageViewerButton.setOnAction(e -> {
-            BorderPane dumb = new BorderPane();
-            WebView web = new WebView();
-            web.getEngine().load("https://www.google.com");
-            dumb.setCenter(web);
-            ePane.setCenter(dumb);
+//            BorderPane dumb = new BorderPane();
+//            WebView web = new WebView();
+//            web.getEngine().load("https://www.google.com");
+//            dumb.setCenter(web);
+            EPortfolioViewer viewer = new EPortfolioViewer(this);
+            ePane.setCenter(viewer);
         });
 
         editController = new EPortfolioEditController(this);
@@ -287,7 +298,8 @@ public class EPortfolioMakerView {
             alert.setContentText("OK for adding page, cancel for displaying pages.");
             Optional<String> result = alert.showAndWait();
             if (result.isPresent()) {
-                editController.handleAddPageRequest(result.get());
+                editController.handleAddPageRequest(result.get(), "'Montserrat', sans-serif;", "Banner", "", "", "");
+                initBannerControls();
             } else {
                 reloadPagePane();
             }
@@ -298,19 +310,11 @@ public class EPortfolioMakerView {
         });
         layoutTemplateButton.setOnAction(e -> {
             pageTitlePane.getChildren().clear();
-            Button a = initChildButton(pageTitlePane, "L1.png", "1", "dialog_button", false);
-            Button b = initChildButton(pageTitlePane, "L2.png", "2", "dialog_button", false);
-            Button c = initChildButton(pageTitlePane, "L3.png", "3", "dialog_button", false);
-            Button d = initChildButton(pageTitlePane, "L4.png", "4", "dialog_button", false);
-            Button ee = initChildButton(pageTitlePane, "L5.png", "5", "dialog_button", false);
+            editController.handleLayoutTemplateRequest();
         });
         colorTemplateButton.setOnAction(e -> {
             pageTitlePane.getChildren().clear();
-            Button a = initChildButton(pageTitlePane, "C1.png", "1", "dialog_button", false);
-            Button b = initChildButton(pageTitlePane, "C2.png", "2", "dialog_button", false);
-            Button c = initChildButton(pageTitlePane, "C3.png", "3", "dialog_button", false);
-            Button d = initChildButton(pageTitlePane, "C4.png", "4", "dialog_button", false);
-            Button ee = initChildButton(pageTitlePane, "C5.png", "5", "dialog_button", false);
+            editController.handleColorTemplateRequest();
         });
         fontButton.setOnAction(e -> {
             pageTitlePane.getChildren().clear();
@@ -320,10 +324,10 @@ public class EPortfolioMakerView {
         addHeaderButton.setOnAction(e -> {
             editController.handleAddHeaderRequest();
         });
-        addParagraphButton.setOnAction(e-> {
+        addParagraphButton.setOnAction(e -> {
             editController.handleAddParagraphRequest();
         });
-        addListButton.setOnAction(e->{
+        addListButton.setOnAction(e -> {
             editController.handleAddListRequest();
         });
         addImageButton.setOnAction(e -> {
@@ -392,8 +396,6 @@ public class EPortfolioMakerView {
         //CENTER
         pageEditorPane.getStyleClass().add(CSS_CLASS_COMPONENT_PANE);
         pageTitlePane.getStyleClass().add(CSS_CLASS_PAGE_PANE);
-//        titleLabel.getStyleClass().add(CSS_CLASS_BANNER_TEXT);
-//        titleTextField.getStyleClass().add(CSS_CLASS_BANNER_TEXT);
 //        studentNameLabel.getStyleClass().add(CSS_CLASS_BANNER_TEXT);
 //        studentNameTextField.getStyleClass().add(CSS_CLASS_BANNER_TEXT);
 //        footerLabel.getStyleClass().add(CSS_CLASS_BANNER_TEXT);
@@ -487,18 +489,28 @@ public class EPortfolioMakerView {
         studentNameTextField = new TextField();
         studentNameTextField.setText(ePortfolio.getStudentName());
 
-        footerLabel = new Label(LABEL_FOOTER);
-        footerTextField = new TextField();
-        footerTextField.setText(DEFAULT_FOOTER);
+        bannerLabel = new Label(LABEL_BANNER);
+        bannerTextField = new TextField("Banner");
+        ePortfolio.getSelectedPage().setBanner(bannerTextField.getText());
 
-        bannerPane.getChildren().addAll(studentNameLabel, studentNameTextField, footerLabel, footerTextField);
+        footerLabel = new Label(LABEL_FOOTER);
+        footerTextField = new TextField(DEFAULT_FOOTER);
+        ePortfolio.getSelectedPage().setFooter(footerTextField.getText());
+
+        bannerPane.getChildren().addAll(studentNameLabel, studentNameTextField, bannerLabel, bannerTextField, footerLabel, footerTextField);
 
         studentNameTextField.textProperty().addListener(e -> {
             ePortfolio.setStudentName(studentNameTextField.getText());
             updateFileToolbarControls(false);
         });
+        bannerTextField.textProperty().addListener(e -> {
+            ePortfolio.getSelectedPage().setBanner(bannerTextField.getText());
+            bannerTextField.setText(ePortfolio.getSelectedPage().getBanner());
+            updateFileToolbarControls(false);
+        });
         footerTextField.textProperty().addListener(e -> {
             ePortfolio.getSelectedPage().setFooter(footerTextField.getText());
+            footerTextField.setText(ePortfolio.getSelectedPage().getFooter());
             updateFileToolbarControls(false);
         });
         pageEditorPane.getChildren().add(bannerPane);
@@ -508,7 +520,7 @@ public class EPortfolioMakerView {
         if (pageEditorPane.getChildren().size() == 0) {
             initBannerControls();
         } else {
-            titleTextField.setText(ePortfolio.getSelectedPage().getPageTitle());
+            bannerTextField.setText(ePortfolio.getSelectedPage().getBanner());
             studentNameTextField.setText(ePortfolio.getStudentName());
             footerTextField.setText(ePortfolio.getSelectedPage().getFooter());
         }

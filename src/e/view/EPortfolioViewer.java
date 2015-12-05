@@ -5,21 +5,22 @@
  */
 package e.view;
 
+import static e.file.EPortfolioSiteExporter.INDEX_FILE;
+import static e.file.EPortfolioSiteExporter.SITES_DIR;
 import e.model.EPortfolio;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
-import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
-import javafx.stage.Stage;
 
 /**
  *
  * @author jieliang
  */
-public class EPortfolioViewer extends Stage {
+public class EPortfolioViewer extends BorderPane {
     // main ui
     EPortfolioMakerView parentView;
     //data for eportfolio
@@ -44,7 +45,7 @@ public class EPortfolioViewer extends Stage {
 	scrollPane = new ScrollPane(webView);
 	
 	// GET THE URL
-	String indexPath = SITES_DIR + slides.getTitle() + SLASH + INDEX_FILE;
+	String indexPath = SITES_DIR + pages.getSelectedPage() + "/" + INDEX_FILE;
 	File indexFile = new File(indexPath);
 	URL indexURL = indexFile.toURI().toURL();
 	
@@ -52,13 +53,7 @@ public class EPortfolioViewer extends Stage {
 	webEngine = webView.getEngine();
 	webEngine.load(indexURL.toExternalForm());
 	webEngine.setJavaScriptEnabled(true);
-	
-	// SET THE WINDOW TITLE
-	this.setTitle(pages.getStudentName());
 
-	// NOW PUT STUFF IN THE STAGE'S SCENE
-	Scene scene = new Scene(webView, 1100, 650);
-	setScene(scene);
-	this.showAndWait();
+        this.getChildren().add(scrollPane);
     }
 }

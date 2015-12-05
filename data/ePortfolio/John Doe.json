@@ -1,0 +1,23 @@
+
+{
+    "student_name":"John Doe",
+    "pages":[
+        {
+            "page_title":"Title",
+            "banner":"Banner",
+            "banner_file_name":"",
+            "banner_file_path":"",
+            "components":[
+                {
+                    "component_type":"image",
+                    "component_content":"",
+                    "component_path":"",
+                    "component_font/float":"Left",
+                    "component_width":0.0,
+                    "component_height":0.0,
+                    "component_caption":""
+                }
+            ]
+        }
+    ]
+}

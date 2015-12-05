@@ -77,12 +77,16 @@ public class EPortfolioSiteExporter {
 
         Files.copy(dataSrcPath, dataDestPath);
 
-        // AND NOW ALL THE SLIDESHOW IMAGES
+        // AND NOW ALL THE Contents
         for (Page s : slideShowToExport.getPages()) {
+            int i = 0;
             for (Component c : s.getComponents()) {
-                Path srcImgPath = new File(s. + SLASH + s.getImageFileName()).toPath();
-                Path destImgPath = new File(homeSitePath + IMG_DIR + s.getImageFileName()).toPath();
-                Files.copy(srcImgPath, destImgPath);
+                if(c.getComponentType().equals("image") || c.getComponentType().equals("video") || c.getComponentType().equals("slideshow")) {
+                Path contentPath = new File(c.getComponentPath() + SLASH + c.getComponentContent().get(i)).toPath();
+                Path destImgPath = new File(homeSitePath + IMG_DIR + c.getComponentContent().get(i)).toPath();
+                Files.copy(contentPath, destImgPath);
+                i++;
+                }
             }
 
         }

@@ -3,6 +3,8 @@ package e.view;
 import static e.StartUpConstants.CSS_CLASS_DIALOG_BUTTON;
 import static e.StartUpConstants.CSS_CLASS_DIALOG_LABEL;
 import static e.StartUpConstants.CSS_CLASS_DIALOG_PANE;
+import static e.StartUpConstants.DEFAULT_COMPONENT_IMAGE;
+import static e.StartUpConstants.PATH_IMAGES;
 import static e.StartUpConstants.STYLE_SHEET_UI;
 import e.controller.ImageController;
 import e.error.ErrorHandler;
@@ -47,7 +49,7 @@ public class ImageDialog extends Stage {
     Button cancelButton;
     String selection;
 
-    ImageView imageSelectionView;
+    ImageView imageView;
     ImageController imageController;
     HBox captionHBox;
     Label captionLabel;
@@ -63,6 +65,7 @@ public class ImageDialog extends Stage {
     Button rightButton;
     Button neitherButton;
 
+    EPortfolioMakerView ui;
     Component componentToAdd;
 
     // CONSTANT CHOICES
@@ -70,13 +73,20 @@ public class ImageDialog extends Stage {
     public static final String NO = "No";
     public static final String CANCEL = "Cancel";
 
+    public ImageDialog(Stage primaryStage, EPortfolioMakerView initUI) {
+        this(primaryStage, initUI, new Component());
+    }
+
     /**
      * Initializes this dialog so that it can be used repeatedly for all kinds
      * of messages.
      *
      * @param primaryStage The owner of this modal dialog.
      */
-    public ImageDialog(Stage primaryStage, EPortfolioMakerView initUI) {
+    public ImageDialog(Stage primaryStage, EPortfolioMakerView initUI, Component initComponentToAdd) {
+        ui = initUI;
+        componentToAdd = initComponentToAdd;
+
         // MAKE THIS DIALOG MODAL, MEANING OTHERS WILL WAIT
         // FOR IT WHEN IT IS DISPLAYED
         initModality(Modality.WINDOW_MODAL);
@@ -140,6 +150,10 @@ public class ImageDialog extends Stage {
         buttonBox.getChildren().add(noButton);
         buttonBox.getChildren().add(cancelButton);
 
+        updateComponentImage();
+        imageView.setOnMousePressed(e -> {
+            imageController.processSelectImage(componentToAdd);
+        });
         // WE'LL PUT EVERYTHING HERE
         messagePane = new VBox();
         messagePane.setAlignment(Pos.TOP_CENTER);
@@ -148,6 +162,7 @@ public class ImageDialog extends Stage {
         heightHBox.setAlignment(Pos.TOP_CENTER);
         buttonBox.setAlignment(Pos.TOP_CENTER);
         messagePane.getChildren().add(messageLabel);
+        messagePane.getChildren().add(imageView);
         messagePane.getChildren().add(captionHBox);
         messagePane.getChildren().add(widthHBox);
         messagePane.getChildren().add(heightHBox);
@@ -201,5 +216,38 @@ public class ImageDialog extends Stage {
 
     public Component getComponent() {
         return componentToAdd;
+    }
+
+    public void updateComponentImage() {
+        if (componentToAdd.getComponentContent().isEmpty()) {
+            String imagePath = PATH_IMAGES + "/img/" + DEFAULT_COMPONENT_IMAGE;
+            File file = new File(imagePath);
+            try {
+                URL fileURL = file.toURI().toURL();
+                Image componentImage = new Image(fileURL.toExternalForm());
+                imageView = new ImageView();
+                imageView.setImage(componentImage);
+                imageView.setFitWidth(200);
+                imageView.setFitHeight(200);
+            } catch (MalformedURLException ex) {
+                ErrorHandler eh = new ErrorHandler(ui);
+                eh.processError();
+            }
+        } else {
+            String imagePath = componentToAdd.getComponentPath() + "/" + componentToAdd.getComponentContent().get(0);
+
+            File file = new File(imagePath);
+            try {
+                URL fileURL = file.toURI().toURL();
+                Image componentImage = new Image(fileURL.toExternalForm());
+                imageView = new ImageView();
+                imageView.setImage(componentImage);
+                imageView.setFitWidth(componentToAdd.getComponentWidth());
+                imageView.setFitHeight(componentToAdd.getComponentHeight());
+            } catch (MalformedURLException ex) {
+                ErrorHandler eh = new ErrorHandler(ui);
+                eh.processError();
+            }
+        }
     }
 }

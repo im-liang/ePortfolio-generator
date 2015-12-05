@@ -33,13 +33,15 @@ import javafx.scene.layout.VBox;
 public class EPortfolioEditController {
 
     private EPortfolioMakerView ui;
+    public static String LAYOUTTEMPLATE = "layout_1.css";
+    public static String COLORTEMPLATE = "color_1.css";
 
     public EPortfolioEditController(EPortfolioMakerView initUI) {
         ui = initUI;
     }
 
-    public void handleAddPageRequest(String pageTitle) {
-        ui.getEPortfolio().addPage(pageTitle);
+    public void handleAddPageRequest(String pageTitle,String pageFont,String banner,String bannerFileName,String bannerFilePath, String components) {
+        ui.getEPortfolio().addPage(pageTitle,pageFont,banner,bannerFileName,bannerFilePath,components);
     }
 
     public void handleRemovePageRequest() {
@@ -68,11 +70,69 @@ public class EPortfolioEditController {
 
     public void handleLayoutTemplateRequest() {
         // DIFFERENT CSS
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ComboBox layoutTemplateComboBox = new ComboBox();
+        layoutTemplateComboBox.getItems().addAll(
+                "Top_left",
+                "Top_center",
+                "Left",
+                "Dark Blue",
+                "Yellow"
+        );
+        layoutTemplateComboBox.setValue("Top_left");
+        String chosedLayout = layoutTemplateComboBox.getValue().toString();
+        layoutTemplateComboBox.setOnAction(eh -> {
+            switch (chosedLayout) {
+                case "Top_left":
+                    LAYOUTTEMPLATE = "layout_1.css";
+                    break;
+                case "Top_center":
+                    LAYOUTTEMPLATE = "layout_2.css";
+                    break;
+                case "Left":
+                    LAYOUTTEMPLATE = "layout_3.css";
+                    break;
+                case "???":
+                    LAYOUTTEMPLATE = "layout_4.css";
+                    break;
+                case "??":
+                    LAYOUTTEMPLATE = "layout_5.css";
+                    break;
+            }
+        });
+        ui.getPagePane().getChildren().add(layoutTemplateComboBox);
     }
 
     public void handleColorTemplateRequest() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ComboBox colorTemplateComboBox = new ComboBox();
+        colorTemplateComboBox.getItems().addAll(
+                "Red",
+                "Blue",
+                "Light Blue",
+                "Dark Blue",
+                "Yellow"
+        );
+        colorTemplateComboBox.setValue("Red");
+        String chosedColor = colorTemplateComboBox.getValue().toString();
+        colorTemplateComboBox.setOnAction(eh -> {
+            switch (chosedColor) {
+                case "Red":
+                    COLORTEMPLATE = "color_1.css";
+                    break;
+                case "Blue":
+                    COLORTEMPLATE = "color_2.css";
+                    break;
+                case "Light Blue":
+                    COLORTEMPLATE = "color_3.css";
+                    break;
+                case "Dark Blue":
+                    COLORTEMPLATE = "color_4.css";
+                    break;
+                case "Yellow":
+                    COLORTEMPLATE = "color_5.css";
+                    break;
+            }
+        });
+        ui.getPagePane().getChildren().add(colorTemplateComboBox);
     }
 
     public void handleAddImageRequest() {
@@ -121,6 +181,7 @@ public class EPortfolioEditController {
         ui.getPagePane().getChildren().add(fontHBox);
         fontComboBox.setOnAction(e -> {
             ui.getEPortfolio().getSelectedPage().setFont(fontComboBox.getValue().toString());
+            ui.updateFileToolbarControls(false);
         });
     }
 
@@ -131,6 +192,7 @@ public class EPortfolioEditController {
         boolean addComponent = selection.equals(headerDialog.YES);
         if (addComponent) {
             ui.getEPortfolio().getSelectedPage().addComponent(headerDialog.getComponent());
+            ui.updateFileToolbarControls(!addComponent);
         }
     }
 
@@ -141,6 +203,7 @@ public class EPortfolioEditController {
         boolean addComponent = selection.equals(paragraphDialog.YES);
         if (addComponent) {
             ui.getEPortfolio().getSelectedPage().addComponent(paragraphDialog.getComponent());
+            ui.updateFileToolbarControls(!addComponent);
         }
     }
 
@@ -152,6 +215,7 @@ public class EPortfolioEditController {
         if (addComponent) {
             listDialog.updateList();
             ui.getEPortfolio().getSelectedPage().addComponent(listDialog.getComponent());
+            ui.updateFileToolbarControls(!addComponent);
         }
     }
 }

@@ -20,9 +20,11 @@ public class Page {
 
     EPortfolioMakerView ui;
     String pageTitle;
+    String pagePath;
     String font;
     String banner;
-    Image bannerImage;
+    String bannerImageName;
+    String bannerImagePath;
     String footer;
     ObservableList<Component> components;
     Component selectedComponent;
@@ -58,19 +60,30 @@ public class Page {
         return footer;
     }
 
-    public String banner() {
+    public String getBanner() {
         return banner;
     }
 
-    public Image getBannerImage() {
-        return bannerImage;
+    public String getBannerImageName() {
+        return bannerImageName;
+    }
+    
+    public String getBannerImagePath() {
+        return bannerImagePath;
     }
     
     public String getFont() {
         return font;
     }
+    
+    public String getPagePath() {
+        return pagePath;
+    }
 
     // mutator methods
+    public void setPagePath(String initPagePath) {
+        pagePath = initPagePath;
+    }
     public void setSelectedComponent(Component initSelectedComponent) {
         selectedComponent = initSelectedComponent;
     }
@@ -83,8 +96,12 @@ public class Page {
         banner = initBanner;
     }
 
-    public void setBannerImage(Image initBannerImage) {
-        bannerImage = initBannerImage;
+    public void setBannerImageName(String initBannerImageName) {
+        bannerImageName = initBannerImageName;
+    }
+    
+    public void setBannerImagePath(String initBannerImagePath) {
+        bannerImagePath = initBannerImagePath;
     }
 
     public void setFooter(String initFooter) {
@@ -104,15 +121,19 @@ public class Page {
         selectedComponent = null;
     }
 
-//    public void addComponent(String initComponentType, ArrayList<String> initComponentContent, String initComponentPath, String initComponentWidth, String initComponentHeight, String initComponentFont_Float, ArrayList<String> initComponentCaption) {
-//        Component componentToAdd = new Component(initComponentType, initComponentContent, initComponentPath, initComponentWidth, initComponentHeight, initComponentFont_Float, initComponentCaption);
-//        components.add(componentToAdd);
-//        ui.reloadComponentPane(this);
-//    }
+    public void addComponentJson(String initComponentType, ArrayList<String> initComponentContent, String initComponentPath, double initComponentWidth, double initComponentHeight, String initComponentFont_Float, ArrayList<String> initComponentCaption) {
+        Component componentToAdd = new Component(initComponentType, initComponentContent, initComponentPath, initComponentWidth, initComponentHeight, initComponentFont_Float, initComponentCaption);
+        components.add(componentToAdd);
+        ui.reloadComponentPane(this);
+    }
     
     public void addComponent(Component initComponent) {
         components.add(initComponent);
         ui.reloadComponentPane(this);
+    }
+    
+    public void addComponentForJson(String component) {
+        
     }
 
     public void removeSelectedComponent() {

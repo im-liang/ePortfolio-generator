@@ -10,6 +10,7 @@ import static e.StartUpConstants.CSS_CLASS_DIALOG_PANE;
 import static e.StartUpConstants.STYLE_SHEET_UI;
 import e.model.Component;
 import java.util.ArrayList;
+import java.util.Optional;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -21,6 +22,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
@@ -42,7 +44,7 @@ public class ParagraphDialog extends Stage {
     Button noButton;
     Button cancelButton;
     String selection;
-    Component componentToAdd = new Component();
+    Component componentToAdd;
     ArrayList<TextField> itemsList = new ArrayList<TextField>();
 
     EPortfolioMakerView ui;
@@ -51,14 +53,19 @@ public class ParagraphDialog extends Stage {
     public static final String NO = "No";
     public static final String CANCEL = "Cancel";
 
+    public ParagraphDialog(Stage primaryStage, EPortfolioMakerView initUI) {
+        this(primaryStage, initUI, new Component());
+    }
+
     /**
      * Initializes this dialog so that it can be used repeatedly for all kinds
      * of messages.
      *
      * @param primaryStage The owner of this modal dialog.
      */
-    public ParagraphDialog(Stage primaryStage, EPortfolioMakerView initUI) {
+    public ParagraphDialog(Stage primaryStage, EPortfolioMakerView initUI, Component initComponentToAdd) {
         ui = initUI;
+        componentToAdd = initComponentToAdd;
         // MAKE THIS DIALOG MODAL, MEANING OTHERS WILL WAIT
         // FOR IT WHEN IT IS DISPLAYED
         initModality(Modality.WINDOW_MODAL);
@@ -146,6 +153,7 @@ public class ParagraphDialog extends Stage {
         TextArea paragraphTextArea = new TextArea();
         Label fontLabel = new Label("Font: ");
         ComboBox fontComboBox = new ComboBox();
+        //FONT
         fontComboBox.getItems().addAll(
                 "'Montserrat', sans-serif;",
                 "'Poiret One', cursive;",
@@ -153,16 +161,39 @@ public class ParagraphDialog extends Stage {
                 "'Lobster', cursive;",
                 "'Nunito', sans-serif;"
         );
-        fontComboBox.setValue("'Montserrat', sans-serif;");
+        if (componentToAdd.getComponentFont_Float() == null) {
+            fontComboBox.setValue("'Montserrat', sans-serif;");
+            componentToAdd.setComponentFont_Float(fontComboBox.getValue().toString());
+        } else {
+            fontComboBox.setValue(componentToAdd.getComponentFont_Float());
+        }
         fontComboBox.setOnAction(eh -> {
             componentToAdd.setComponentFont_Float(fontComboBox.getValue().toString());
         });
+
+        if (!componentToAdd.getComponentContent().isEmpty()) {
+            paragraphTextArea.setText(componentToAdd.getComponentContent().get(0));
+        }
         paragraphTextArea.textProperty().addListener(ee -> {
             componentToAdd.getComponentContent().removeAll(componentToAdd.getComponentContent());
             componentToAdd.getComponentContent().add(paragraphTextArea.getText());
         });
 
+        if (paragraphTextArea.getSelectedText().equals("")) {
+            addHyperlink(paragraphTextArea);
+        }
+
         paragraphVBox.getChildren().clear();
         paragraphVBox.getChildren().addAll(paragraphLabel, paragraphTextArea, fontLabel, fontComboBox);
+    }
+
+    private void addHyperlink(TextArea textArea) {
+        TextInputDialog alert = new TextInputDialog();
+        alert.setTitle("Conformation Dialog");
+        alert.setHeaderText("Do you want to add a Hyperlink?");
+        Optional<String> result = alert.showAndWait();
+        if (result.isPresent()) {
+            textArea.getSelectedText().replace(textArea.getSelectedText(), "<a href=" + result.get() + ">" + textArea.getSelectedText() + "</a>");
+        }
     }
 }

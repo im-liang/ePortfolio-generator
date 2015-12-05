@@ -62,27 +62,27 @@ public class ComponentEditView extends HBox {
             String componentType = initComponent.getComponentType();
             switch (componentType) {
                 case "header":
-                    HeaderDialog headerDialog = new HeaderDialog(ui.getWindow(), ui);
+                    HeaderDialog headerDialog = new HeaderDialog(ui.getWindow(), ui, initComponent);
                     headerDialog.show(componentType);
                     break;
                 case "paragraph":
-                    ParagraphDialog pDialog = new ParagraphDialog(ui.getWindow(), ui);
+                    ParagraphDialog pDialog = new ParagraphDialog(ui.getWindow(), ui,initComponent);
                     pDialog.show(componentType);
                     break;
                 case "list":
-                    ListDialog listDialog = new ListDialog(ui.getWindow(), ui);
+                    ListDialog listDialog = new ListDialog(ui.getWindow(), ui,initComponent);
                     listDialog.show(componentType);
                     break;
                 case "image":
-                    ImageDialog imageDialog = new ImageDialog(ui.getWindow(),ui);
+                    ImageDialog imageDialog = new ImageDialog(ui.getWindow(),ui,initComponent);
                     imageDialog.show(componentType);
                     break;
                 case "video":
-                    VideoDialog videoDialog = new VideoDialog(ui.getWindow(),ui);
+                    VideoDialog videoDialog = new VideoDialog(ui.getWindow(),ui,initComponent);
                     videoDialog.show(componentType);
                     break;
                 case "slideshow":
-                    SlideshowDialog slideshowDialog = new SlideshowDialog(ui.getWindow(), ui);
+                    SlideshowDialog slideshowDialog = new SlideshowDialog(ui.getWindow(), ui,initComponent);
                     slideshowDialog.show(componentType);
                     break;
             }
@@ -98,8 +98,8 @@ public class ComponentEditView extends HBox {
                 URL fileURL = file.toURI().toURL();
                 Image componentImage = new Image(fileURL.toExternalForm());
                 ImageView imageView = new ImageView();
-                imageView.setFitWidth(component.getComponentWidth());
-                imageView.setFitHeight(component.getComponentHeight());
+                imageView.setFitWidth(200);
+                imageView.setFitHeight(200);
             } catch (MalformedURLException ex) {
                 ErrorHandler eh = new ErrorHandler(ui);
                 eh.processError();

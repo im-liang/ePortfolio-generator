@@ -55,13 +55,14 @@ public class StartUpConstants {
     public static String ICON_ADD_LIST = "list.png";
 
     // UI SETTINGS
-    public static String    DEFAULT_SLIDE_IMAGE = "DefaultStartSlide.png";
+    public static String    DEFAULT_COMPONENT_IMAGE = "banner.jpg";
     public static int	    DEFAULT_THUMBNAIL_WIDTH = 200;
     public static int	    DEFAULT_SLIDE_SHOW_HEIGHT = 500;
     
     //default tex
     public static String LABEL_PAGE_TITLE = "Title";
     public static String LABEL_STUDENT_NAME = "Student Name";
+    public static String LABEL_BANNER = "Banner";
     public static String LABEL_FOOTER = "Footer";
     public static String LABEL_SAVE_UNSAVED_WORK = "Save unsaved work?";
     // CSS STYLE SHEET CLASSES

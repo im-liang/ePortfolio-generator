@@ -13,9 +13,6 @@ import static e.StartUpConstants.STYLE_SHEET_UI;
 import static e.ToolTip.TOOLTIP_ADD_LIST_ITEM;
 import static e.ToolTip.TOOLTIP_REMOVE_LIST_ITEM;
 import e.model.Component;
-import static e.view.ParagraphDialog.CANCEL;
-import static e.view.ParagraphDialog.NO;
-import static e.view.ParagraphDialog.YES;
 import java.util.ArrayList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -47,7 +44,7 @@ public class ListDialog extends Stage {
     Button noButton;
     Button cancelButton;
     String selection;
-    Component componentToAdd = new Component();
+    Component componentToAdd;
     ArrayList<TextField> itemsList = new ArrayList<TextField>();
 
     EPortfolioMakerView ui;
@@ -56,14 +53,19 @@ public class ListDialog extends Stage {
     public static final String NO = "No";
     public static final String CANCEL = "Cancel";
 
+    public ListDialog(Stage primaryStage, EPortfolioMakerView initUI) {
+        this(primaryStage, initUI, new Component());
+    }
+
     /**
      * Initializes this dialog so that it can be used repeatedly for all kinds
      * of messages.
      *
      * @param primaryStage The owner of this modal dialog.
      */
-    public ListDialog(Stage primaryStage, EPortfolioMakerView initUI) {
+    public ListDialog(Stage primaryStage, EPortfolioMakerView initUI, Component initComponentToAdd) {
         ui = initUI;
+        componentToAdd = initComponentToAdd;
         // MAKE THIS DIALOG MODAL, MEANING OTHERS WILL WAIT
         // FOR IT WHEN IT IS DISPLAYED
         initModality(Modality.WINDOW_MODAL);
@@ -159,20 +161,39 @@ public class ListDialog extends Stage {
         Button addButton = ui.initChildButton(listVBox, ICON_ADD_PAGE, TOOLTIP_ADD_LIST_ITEM, "dialog_button", false);
 
         componentToAdd.setComponentType("list");
-        componentToAdd.getComponentContent().clear();
 
         addButton.setOnAction(ee -> {
-            HBox itemHBox = new HBox();
-            Button removeButton = ui.initChildButton(itemHBox, ICON_REMOVE_PAGE, TOOLTIP_REMOVE_LIST_ITEM, "dialog_button", false);
-            TextField itemTextField = new TextField();
-            itemsList.add(itemTextField);
-            itemHBox.getChildren().add(itemTextField);
-            listVBox.getChildren().add(itemHBox);
-            componentToAdd.getComponentContent().add(itemTextField.getText());
-            removeButton.setOnAction(eee -> {
-                listVBox.getChildren().remove(itemHBox);
-                componentToAdd.getComponentContent().remove(itemTextField.getText());
-            });
+            addListItem();
+        });
+        
+        if(!componentToAdd.getComponentContent().isEmpty()) {
+            for(int i = 0; i < componentToAdd.getComponentContent().size(); i++) {
+                HBox itemHBox = new HBox();
+                Button removeButton = ui.initChildButton(itemHBox, ICON_REMOVE_PAGE, TOOLTIP_REMOVE_LIST_ITEM, "dialog_button", false);
+                TextField itemTextField = new TextField(componentToAdd.getComponentContent().get(i));
+                itemsList.add(itemTextField);
+                itemHBox.getChildren().add(itemTextField);
+                listVBox.getChildren().add(itemHBox);
+                removeButton.setOnAction(eee -> {
+                    listVBox.getChildren().remove(itemHBox);
+                    itemsList.remove(itemTextField);
+                    componentToAdd.getComponentContent().remove(itemTextField.getText());
+                });
+            }
+        }
+    }
+
+    private void addListItem() {
+        HBox itemHBox = new HBox();
+        Button removeButton = ui.initChildButton(itemHBox, ICON_REMOVE_PAGE, TOOLTIP_REMOVE_LIST_ITEM, "dialog_button", false);
+        TextField itemTextField = new TextField();
+        itemsList.add(itemTextField);
+        itemHBox.getChildren().add(itemTextField);
+        listVBox.getChildren().add(itemHBox);
+        //componentToAdd.getComponentContent().add(itemTextField.getText());
+        removeButton.setOnAction(eee -> {
+            listVBox.getChildren().remove(itemHBox);
+            componentToAdd.getComponentContent().remove(itemTextField.getText());
         });
     }
 }

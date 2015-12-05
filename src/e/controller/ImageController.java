@@ -17,13 +17,13 @@ import javafx.stage.Stage;
 public class ImageController {
 //    EPortfolioMakerView ui;
 
-    Stage ui;
+    EPortfolioMakerView ui;
 
     String path;
     /**
      * Default contstructor doesn't need to initialize anything
      */
-    public ImageController(Stage initUi) {
+    public ImageController(EPortfolioMakerView initUi) {
         ui = initUi;
     }
 
@@ -36,7 +36,7 @@ public class ImageController {
      * @param view The user interface control group where the image will appear
      * after selection.
      */
-    public void processSelectImage(Component componentToEdit, ComponentEditView view) {
+    public void processSelectImage(Component componentToEdit) {
         FileChooser imageFileChooser = new FileChooser();
 
         // SET THE STARTING DIRECTORY
@@ -55,7 +55,7 @@ public class ImageController {
             String fileName = file.getName();
             componentToEdit.getComponentContent().add(fileName);
             componentToEdit.setComponentPath(path);
-            view.updateComponentImage();
+            ui.updateFileToolbarControls(false);
         }
     }
 
