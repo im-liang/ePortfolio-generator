@@ -77,7 +77,7 @@ public class EPortfolio {
 //        ui.reloadPagePane();
 //    }
 
-    public void addPage(String pageTitle,String pageFont, String pageFooter,String banner, String bannerFileName, String bannerFilePath, ArrayList<String> components) {
+    public void addPage(String pageTitle,String pageFont, String pageFooter,String banner, String bannerFileName, String bannerFilePath) {
         Page pageToAdd = new Page(ui);
         pageToAdd.setPageTitle(pageTitle);
         pageToAdd.setFont(pageFont);
@@ -85,7 +85,7 @@ public class EPortfolio {
         pageToAdd.setBanner(banner);
         pageToAdd.setBannerImageName(bannerFileName);
         pageToAdd.setBannerImagePath(bannerFilePath);
-        pageToAdd.addComponentForJson(components);
+//        pageToAdd.addComponentForJson(components);
         pages.add(pageToAdd);
         ui.getEPortfolio().setSelectedPage(pageToAdd);
         ui.reloadPagePane();

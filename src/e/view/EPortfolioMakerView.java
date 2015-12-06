@@ -305,7 +305,7 @@ public class EPortfolioMakerView {
             alert.setContentText("OK for adding page, cancel for displaying pages.");
             Optional<String> result = alert.showAndWait();
             if (result.isPresent()) {
-                editController.handleAddPageRequest(result.get(), "'Montserrat', sans-serif;","Footer","Banner", "", "", new ArrayList<String>());
+                editController.handleAddPageRequest(result.get(), "'Montserrat', sans-serif;","Footer","Banner", "", "");
                 reloadBannerControls();
             } else {
                 reloadPagePane();

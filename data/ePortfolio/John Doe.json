@@ -4,17 +4,17 @@
     "pages":[
         {
             "page_title":"Title",
-            "page_font":"'Indie Flower', cursive;",
+            "page_font":"'Montserrat', sans-serif;",
             "layout":"layout_1.css",
             "color":"color_1.css",
             "footer":"Footer",
             "banner":"Banner",
-            "banner_file_name":"circus_08.jpg",
-            "banner_file_path":"/Users/jieliang/Documents/NetBeansProjects/Eportfolio/images/img/",
+            "banner_file_name":"",
+            "banner_file_path":"",
             "components":[
                 {
                     "component_type":"header",
-                    "component_content":"",
+                    "component_content":"J",
                     "component_path":"",
                     "component_font_float":"",
                     "component_width":0,

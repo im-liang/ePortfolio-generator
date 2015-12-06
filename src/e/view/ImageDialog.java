@@ -60,7 +60,7 @@ public class ImageDialog extends Stage {
     HBox heightHBox;
     Label heightLabel;
     DoubleTextField heightTextField;
-    ComboBox floatComboBox;
+    ComboBox<String> floatComboBox;
     Button leftButton;
     Button rightButton;
     Button neitherButton;
@@ -125,7 +125,7 @@ public class ImageDialog extends Stage {
         heightTextField = new DoubleTextField();
         heightHBox.getChildren().addAll(heightLabel, heightTextField);
 
-        ComboBox<String> floatComboBox = new ComboBox();
+        floatComboBox = new ComboBox();
         floatComboBox.getItems().addAll(
                 "Neither",
                 "Left",
@@ -248,7 +248,7 @@ public class ImageDialog extends Stage {
             if (!componentToAdd.getComponentCaption().isEmpty()) {
                 captionTextField.setText(componentToAdd.getComponentCaption().get(0));
             }
-            //floatComboBox.setValue(componentToAdd.getComponentFont_Float());
+            floatComboBox.setValue(componentToAdd.getComponentFont_Float());
 
             String imagePath = componentToAdd.getComponentPath() + "/" + componentToAdd.getComponentContent().get(0);
 

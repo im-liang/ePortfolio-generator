@@ -20,6 +20,7 @@ public class ImageController {
     EPortfolioMakerView ui;
 
     String path;
+
     /**
      * Default contstructor doesn't need to initialize anything
      */
@@ -51,12 +52,16 @@ public class ImageController {
         // LET'S OPEN THE FILE CHOOSER
         File file = imageFileChooser.showOpenDialog(null);
         if (file != null) {
-            String path = file.getPath().substring(0, file.getPath().indexOf(file.getName()));
-            String fileName = file.getName();
-            componentToEdit.getComponentContent().add(fileName);
+            componentToEdit.getComponentContent().add(getImageFileName(file, componentToEdit));
             componentToEdit.setComponentPath(path);
             ui.updateFileToolbarControls(false);
         }
+    }
+
+    public String getImageFileName(File file, Component componentToEdit) {
+        String path = file.getPath().substring(0, file.getPath().indexOf(file.getName()));
+        String fileName = file.getName();
+        return fileName;
     }
 
 }

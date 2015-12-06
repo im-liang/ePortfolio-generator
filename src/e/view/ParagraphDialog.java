@@ -177,13 +177,19 @@ public class ParagraphDialog extends Stage {
         paragraphTextArea.textProperty().addListener(ee -> {
             componentToAdd.getComponentContent().removeAll(componentToAdd.getComponentContent());
             componentToAdd.getComponentContent().add(paragraphTextArea.getText());
+        });
+
+        paragraphVBox.getChildren().clear();
+        paragraphVBox.getChildren().add(paragraphLabel);
+        paragraphVBox.getChildren().add(paragraphTextArea);
+        Button hyperlinkButton = ui.initChildButton(paragraphVBox, "Link.png", "Add Hyperlink", "dialog_button", false);
+        paragraphVBox.getChildren().add(fontLabel);
+        paragraphVBox.getChildren().add(fontComboBox);
+        hyperlinkButton.setOnAction(e -> {
             if (!paragraphTextArea.getSelectedText().isEmpty()) {
                 addHyperlink(paragraphTextArea);
             }
         });
-
-        paragraphVBox.getChildren().clear();
-        paragraphVBox.getChildren().addAll(paragraphLabel, paragraphTextArea, fontLabel, fontComboBox);
     }
 
     private void addHyperlink(TextArea textArea) {
@@ -192,7 +198,7 @@ public class ParagraphDialog extends Stage {
         alert.setHeaderText("Do you want to add a Hyperlink?");
         Optional<String> result = alert.showAndWait();
         if (result.isPresent()) {
-            textArea.getSelectedText().replace(textArea.getSelectedText(), "<a href=" + result.get() + ">" + textArea.getSelectedText() + "</a>");
+            textArea.replaceSelection("<a href=" + result.get() + ">" + textArea.getSelectedText() + "</a>");
         }
     }
 }

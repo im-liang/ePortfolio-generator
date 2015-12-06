@@ -127,6 +127,7 @@ public class VideoDialog extends Stage {
         addVideo();
         updateVideo();
         componentToAdd.setComponentType("video");
+        reloadVideo();
 
         // WE'LL PUT EVERYTHING HERE
         messagePane = new VBox();
@@ -204,7 +205,8 @@ public class VideoDialog extends Stage {
             if (videoController.processSelectVideo() != null) {
                 componentToAdd.getComponentContent().removeAll(componentToAdd.getComponentContent());
                 componentToAdd.getComponentCaption().removeAll(componentToAdd.getComponentCaption());
-                videoController.addVideo(videoController.processSelectVideo(),componentToAdd);
+                videoController.addVideo(videoController.processSelectVideo(), componentToAdd);
+                reloadVideo();
             } else {
             }
         });
@@ -212,21 +214,41 @@ public class VideoDialog extends Stage {
 
     public void updateVideo() {
         widthTextField.textProperty().addListener(e -> {
+            try {
             componentToAdd.setComponentWidth(Integer.parseInt(widthTextField.getText()));
+            } catch (Exception ee) {
+                
+            }
         });
         heightTextField.textProperty().addListener(e -> {
-            componentToAdd.setComponentWidth(Integer.parseInt(heightTextField.getText()));
+            componentToAdd.setComponentHeight(Integer.parseInt(heightTextField.getText()));
         });
-        captionTextField.textProperty().addListener(e-> {
+        captionTextField.textProperty().addListener(e -> {
             componentToAdd.getComponentCaption().removeAll(componentToAdd.getComponentCaption());
             componentToAdd.getComponentCaption().add(captionTextField.getText());
         });
     }
-    
+
     public void reloadVideo() {
         widthTextField.setText(Integer.toString(componentToAdd.getComponentWidth()));
         heightTextField.setText(Integer.toString(componentToAdd.getComponentHeight()));
-        captionTextField.setText(componentToAdd.getComponentCaption().get(0));
-        
+        if (!componentToAdd.getComponentCaption().isEmpty()) {
+            captionTextField.setText(componentToAdd.getComponentCaption().get(0));
+        }
+        if (!componentToAdd.getComponentContent().isEmpty()) {
+            try {
+                String videoPath = componentToAdd.getComponentPath() + componentToAdd.getComponentContent().get(0);
+                File file = new File(videoPath);
+                VideoController videoController = new VideoController(ui);
+                URL fileURL = file.toURI().toURL();
+                Media ii = new Media(fileURL.toExternalForm());
+                MediaPlayer i = new MediaPlayer(ii);
+                mediaView.setMediaPlayer(i);
+                mediaView.setFitWidth(200);
+                mediaView.setFitHeight(200);
+            } catch (MalformedURLException ex) {
+                Logger.getLogger(VideoDialog.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            }
+        }
     }
-}

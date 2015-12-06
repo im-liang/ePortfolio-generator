@@ -43,8 +43,8 @@ public class EPortfolioEditController {
         ui = initUI;
     }
 
-    public void handleAddPageRequest(String pageTitle, String pageFont, String pageFooter,String banner, String bannerFileName, String bannerFilePath, ArrayList<String> components) {
-        ui.getEPortfolio().addPage(pageTitle, pageFont, pageFooter,banner, bannerFileName, bannerFilePath, components);
+    public void handleAddPageRequest(String pageTitle, String pageFont, String pageFooter,String banner, String bannerFileName, String bannerFilePath) {
+        ui.getEPortfolio().addPage(pageTitle, pageFont, pageFooter,banner, bannerFileName, bannerFilePath);
     }
 
     public void handleRemovePageRequest() {
