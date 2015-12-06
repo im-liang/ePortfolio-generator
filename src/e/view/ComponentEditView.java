@@ -87,6 +87,7 @@ public class ComponentEditView extends HBox {
                     break;
             }
             ui.reloadComponentPane(ui.getEPortfolio().getSelectedPage());
+            ui.updateFileToolbarControls(false);
         });
     }
 

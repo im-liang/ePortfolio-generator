@@ -6,6 +6,8 @@
 package e.file;
 
 import static e.StartUpConstants.PATH_EPORTFOLIO;
+import static e.controller.EPortfolioEditController.COLORTEMPLATE;
+import static e.controller.EPortfolioEditController.LAYOUTTEMPLATE;
 import e.model.Component;
 import e.model.EPortfolio;
 import e.model.Page;
@@ -42,7 +44,10 @@ public class EPortfolioFileManager {
     public static String JSON_PAGES = "pages";
     public static String JSON_PAGE_TITLE = "page_title";
     public static String JSON_PAGE_FONT = "page_font";
+    public static String JSON_PAGE_FOOTER = "footer";
     public static String JSON_PAGE_PATH = "page_path";
+    public static String JSON_PAGE_LAYOUT = "layout";
+    public static String JSON_PAGE_COLOR = "color";
     public static String JSON_BANNER = "banner";
     public static String JSON_BANNER_FILE_NAME = "banner_file_name";
     public static String JSON_BANNER_FILE_PATH = "banner_file_path";
@@ -50,12 +55,13 @@ public class EPortfolioFileManager {
     public static String JSON_COMPONENT_TYPE = "component_type";
     public static String JSON_COMPONENT_CONTENT = "component_content";
     public static String JSON_COMPONENT_PATH = "component_path";
-    public static String JSON_COMPONENT_FONT_FLOAT = "component_font/float";
+    public static String JSON_COMPONENT_FONT_FLOAT = "component_font_float";
     public static String JSON_COMPONENT_WIDTH = "component_width";
     public static String JSON_COMPONENT_HEIGHT = "component_height";
     public static String JSON_COMPONENT_CAPTION = "component_caption";
     public static String JSON_EXT = ".json";
     public static String SLASH = "/";
+    private List<Component> componentsString;
 
     public void saveEPortfolio(EPortfolio ePortfolioToSave, String ePortfolioStudentName) throws IOException {
         StringWriter sw = new StringWriter();
@@ -107,12 +113,15 @@ public class EPortfolioFileManager {
         JsonArray jsonPagesArray = json.getJsonArray(JSON_PAGES);
         for (int i = 0; i < jsonPagesArray.size(); i++) {
             JsonObject pageJso = jsonPagesArray.getJsonObject(i);
+            LAYOUTTEMPLATE = pageJso.getString(JSON_PAGE_LAYOUT);
+            COLORTEMPLATE = pageJso.getString(JSON_PAGE_COLOR);
             ePortfolioToLoad.addPage(pageJso.getString(JSON_PAGE_TITLE),
                     pageJso.getString(JSON_PAGE_FONT),
+                    pageJso.getString(JSON_PAGE_FOOTER),
                     pageJso.getString(JSON_BANNER),
                     pageJso.getString(JSON_BANNER_FILE_NAME),
                     pageJso.getString(JSON_BANNER_FILE_PATH),
-                    ;
+                    loadArrayFromJSONFile(jsonFilePath, JSON_COMPONENTS));
         }
     }
 
@@ -149,11 +158,13 @@ public class EPortfolioFileManager {
     private JsonObject makePageJsonObject(Page page) {
         JsonArray componentsJsonArray = makeComponentsJsonArray(page.getComponents());
         JsonObject jso;
-        if (page.getBannerImageName() == null) {
+        if (page.getBannerImageName().isEmpty()) {
             jso = Json.createObjectBuilder()
                     .add(JSON_PAGE_TITLE, page.getPageTitle())
-                    //.add(JSON_PAGE_PATH, page.getPagePath())
                     .add(JSON_PAGE_FONT, page.getFont())
+                    .add(JSON_PAGE_LAYOUT, LAYOUTTEMPLATE)
+                    .add(JSON_PAGE_COLOR, COLORTEMPLATE)
+                    .add(JSON_PAGE_FOOTER, page.getFooter())
                     .add(JSON_BANNER, page.getBanner())
                     .add(JSON_BANNER_FILE_NAME, "")
                     .add(JSON_BANNER_FILE_PATH, "")
@@ -162,8 +173,10 @@ public class EPortfolioFileManager {
         } else {
             jso = Json.createObjectBuilder()
                     .add(JSON_PAGE_TITLE, page.getPageTitle())
-                    //.add(JSON_PAGE_PATH, page.getPagePath())
-                    //.add(JSON_PAGE_FONT, page.getFont())
+                    .add(JSON_PAGE_FONT, page.getFont())
+                    .add(JSON_PAGE_LAYOUT, LAYOUTTEMPLATE)
+                    .add(JSON_PAGE_COLOR, COLORTEMPLATE)
+                    .add(JSON_PAGE_FOOTER, page.getFooter())
                     .add(JSON_BANNER, page.getBanner())
                     .add(JSON_BANNER_FILE_NAME, page.getBannerImageName())
                     .add(JSON_BANNER_FILE_PATH, page.getBannerImagePath())
@@ -189,14 +202,16 @@ public class EPortfolioFileManager {
         for (int i = 0; i < component.getComponentContent().size(); i++) {
             if (i == component.getComponentContent().size() - 1) {
                 componentContent += component.getComponentContent().get(i);
+            } else {
+                componentContent += component.getComponentContent().get(i) + ",";
             }
-            componentContent += component.getComponentContent().get(i) + ",";
         }
         for (int i = 0; i < component.getComponentCaption().size(); i++) {
             if (i == component.getComponentCaption().size() - 1) {
                 componentCaption += component.getComponentCaption().get(i);
+            } else {
+                componentCaption += component.getComponentCaption().get(i) + ",";
             }
-            componentCaption += component.getComponentCaption().get(i) + ",";
         }
         JsonObject jso = Json.createObjectBuilder()
                 .add(JSON_COMPONENT_TYPE, component.getComponentType())
@@ -209,7 +224,12 @@ public class EPortfolioFileManager {
                 .build();
         return jso;
     }
-    private ArrayList<String> makeComponentsList() {
-        
+
+    private List<Component> getComponents() {
+        return componentsString;
+    }
+
+    private void setComponents(List<Component> initComponentsString) {
+        componentsString = initComponentsString;
     }
 }

@@ -24,11 +24,11 @@ public class EPortfolioSiteExporter {
     public static String JSON_EXT = ".json";
 
     // HERE ARE THE DIRECTORIES WE CARE ABOUT
-    public static String BASE_DIR = "./base/";
+    public static String BASE_DIR = "./html/";
     public static String SITES_DIR = "./sites/";
     public static String CSS_DIR = "css/";
     public static String DATA_DIR = "data/";
-    public static String EPORTFOLIO_DIR = DATA_DIR + "ePortfilio/";
+    public static String EPORTFOLIO_DIR = "./" + DATA_DIR + "ePortfilio/";
     public static String ICONS_DIR = "icons/";
     public static String IMG_DIR = "img/";
     public static String JS_DIR = "js/";
@@ -37,7 +37,7 @@ public class EPortfolioSiteExporter {
     public static String INDEX_FILE = "index.html";
     public static String STYLESHEET_FILE = "slideshow_maker.css";
     public static String JS_FILE = "SlideshowMaker.js";
-    public static String DATA_FILE = "SlideShowData.json";
+    public static String DATA_FILE = "student.json";
 
     public void exportSite(EPortfolio slideShowToExport) throws IOException {
         // THE SITE HOME PATH

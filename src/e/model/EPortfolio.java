@@ -7,6 +7,7 @@ package e.model;
 
 import static e.StartUpConstants.DEFAULT_STUDENTNAME;
 import e.view.EPortfolioMakerView;
+import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -76,9 +77,11 @@ public class EPortfolio {
 //        ui.reloadPagePane();
 //    }
 
-    public void addPage(String pageTitle,String pageFont, String banner, String bannerFileName, String bannerFilePath, String components) {
+    public void addPage(String pageTitle,String pageFont, String pageFooter,String banner, String bannerFileName, String bannerFilePath, ArrayList<String> components) {
         Page pageToAdd = new Page(ui);
         pageToAdd.setPageTitle(pageTitle);
+        pageToAdd.setFont(pageFont);
+        pageToAdd.setFooter(pageFooter);
         pageToAdd.setBanner(banner);
         pageToAdd.setBannerImageName(bannerFileName);
         pageToAdd.setBannerImagePath(bannerFilePath);

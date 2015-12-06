@@ -177,11 +177,10 @@ public class ParagraphDialog extends Stage {
         paragraphTextArea.textProperty().addListener(ee -> {
             componentToAdd.getComponentContent().removeAll(componentToAdd.getComponentContent());
             componentToAdd.getComponentContent().add(paragraphTextArea.getText());
+            if (!paragraphTextArea.getSelectedText().isEmpty()) {
+                addHyperlink(paragraphTextArea);
+            }
         });
-
-        if (paragraphTextArea.getSelectedText().equals("")) {
-            addHyperlink(paragraphTextArea);
-        }
 
         paragraphVBox.getChildren().clear();
         paragraphVBox.getChildren().addAll(paragraphLabel, paragraphTextArea, fontLabel, fontComboBox);

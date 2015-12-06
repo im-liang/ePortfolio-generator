@@ -121,7 +121,7 @@ public class Page {
         selectedComponent = null;
     }
 
-    public void addComponentJson(String initComponentType, ArrayList<String> initComponentContent, String initComponentPath, double initComponentWidth, double initComponentHeight, String initComponentFont_Float, ArrayList<String> initComponentCaption) {
+    public void addComponentJson(String initComponentType, ArrayList<String> initComponentContent, String initComponentPath, int initComponentWidth, int initComponentHeight, String initComponentFont_Float, ArrayList<String> initComponentCaption) {
         Component componentToAdd = new Component(initComponentType, initComponentContent, initComponentPath, initComponentWidth, initComponentHeight, initComponentFont_Float, initComponentCaption);
         components.add(componentToAdd);
         ui.reloadComponentPane(this);
@@ -132,8 +132,10 @@ public class Page {
         ui.reloadComponentPane(this);
     }
     
-    public void addComponentForJson(String component) {
-        
+    public void addComponentForJson(ArrayList<String> component) {
+        for(int i = 0; i < component.size();i++) {
+//            addComponentJson();
+        }
     }
 
     public void removeSelectedComponent() {

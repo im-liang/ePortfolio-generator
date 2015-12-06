@@ -75,7 +75,11 @@ import e.file.EPortfolioSiteExporter;
 import e.model.Component;
 import e.model.EPortfolio;
 import e.model.Page;
+import java.net.MalformedURLException;
+import java.util.ArrayList;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
@@ -157,6 +161,7 @@ public class EPortfolioMakerView {
     //Center
     ScrollPane pageEditorScrollPane;
     VBox pageEditorPane;
+    VBox componentEditorPane;
 
     //Right SIDE OF THE WORKSPACE
     BorderPane pageUIPane;
@@ -226,8 +231,8 @@ public class EPortfolioMakerView {
 
         //center
         pageEditorPane = new VBox();
+        componentEditorPane = new VBox();
 
-        //pageEditorPane.getChildren().add(bannerPane);
         pageEditorScrollPane = new ScrollPane(pageEditorPane);
         pageEditorScrollPane.setFitToWidth(true);
         pageEditorScrollPane.setFitToHeight(true);
@@ -282,11 +287,13 @@ public class EPortfolioMakerView {
             ePane.setCenter(workspace);
         });
         pageViewerButton.setOnAction(e -> {
-//            BorderPane dumb = new BorderPane();
-//            WebView web = new WebView();
-//            web.getEngine().load("https://www.google.com");
-//            dumb.setCenter(web);
             EPortfolioViewer viewer = new EPortfolioViewer(this);
+            try {
+                viewer.startEPortfolio();
+            } catch (MalformedURLException ex) {
+                ErrorHandler eh = new ErrorHandler(this);
+                eh.processError();
+            }
             ePane.setCenter(viewer);
         });
 
@@ -298,15 +305,15 @@ public class EPortfolioMakerView {
             alert.setContentText("OK for adding page, cancel for displaying pages.");
             Optional<String> result = alert.showAndWait();
             if (result.isPresent()) {
-                editController.handleAddPageRequest(result.get(), "'Montserrat', sans-serif;", "Banner", "", "", "");
-                initBannerControls();
+                editController.handleAddPageRequest(result.get(), "'Montserrat', sans-serif;","Footer","Banner", "", "", new ArrayList<String>());
+                reloadBannerControls();
             } else {
                 reloadPagePane();
             }
         });
         bannerImageButton.setOnAction(e -> {
             pageTitlePane.getChildren().clear();
-            editController.handleBannerImageRequest();
+            editController.handleBannerImageRequest(ePortfolio.getSelectedPage());
         });
         layoutTemplateButton.setOnAction(e -> {
             pageTitlePane.getChildren().clear();
@@ -447,7 +454,7 @@ public class EPortfolioMakerView {
     }
 
     public void reloadComponentPane(Page page) {
-        pageEditorPane.getChildren().clear();
+        componentEditorPane.getChildren().clear();
         if (ePortfolio.getSelectedPage() != null) {
             reloadBannerControls();
             for (Component component : ePortfolio.getSelectedPage().getComponents()) {
@@ -457,14 +464,13 @@ public class EPortfolioMakerView {
                 } else {
                     componentEditor.getStyleClass().add(CSS_CLASS_COMPONENT);
                 }
-                pageEditorPane.getChildren().add(componentEditor);
+                componentEditorPane.getChildren().add(componentEditor);
             }
         }
     }
 
     public void reloadPagePane() {
         pageTitlePane.getChildren().clear();
-        pageEditorPane.getChildren().clear();
         for (Page page : ePortfolio.getPages()) {
             PageEditView pageEditView = new PageEditView(this, page);
             if (ePortfolio.isSelectedPage(page)) {
@@ -505,15 +511,16 @@ public class EPortfolioMakerView {
         });
         bannerTextField.textProperty().addListener(e -> {
             ePortfolio.getSelectedPage().setBanner(bannerTextField.getText());
-            bannerTextField.setText(ePortfolio.getSelectedPage().getBanner());
+            //bannerTextField.setText(ePortfolio.getSelectedPage().getBanner());
             updateFileToolbarControls(false);
         });
         footerTextField.textProperty().addListener(e -> {
             ePortfolio.getSelectedPage().setFooter(footerTextField.getText());
-            footerTextField.setText(ePortfolio.getSelectedPage().getFooter());
+            //footerTextField.setText(ePortfolio.getSelectedPage().getFooter());
             updateFileToolbarControls(false);
         });
         pageEditorPane.getChildren().add(bannerPane);
+        pageEditorPane.getChildren().add(componentEditorPane);
     }
 
     public void reloadBannerControls() {
@@ -527,7 +534,7 @@ public class EPortfolioMakerView {
     }
 
     public VBox getComponentPane() {
-        return pageEditorPane;
+        return componentEditorPane;
     }
 
     public VBox getPagePane() {

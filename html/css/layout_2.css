@@ -1,0 +1,71 @@
+body {
+  background-image: url("http://www.ic.sunysb.edu/Stu/jieliang/images/v1.jpg");
+}
+#whole {
+  width: 900px;
+  position: relative;
+  margin: 0 auto;
+  background-image: url("http://www.ic.sunysb.edu/Stu/jieliang/images/crossword.png");
+}
+.img {
+  width: 500px;
+}
+.paragraph {
+}
+#student_name {
+  font-size: 20px;
+  font-weight: bolder;
+  text-align: center;
+}
+#banner_img {
+  width: 900px;
+}
+#nav {
+  vertical-align: top;
+}
+#nav_bar {
+  margin-left: -3px;
+}
+#nav_bar ul {
+  /*for dots in front of li*/
+  list-style: none;
+  display: block;
+  margin-top: -9px;
+  padding: 10px 20px;
+}
+#nav_bar ul li {
+  /*li vertical to horizontal*/
+  display: block;
+  padding-bottom: 30px;
+}
+#nav_bar ul li a {
+  /*get rid of underline*/
+  text-decoration: none;
+  /*spacing*/
+  padding: 15px 25px;
+  font-size: 18px;
+}
+#banner {
+  text-align: center;
+  line-height: 0;
+}
+#banner_img {
+  height: 200px;
+}
+#components {
+  text-align: center;
+}
+#caption {
+}
+#slideshow_controls {
+  margin-left: auto;
+  margin-right: auto;
+}
+.video_controls {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+#footer {
+  text-align: center;
+}

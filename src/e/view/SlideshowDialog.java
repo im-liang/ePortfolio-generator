@@ -65,13 +65,16 @@ public class SlideshowDialog extends Stage {
     public static final String NO = "No";
     public static final String CANCEL = "Cancel";
 
+    public SlideshowDialog(Stage primaryStage, EPortfolioMakerView initUI) {
+        this(primaryStage,initUI,new Component());
+    }
     /**
      * Initializes this dialog so that it can be used repeatedly for all kinds
      * of messages.
      *
      * @param primaryStage The owner of this modal dialog.
      */
-    public SlideshowDialog(Stage primaryStage, EPortfolioMakerView initUI) {
+    public SlideshowDialog(Stage primaryStage, EPortfolioMakerView initUI,Component initComponentToAdd) {
         // MAKE THIS DIALOG MODAL, MEANING OTHERS WILL WAIT
         // FOR IT WHEN IT IS DISPLAYED
         initModality(Modality.WINDOW_MODAL);
@@ -81,7 +84,7 @@ public class SlideshowDialog extends Stage {
         messageLabel = new Label();
 
         ui = initUI;
-        componentToAdd = new Component();
+        componentToAdd = initComponentToAdd;
 
         EventHandler yesNoCancelHandler = (EventHandler<ActionEvent>) (ActionEvent ae) -> {
             Button sourceButton = (Button) ae.getSource();
@@ -105,7 +108,6 @@ public class SlideshowDialog extends Stage {
 
             Label captionLabel = new Label("caption: ");
             TextField captionTextField = new TextField();
-            updatePic(primaryStage);
             captionBox.getChildren().addAll(image, captionLabel, captionTextField);
             slide.getChildren().add(captionBox);
             slides.getChildren().add(slide);

@@ -17,12 +17,12 @@ public class Component {
     String componentPath;
     String componentType;
     String componentFont_Float;
-    double componentWidth;
-    double componentHeight;
+    int componentWidth;
+    int componentHeight;
     ArrayList<String> componentCaption;
 
     //image
-    public Component(String initComponentType, ArrayList<String> initComponentContent, String initComponentPath, double initComponentWidth, double initComponentHeight, String initComponentFont_Float, ArrayList<String> initComponentCaption) {
+    public Component(String initComponentType, ArrayList<String> initComponentContent, String initComponentPath, int initComponentWidth, int initComponentHeight, String initComponentFont_Float, ArrayList<String> initComponentCaption) {
         componentContent = initComponentContent;
         componentPath = initComponentPath;
         componentWidth = initComponentWidth;
@@ -34,7 +34,7 @@ public class Component {
 
     // header & list
     public Component() {
-        this("",new ArrayList<String>(),"",0.0,0.0,"",new ArrayList<String>());
+        this("",new ArrayList<String>(),"",0,0,"",new ArrayList<String>());
     }
 
     public ArrayList<String> getComponentContent() {
@@ -53,19 +53,19 @@ public class Component {
         return componentType;
     }
 
-    public double getComponentWidth() {
+    public int getComponentWidth() {
         return componentWidth;
     }
 
-    public void setComponentWidth(double initComponentWidth) {
+    public void setComponentWidth(int initComponentWidth) {
         componentWidth = initComponentWidth;
     }
 
-    public void setComponentHeight(double initComponentHeight) {
+    public void setComponentHeight(int initComponentHeight) {
         componentHeight = initComponentHeight;
     }
 
-    public double getComponentHeight() {
+    public int getComponentHeight() {
         return componentHeight;
     }
 

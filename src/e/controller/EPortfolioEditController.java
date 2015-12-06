@@ -9,6 +9,7 @@ import static e.StartUpConstants.DEFAULT_PAGETITLE;
 import e.error.ErrorHandler;
 import e.model.Component;
 import e.model.EPortfolio;
+import e.model.Page;
 import e.view.EPortfolioMakerView;
 import e.view.HeaderDialog;
 import e.view.ImageDialog;
@@ -19,12 +20,14 @@ import e.view.VideoDialog;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 
 /**
  *
@@ -40,8 +43,8 @@ public class EPortfolioEditController {
         ui = initUI;
     }
 
-    public void handleAddPageRequest(String pageTitle,String pageFont,String banner,String bannerFileName,String bannerFilePath, String components) {
-        ui.getEPortfolio().addPage(pageTitle,pageFont,banner,bannerFileName,bannerFilePath,components);
+    public void handleAddPageRequest(String pageTitle, String pageFont, String pageFooter,String banner, String bannerFileName, String bannerFilePath, ArrayList<String> components) {
+        ui.getEPortfolio().addPage(pageTitle, pageFont, pageFooter,banner, bannerFileName, bannerFilePath, components);
     }
 
     public void handleRemovePageRequest() {
@@ -49,19 +52,36 @@ public class EPortfolioEditController {
         ePortfolio.removeSelectedPage();
     }
 
-    public void handleBannerImageRequest() {
+    public void handleBannerImageRequest(Page page) {
         try {
-            ImageController imageController = new ImageController(ui.getWindow());
-            imageController.processSelectImage();
-            ImageView image = new ImageView();
-            File file = new File(imageController.getPath());
-            URL fileURL = file.toURI().toURL();
-            Image i = new Image(fileURL.toExternalForm());
-            image.setImage(i);
-            image.setFitWidth(200);
-            image.setFitHeight(200);
-            ui.getPagePane().getChildren().add(image);
-            ui.getEPortfolio().getSelectedPage().setBannerImage(i);
+            FileChooser imageFileChooser = new FileChooser();
+
+            // SET THE STARTING DIRECTORY
+            imageFileChooser.setInitialDirectory(new File("./images/img/"));
+
+            // LET'S ONLY SEE IMAGE FILES
+            FileChooser.ExtensionFilter jpgFilter = new FileChooser.ExtensionFilter("JPG files (*.jpg)", "*.JPG");
+            FileChooser.ExtensionFilter pngFilter = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.PNG");
+            FileChooser.ExtensionFilter gifFilter = new FileChooser.ExtensionFilter("GIF files (*.gif)", "*.GIF");
+            imageFileChooser.getExtensionFilters().addAll(jpgFilter, pngFilter, gifFilter);
+
+            // LET'S OPEN THE FILE CHOOSER
+            File file = imageFileChooser.showOpenDialog(null);
+            if (file != null) {
+                String path = file.getPath().substring(0, file.getPath().indexOf(file.getName()));
+                String fileName = file.getName();
+                ImageView image = new ImageView();
+                URL fileURL = file.toURI().toURL();
+                Image i = new Image(fileURL.toExternalForm());
+                image.setImage(i);
+                image.setFitWidth(200);
+                image.setFitHeight(200);
+                
+                page.setBannerImageName(fileName);
+                page.setBannerImagePath(path);
+                ui.getPagePane().getChildren().add(image);
+                ui.updateFileToolbarControls(false);
+            }
         } catch (MalformedURLException ex) {
             ErrorHandler error = new ErrorHandler(ui);
             error.processError();
@@ -75,8 +95,8 @@ public class EPortfolioEditController {
                 "Top_left",
                 "Top_center",
                 "Left",
-                "Dark Blue",
-                "Yellow"
+                "Right",
+                "Top_Right"
         );
         layoutTemplateComboBox.setValue("Top_left");
         String chosedLayout = layoutTemplateComboBox.getValue().toString();
@@ -91,10 +111,10 @@ public class EPortfolioEditController {
                 case "Left":
                     LAYOUTTEMPLATE = "layout_3.css";
                     break;
-                case "???":
+                case "Right":
                     LAYOUTTEMPLATE = "layout_4.css";
                     break;
-                case "??":
+                case "Top_Right":
                     LAYOUTTEMPLATE = "layout_5.css";
                     break;
             }
@@ -115,20 +135,20 @@ public class EPortfolioEditController {
         String chosedColor = colorTemplateComboBox.getValue().toString();
         colorTemplateComboBox.setOnAction(eh -> {
             switch (chosedColor) {
-                case "Red":
+                case "Teal":
                     COLORTEMPLATE = "color_1.css";
                     break;
-                case "Blue":
-                    COLORTEMPLATE = "color_2.css";
+                case "Red":
+                    COLORTEMPLATE = "color_5.css";
                     break;
                 case "Light Blue":
                     COLORTEMPLATE = "color_3.css";
                     break;
                 case "Dark Blue":
-                    COLORTEMPLATE = "color_4.css";
+                    COLORTEMPLATE = "color_2.css";
                     break;
                 case "Yellow":
-                    COLORTEMPLATE = "color_5.css";
+                    COLORTEMPLATE = "color_4.css";
                     break;
             }
         });
@@ -177,6 +197,7 @@ public class EPortfolioEditController {
                 "'Nunito', sans-serif;"
         );
         fontComboBox.setValue("'Montserrat', sans-serif;");
+        ui.getEPortfolio().getSelectedPage().setFont(fontComboBox.getValue().toString());
         fontHBox.getChildren().addAll(fontComboBox);
         ui.getPagePane().getChildren().add(fontHBox);
         fontComboBox.setOnAction(e -> {

@@ -86,6 +86,7 @@ public class ImageDialog extends Stage {
     public ImageDialog(Stage primaryStage, EPortfolioMakerView initUI, Component initComponentToAdd) {
         ui = initUI;
         componentToAdd = initComponentToAdd;
+        imageController = new ImageController(ui);
 
         // MAKE THIS DIALOG MODAL, MEANING OTHERS WILL WAIT
         // FOR IT WHEN IT IS DISPLAYED
@@ -124,7 +125,7 @@ public class ImageDialog extends Stage {
         heightTextField = new DoubleTextField();
         heightHBox.getChildren().addAll(heightLabel, heightTextField);
 
-        ComboBox floatComboBox = new ComboBox();
+        ComboBox<String> floatComboBox = new ComboBox();
         floatComboBox.getItems().addAll(
                 "Neither",
                 "Left",
@@ -132,16 +133,17 @@ public class ImageDialog extends Stage {
         );
         floatComboBox.setValue("Neither");
         floatComboBox.setOnAction(eh -> {
-            componentToAdd.setComponentFont_Float(floatComboBox.getValue().toString());
+            componentToAdd.setComponentFont_Float(floatComboBox.getValue());
         });
         captionTextField.textProperty().addListener(e -> {
+            componentToAdd.getComponentCaption().removeAll(componentToAdd.getComponentCaption());
             componentToAdd.getComponentCaption().add(captionTextField.getText());
         });
         widthTextField.textProperty().addListener(e -> {
-            componentToAdd.setComponentWidth(Double.parseDouble(widthTextField.getText()));
+            componentToAdd.setComponentWidth(Integer.parseInt(widthTextField.getText()));
         });
         heightTextField.textProperty().addListener(e -> {
-            componentToAdd.setComponentHeight(Double.parseDouble(heightTextField.getText()));
+            componentToAdd.setComponentHeight(Integer.parseInt(heightTextField.getText()));
         });
 
         // NOW ORGANIZE OUR BUTTONS
@@ -150,10 +152,13 @@ public class ImageDialog extends Stage {
         buttonBox.getChildren().add(noButton);
         buttonBox.getChildren().add(cancelButton);
 
-        updateComponentImage();
-        imageView.setOnMousePressed(e -> {
-            imageController.processSelectImage(componentToAdd);
+        //SET UP DATA
+        imageView = new ImageView();
+        imageView.setOnMouseClicked(e -> {
+            
         });
+        updateComponentContent();
+
         // WE'LL PUT EVERYTHING HERE
         messagePane = new VBox();
         messagePane.setAlignment(Pos.TOP_CENTER);
@@ -178,10 +183,6 @@ public class ImageDialog extends Stage {
         cancelButton.getStyleClass().add(CSS_CLASS_DIALOG_BUTTON);
         messagePane.getStyleClass().add(CSS_CLASS_DIALOG_PANE);
         buttonBox.getStyleClass().add(CSS_CLASS_DIALOG_PANE);
-
-        //SET UP DATA
-        componentToAdd = new Component();
-        componentToAdd.setComponentType("image");
 
         // MAKE IT LOOK NICE
         messagePane.setPadding(new Insets(10, 20, 20, 20));
@@ -218,32 +219,50 @@ public class ImageDialog extends Stage {
         return componentToAdd;
     }
 
-    public void updateComponentImage() {
-        if (componentToAdd.getComponentContent().isEmpty()) {
+    public void updateComponentContent() {
+        if (componentToAdd.getComponentType().isEmpty()) {
+            componentToAdd.setComponentType("image");
             String imagePath = PATH_IMAGES + "/img/" + DEFAULT_COMPONENT_IMAGE;
             File file = new File(imagePath);
             try {
                 URL fileURL = file.toURI().toURL();
                 Image componentImage = new Image(fileURL.toExternalForm());
-                imageView = new ImageView();
+
                 imageView.setImage(componentImage);
                 imageView.setFitWidth(200);
                 imageView.setFitHeight(200);
+                componentToAdd.getComponentContent().add(DEFAULT_COMPONENT_IMAGE);
+                componentToAdd.setComponentPath("./images/img/");
+                imageView.setOnMousePressed(e -> {
+                    componentToAdd.getComponentContent().remove(0);
+                    imageController.processSelectImage(componentToAdd);
+                    updateComponentContent();
+                });
             } catch (MalformedURLException ex) {
                 ErrorHandler eh = new ErrorHandler(ui);
                 eh.processError();
             }
         } else {
+            widthTextField.setText(Integer.toString(componentToAdd.getComponentWidth()));
+            heightTextField.setText(Integer.toString(componentToAdd.getComponentHeight()));
+            if (!componentToAdd.getComponentCaption().isEmpty()) {
+                captionTextField.setText(componentToAdd.getComponentCaption().get(0));
+            }
+            //floatComboBox.setValue(componentToAdd.getComponentFont_Float());
+
             String imagePath = componentToAdd.getComponentPath() + "/" + componentToAdd.getComponentContent().get(0);
 
             File file = new File(imagePath);
             try {
                 URL fileURL = file.toURI().toURL();
                 Image componentImage = new Image(fileURL.toExternalForm());
-                imageView = new ImageView();
                 imageView.setImage(componentImage);
-                imageView.setFitWidth(componentToAdd.getComponentWidth());
-                imageView.setFitHeight(componentToAdd.getComponentHeight());
+                imageView.setFitWidth(200);
+                imageView.setFitHeight(200);
+                imageView.setOnMousePressed(e -> {
+                    componentToAdd.getComponentContent().remove(0);
+                    imageController.processSelectImage(componentToAdd);
+                });
             } catch (MalformedURLException ex) {
                 ErrorHandler eh = new ErrorHandler(ui);
                 eh.processError();

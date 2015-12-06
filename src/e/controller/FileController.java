@@ -147,9 +147,6 @@ public class FileController {
             } else {
                 siteExporter.exportSite(ePortfolio);
 
-                // THEN VIEW THE SITE
-                EPortfolioViewer viewer = new EPortfolioViewer(ui);
-                viewer.startEPortfolio();
             }
         } catch (Exception e) {
 //            ErrorHandler eH = ui.getErrorHandler();

@@ -23,6 +23,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 import javafx.stage.Modality;
 
 /**
@@ -51,14 +54,19 @@ public class VideoDialog extends Stage {
     HBox heightHBox;
     Label heightLabel;
     DoubleTextField heightTextField;
-    
+
     EPortfolioMakerView ui;
     Component componentToAdd;
+    MediaView mediaView;
 
     // CONSTANT CHOICES
     public static final String YES = "Yes";
     public static final String NO = "No";
     public static final String CANCEL = "Cancel";
+
+    public VideoDialog(Stage primaryStage, EPortfolioMakerView initUI) {
+        this(primaryStage, initUI, new Component());
+    }
 
     /**
      * Initializes this dialog so that it can be used repeatedly for all kinds
@@ -66,10 +74,10 @@ public class VideoDialog extends Stage {
      *
      * @param primaryStage The owner of this modal dialog.
      */
-    public VideoDialog(Stage primaryStage,EPortfolioMakerView initUI) {
+    public VideoDialog(Stage primaryStage, EPortfolioMakerView initUI, Component initComponentToAdd) {
         ui = initUI;
-        componentToAdd = new Component();
-        
+        componentToAdd = initComponentToAdd;
+
         // MAKE THIS DIALOG MODAL, MEANING OTHERS WILL WAIT
         // FOR IT WHEN IT IS DISPLAYED
         initModality(Modality.WINDOW_MODAL);
@@ -92,22 +100,6 @@ public class VideoDialog extends Stage {
         noButton.setOnAction(yesNoCancelHandler);
         cancelButton.setOnAction(yesNoCancelHandler);
 
-        ImageView image = new ImageView();
-        String imagePath = "./images/img/banner.jpg";
-        File file = new File(imagePath);
-        VideoController imageController = new VideoController(primaryStage);
-        image.setOnMousePressed(e -> {
-            imageController.processSelectImage();
-        });
-        try {
-            URL fileURL = file.toURI().toURL();
-            Image i = new Image(fileURL.toExternalForm());
-            image.setImage(i);
-            image.setFitWidth(200);
-            image.setFitHeight(200);
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(ImageDialog.class.getName()).log(Level.SEVERE, null, ex);
-        }
         captionHBox = new HBox();
         captionLabel = new Label("Caption: ");
         captionTextField = new TextField();
@@ -131,6 +123,11 @@ public class VideoDialog extends Stage {
         buttonBox.getChildren().add(noButton);
         buttonBox.getChildren().add(cancelButton);
 
+        mediaView = new MediaView();
+        addVideo();
+        updateVideo();
+        componentToAdd.setComponentType("video");
+
         // WE'LL PUT EVERYTHING HERE
         messagePane = new VBox();
         messagePane.setAlignment(Pos.TOP_CENTER);
@@ -139,7 +136,7 @@ public class VideoDialog extends Stage {
         heightHBox.setAlignment(Pos.TOP_CENTER);
         buttonBox.setAlignment(Pos.TOP_CENTER);
         messagePane.getChildren().add(messageLabel);
-        messagePane.getChildren().add(image);
+        messagePane.getChildren().add(mediaView);
         messagePane.getChildren().add(captionHBox);
         messagePane.getChildren().add(widthHBox);
         messagePane.getChildren().add(heightHBox);
@@ -185,5 +182,51 @@ public class VideoDialog extends Stage {
 
     public Component getComponent() {
         return componentToAdd;
+    }
+
+    public void addVideo() {
+        String imagePath = "./video/video.mp4";
+        File file = new File(imagePath);
+        VideoController videoController = new VideoController(ui);
+        try {
+            URL fileURL = file.toURI().toURL();
+            Media ii = new Media(fileURL.toExternalForm());
+            MediaPlayer i = new MediaPlayer(ii);
+            mediaView.setMediaPlayer(i);
+            mediaView.setFitWidth(200);
+            mediaView.setFitHeight(200);
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(ImageDialog.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        //controller
+        mediaView.setOnMousePressed(e -> {
+            if (videoController.processSelectVideo() != null) {
+                componentToAdd.getComponentContent().removeAll(componentToAdd.getComponentContent());
+                componentToAdd.getComponentCaption().removeAll(componentToAdd.getComponentCaption());
+                videoController.addVideo(videoController.processSelectVideo(),componentToAdd);
+            } else {
+            }
+        });
+    }
+
+    public void updateVideo() {
+        widthTextField.textProperty().addListener(e -> {
+            componentToAdd.setComponentWidth(Integer.parseInt(widthTextField.getText()));
+        });
+        heightTextField.textProperty().addListener(e -> {
+            componentToAdd.setComponentWidth(Integer.parseInt(heightTextField.getText()));
+        });
+        captionTextField.textProperty().addListener(e-> {
+            componentToAdd.getComponentCaption().removeAll(componentToAdd.getComponentCaption());
+            componentToAdd.getComponentCaption().add(captionTextField.getText());
+        });
+    }
+    
+    public void reloadVideo() {
+        widthTextField.setText(Integer.toString(componentToAdd.getComponentWidth()));
+        heightTextField.setText(Integer.toString(componentToAdd.getComponentHeight()));
+        captionTextField.setText(componentToAdd.getComponentCaption().get(0));
+        
     }
 }

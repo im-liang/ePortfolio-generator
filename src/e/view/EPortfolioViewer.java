@@ -45,7 +45,7 @@ public class EPortfolioViewer extends BorderPane {
 	scrollPane = new ScrollPane(webView);
 	
 	// GET THE URL
-	String indexPath = SITES_DIR + pages.getSelectedPage() + "/" + INDEX_FILE;
+	String indexPath = SITES_DIR +  parentView.getEPortfolio().getStudentName()+"/" + INDEX_FILE;
 	File indexFile = new File(indexPath);
 	URL indexURL = indexFile.toURI().toURL();
 	

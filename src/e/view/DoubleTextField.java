@@ -17,6 +17,7 @@ import javafx.scene.input.KeyEvent;
 public class DoubleTextField extends TextField {
 
     public DoubleTextField() {
+        try {
         this.addEventFilter(KeyEvent.KEY_TYPED, new EventHandler<KeyEvent>() {
             public void handle(KeyEvent t) {
                 char ar[] = t.getCharacter().toCharArray();
@@ -28,6 +29,9 @@ public class DoubleTextField extends TextField {
                 }
             }
         });
+        } catch (Exception e) {
+            
+        }
     }
 
 }
