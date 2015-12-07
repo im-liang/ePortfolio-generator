@@ -7,19 +7,28 @@
             "page_font":"'Montserrat', sans-serif;",
             "layout":"layout_1.css",
             "color":"color_1.css",
-            "footer":"Footer",
+            "footer":"Foot",
             "banner":"Banner",
             "banner_file_name":"",
             "banner_file_path":"",
             "components":[
                 {
                     "component_type":"image",
-                    "component_content":"bg-2-full.jpg",
+                    "component_content":"00.jpg",
                     "component_path":"/Users/jieliang/Documents/NetBeansProjects/Eportfolio/images/img/",
                     "component_font_float":"Left",
-                    "component_width":10,
-                    "component_height":3,
-                    "component_caption":"aslkjng"
+                    "component_width":0,
+                    "component_height":0,
+                    "component_caption":""
+                },
+                {
+                    "component_type":"video",
+                    "component_content":"how.to.get.away.with.murder.209.hdtv-lol.mp4",
+                    "component_path":"/Users/jieliang/Documents/NetBeansProjects/Eportfolio/video/",
+                    "component_font_float":"",
+                    "component_width":0,
+                    "component_height":0,
+                    "component_caption":""
                 }
             ]
         }

@@ -53,13 +53,13 @@ public class EPortfolioViewer extends BorderPane {
         scrollPane = new ScrollPane(webView);
 
         // GET THE URL
-        String indexPath = SITES_DIR + parentView.getEPortfolio().getStudentName() + "/" + INDEX_FILE;
+        String indexPath = "sites/" + parentView.getEPortfolio().getStudentName() + "/" + INDEX_FILE;
         File indexFile = new File(indexPath);
         URL indexURL = indexFile.toURI().toURL();
 
         // SETUP THE WEB ENGINE AND LOAD THE URL
         webEngine = webView.getEngine();
-        webEngine.load(indexURL.toURI().toString());
+        webEngine.load(indexURL.toString());
         webEngine.setJavaScriptEnabled(true);
 
     }

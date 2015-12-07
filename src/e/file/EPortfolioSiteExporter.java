@@ -82,13 +82,22 @@ public class EPortfolioSiteExporter {
         // AND NOW ALL THE Contents
         for (Page s : slideShowToExport.getPages()) {
             for (Component c : s.getComponents()) {
-                for (int i = 0; i < c.getComponentContent().size(); i++) {
-                    if (c.getComponentType().equals("image") || c.getComponentType().equals("video") || c.getComponentType().equals("slideshow")) {
+                if (c.getComponentType().equals("video")) {
+                    Path contentPath = new File(c.getComponentPath() + SLASH + c.getComponentContent().get(0)).toPath();
+                    Path destImgPath = new File(homeSitePath + VIDEO_DIR + c.getComponentContent().get(0)).toPath();
+                    Files.copy(contentPath, destImgPath);
+                } else if (c.getComponentType().equals("image")) {
+                    Path contentPath = new File(c.getComponentPath() + SLASH + c.getComponentContent().get(0)).toPath();
+                    Path destImgPath = new File(homeSitePath + IMG_DIR + c.getComponentContent().get(0)).toPath();
+                    Files.copy(contentPath, destImgPath);
+                } else if (c.getComponentType().equals("slideshow")) {
+                    for (int i = 0; i < c.getComponentContent().size(); i++) {
                         Path contentPath = new File(c.getComponentPath() + SLASH + c.getComponentContent().get(i)).toPath();
                         Path destImgPath = new File(homeSitePath + IMG_DIR + c.getComponentContent().get(i)).toPath();
                         Files.copy(contentPath, destImgPath);
                     }
                 }
+
             }
 
         }

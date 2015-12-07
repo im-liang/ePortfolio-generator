@@ -4,6 +4,7 @@ import static e.StartUpConstants.CSS_CLASS_DIALOG_BUTTON;
 import static e.StartUpConstants.CSS_CLASS_DIALOG_PANE;
 import static e.StartUpConstants.STYLE_SHEET_UI;
 import e.controller.VideoController;
+import e.error.ErrorHandler;
 import e.model.Component;
 import java.io.File;
 import java.net.MalformedURLException;
@@ -217,11 +218,17 @@ public class VideoDialog extends Stage {
             try {
             componentToAdd.setComponentWidth(Integer.parseInt(widthTextField.getText()));
             } catch (Exception ee) {
-                
+                ErrorHandler eh = new ErrorHandler(ui);
+                eh.inValidNumber();
             }
         });
         heightTextField.textProperty().addListener(e -> {
-            componentToAdd.setComponentHeight(Integer.parseInt(heightTextField.getText()));
+            try {
+            componentToAdd.setComponentHeight(Integer.parseInt(heightTextField.getText()));}
+            catch(Exception ee) {
+                ErrorHandler eh = new ErrorHandler(ui);
+                eh.inValidNumber();
+            }
         });
         captionTextField.textProperty().addListener(e -> {
             componentToAdd.getComponentCaption().removeAll(componentToAdd.getComponentCaption());

@@ -72,10 +72,14 @@ import e.controller.FileController;
 import e.error.ErrorHandler;
 import e.file.EPortfolioFileManager;
 import e.file.EPortfolioSiteExporter;
+import static e.file.EPortfolioSiteExporter.INDEX_FILE;
 import e.model.Component;
 import e.model.EPortfolio;
 import e.model.Page;
+import java.io.File;
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.logging.Level;
@@ -287,14 +291,46 @@ public class EPortfolioMakerView {
             ePane.setCenter(workspace);
         });
         pageViewerButton.setOnAction(e -> {
-            EPortfolioViewer viewer = new EPortfolioViewer(this);
+
+            //            EPortfolioViewer viewer = new EPortfolioViewer(this);
+//            try {
+//                viewer.startEPortfolio();
+//            } catch (MalformedURLException ex) {
+//                ErrorHandler eh = new ErrorHandler(this);
+//                eh.processError();
+//            } catch (URISyntaxException ex) {
+//                ErrorHandler eh = new ErrorHandler(this);
+//                eh.processError();
+//            }
+//            ePane.setCenter(viewer);
+//            BorderPane dumb = new BorderPane();
+//            WebView web = new WebView();
+//            web.getEngine().load("https://www.google.com");
+//            dumb.setCenter(web);
+//            ePane.setCenter(dumb);
             try {
-                viewer.startEPortfolio();
+                BorderPane dumb = new BorderPane();
+                // SETUP THE UI
+                WebView webView = new WebView();
+                ScrollPane scrollPane = new ScrollPane(webView);
+
+                // GET THE URL
+                String indexPath = "sites/" + ePortfolio.getStudentName() + "/" + INDEX_FILE;
+                File indexFile = new File(indexPath);
+                URL indexURL = indexFile.toURI().toURL();
+
+                // SETUP THE WEB ENGINE AND LOAD THE URL
+                webView.getEngine().load(indexURL.toString());
+                webView.getEngine().setJavaScriptEnabled(true);
+                dumb.setCenter(scrollPane);
+                ePane.setCenter(dumb);
+                
+                scrollPane.setFitToHeight(true);
+                scrollPane.setFitToWidth(true);
             } catch (MalformedURLException ex) {
-                ErrorHandler eh = new ErrorHandler(this);
-                eh.processError();
+                Logger.getLogger(EPortfolioMakerView.class.getName()).log(Level.SEVERE, null, ex);
             }
-            ePane.setCenter(viewer);
+
         });
 
         editController = new EPortfolioEditController(this);
@@ -305,7 +341,7 @@ public class EPortfolioMakerView {
             alert.setContentText("OK for adding page, cancel for displaying pages.");
             Optional<String> result = alert.showAndWait();
             if (result.isPresent()) {
-                editController.handleAddPageRequest(result.get(), "'Montserrat', sans-serif;","Footer","Banner", "", "");
+                editController.handleAddPageRequest(result.get(), "'Montserrat', sans-serif;", "Footer", "Banner", "", "");
                 reloadBannerControls();
             } else {
                 reloadPagePane();

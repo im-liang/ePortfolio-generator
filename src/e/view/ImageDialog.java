@@ -139,10 +139,17 @@ public class ImageDialog extends Stage {
             try {
                 componentToAdd.setComponentWidth(Integer.parseInt(widthTextField.getText()));
             } catch (Exception ee) {
+                ErrorHandler eh = new ErrorHandler(ui);
+                eh.inValidNumber();
             };
         });
         heightTextField.textProperty().addListener(e -> {
-            componentToAdd.setComponentHeight(Integer.parseInt(heightTextField.getText()));
+            try {
+                componentToAdd.setComponentHeight(Integer.parseInt(heightTextField.getText()));
+            } catch (Exception ee) {
+                ErrorHandler eh = new ErrorHandler(ui);
+                eh.inValidNumber();
+            }
         });
 
         // NOW ORGANIZE OUR BUTTONS
@@ -278,11 +285,19 @@ public class ImageDialog extends Stage {
             }
         });
         heightTextField.textProperty().addListener(e -> {
-            componentToAdd.setComponentHeight(Integer.parseInt(heightTextField.getText()));
+            try {
+                componentToAdd.setComponentHeight(Integer.parseInt(heightTextField.getText()));
+            } catch (Exception ee) {
+
+            }
         });
         captionTextField.textProperty().addListener(e -> {
             componentToAdd.getComponentCaption().removeAll(componentToAdd.getComponentCaption());
-            componentToAdd.getComponentCaption().add(captionTextField.getText());
+            try {
+                componentToAdd.getComponentCaption().add(captionTextField.getText());
+            } catch (Exception ee) {
+
+            }
         });
     }
 }

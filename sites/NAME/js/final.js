@@ -60,17 +60,19 @@ function initPage() {
                 $("#components").append("<h1>"+components[i].component_content+"</h1>");
                 break;
             case 'image':
+               if(components[i].component_content !== ""){
                 $("#components").append("<br><img id = img"+i+" src = '" + components[i].component_path + components[i].component_content + "'>");
                 $("#img"+i).append("<p>"+components[i].component_caption+"</p>");
                 $("#img"+i).width(components[i].component_width);
                 $("#img"+i).height(components[i].component_height);
-                $("#img"+i).css("float",components[i].component_font_float);
+                $("#img"+i).css("float",components[i].component_font_float);}
                 break;
             case 'video':
+                if(components[i].component_content !== ""){
                 $("#components").append("<br><video id = video"+i+"> <source src = '" + components[i].component_path + components[i].component_content + "'></video>");
                 $("#video"+i).append("<p>"+components[i].component_caption+"</p>");
                 $("#video"+i).width(components[i].component_width);
-                $("#img"+i).height(components[i].component_height);
+                $("#img"+i).height(components[i].component_height);}
                 break;
             case 'list':
                 var component_list = components[i].component_content.split(",");

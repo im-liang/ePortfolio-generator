@@ -205,15 +205,18 @@ public class SlideshowDialog extends Stage {
                 imageView.setFitHeight(200);
                 slide.getChildren().add(imageView);
                 imageView.setOnMouseClicked(ee -> {                   
-                    imageController.processSelectImage(componentToAdd);
-                    reloadSlideshow(slide, captionTextField, imageView);
+                    if(imageController.processSelectImage() != null) {
+                        imageController.addImage(imageController.processSelectImage(), componentToAdd);
+                        reloadSlideshow(slide, captionTextField, imageView);
+                    }
                 });
                 
             } catch (MalformedURLException ex) {
                 Logger.getLogger(SlideshowDialog.class.getName()).log(Level.SEVERE, null, ex);
             }
+            
+            updateSlideshow(slide, removeButton, upButton, downButton, captionTextField, imageController.processSelectImage().getName());
             reloadSlideshow(slide,captionTextField,imageView);
-            updateSlideshow(slide, removeButton, upButton, downButton, captionTextField, imageController.getImageFileName(file, componentToAdd));
             
             captionBox.getChildren().addAll(imageView, captionLabel, captionTextField);
             slide.getChildren().add(captionBox);

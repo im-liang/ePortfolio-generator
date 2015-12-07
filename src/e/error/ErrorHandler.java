@@ -40,7 +40,7 @@ public class ErrorHandler {
 
     public void inValidNumber() {
         // GET THE FEEDBACK TEXT
-        String errorFeedbackText = "The char you entered is not a number!";
+        String errorFeedbackText = "Please enter a number!";
 
         // POP OPEN A DIALOG TO DISPLAY TO THE USER
         Alert alertDialog = new Alert(AlertType.WARNING, errorFeedbackText);
