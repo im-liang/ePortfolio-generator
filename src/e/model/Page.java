@@ -131,12 +131,6 @@ public class Page {
         components.add(initComponent);
         ui.reloadComponentPane(this);
     }
-    
-    public void addComponentForJson(ArrayList<String> component) {
-        for(int i = 0; i < component.size();i++) {
-//            addComponentJson();
-        }
-    }
 
     public void removeSelectedComponent() {
         if (isComponentSelected()) {

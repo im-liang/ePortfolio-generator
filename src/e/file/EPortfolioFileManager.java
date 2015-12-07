@@ -114,31 +114,8 @@ public class EPortfolioFileManager {
         for (int i = 0; i < jsonPagesArray.size(); i++) {
             JsonObject pageJso = jsonPagesArray.getJsonObject(i);
             JsonArray jsonComponentsArray = pageJso.getJsonArray(JSON_COMPONENTS);
-            JsonObject componentJso = jsonComponentsArray.getJsonObject(i);
             
-            for(int j = 0; j < jsonComponentsArray.size(); j++) {
-                
-                //CONTENT FOR COMPONENTS
-                ArrayList<String> component_content = new ArrayList<String>();
-                String[] content_temp = componentJso.getString(JSON_COMPONENT_CONTENT).split(",");
-                for(int k = 0; k < content_temp.length;k++) {
-                    component_content.add(content_temp[k]);
-                }
-                //CAPTIONS
-                ArrayList<String> component_caption = new ArrayList<String>();
-                String[] caption_temp = componentJso.getString(JSON_COMPONENT_CAPTION).split(",");
-                for(int k = 0; k < content_temp.length; k++) {
-                    component_caption.add(caption_temp[k]);
-                }
-                ePortfolioToLoad.getSelectedPage().addComponentJson(componentJso.getString(JSON_COMPONENT_TYPE), 
-                        component_content, 
-                        componentJso.getString(JSON_COMPONENT_PATH), 
-                        componentJso.getInt(JSON_COMPONENT_WIDTH), 
-                        componentJso.getInt(JSON_COMPONENT_HEIGHT), 
-                        componentJso.getString(JSON_COMPONENT_FONT_FLOAT), 
-                        component_caption);
-            }
-                    
+
             LAYOUTTEMPLATE = pageJso.getString(JSON_PAGE_LAYOUT);
             COLORTEMPLATE = pageJso.getString(JSON_PAGE_COLOR);
             ePortfolioToLoad.addPage(pageJso.getString(JSON_PAGE_TITLE),
@@ -147,7 +124,34 @@ public class EPortfolioFileManager {
                     pageJso.getString(JSON_BANNER),
                     pageJso.getString(JSON_BANNER_FILE_NAME),
                     pageJso.getString(JSON_BANNER_FILE_PATH)
-                    );
+            );
+
+            for (int j = 0; j < jsonComponentsArray.size(); j++) {
+
+                JsonObject componentJso = jsonComponentsArray.getJsonObject(j);
+                //CONTENT FOR COMPONENTS
+                ArrayList<String> component_content = new ArrayList<String>();
+                String[] content_temp = componentJso.getString(JSON_COMPONENT_CONTENT).split(",");
+                for (int k = 0; k < content_temp.length; k++) {
+                    component_content.add(content_temp[k]);
+                }
+                //CAPTIONS
+                ArrayList<String> component_caption = new ArrayList<String>();
+                if (!componentJso.getString(JSON_COMPONENT_CAPTION).isEmpty()) {
+                    String[] caption_temp = componentJso.getString(JSON_COMPONENT_CAPTION).split(",");
+                    for (int k = 0; k < content_temp.length; k++) {
+                        component_caption.add(caption_temp[k]);
+                    }
+                }
+
+                ePortfolioToLoad.getPage(i).addComponentJson(componentJso.getString(JSON_COMPONENT_TYPE),
+                        component_content,
+                        componentJso.getString(JSON_COMPONENT_PATH),
+                        componentJso.getInt(JSON_COMPONENT_WIDTH),
+                        componentJso.getInt(JSON_COMPONENT_HEIGHT),
+                        componentJso.getString(JSON_COMPONENT_FONT_FLOAT),
+                        component_caption);
+            }
         }
     }
 

@@ -212,7 +212,7 @@ public class SlideshowDialog extends Stage {
             } catch (MalformedURLException ex) {
                 Logger.getLogger(SlideshowDialog.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+            reloadSlideshow(slide,captionTextField,imageView);
             updateSlideshow(slide, removeButton, upButton, downButton, captionTextField, imageController.getImageFileName(file, componentToAdd));
             
             captionBox.getChildren().addAll(imageView, captionLabel, captionTextField);

@@ -28,10 +28,11 @@ public class EPortfolioSiteExporter {
     public static String SITES_DIR = "./sites/";
     public static String CSS_DIR = "css/";
     public static String DATA_DIR = "data/";
-    public static String EPORTFOLIO_DIR = "./" + DATA_DIR + "ePortfilio/";
+    public static String EPORTFOLIO_DIR = "./" + DATA_DIR + "ePortfolio/";
     public static String ICONS_DIR = "icons/";
     public static String IMG_DIR = "img/";
     public static String JS_DIR = "js/";
+    public static String VIDEO_DIR = "video/";
 
     // AND HERE ARE THE FILES WE CARE ABOUT
     public static String INDEX_FILE = "index.html";
@@ -43,7 +44,7 @@ public class EPortfolioSiteExporter {
         // THE SITE HOME PATH
         String homeSitePath = SITES_DIR + slideShowToExport.getStudentName() + SLASH;
 
-	// NOW MAKE THE SITE DIRECTORIES AND COPY OVER THE FILES
+        // NOW MAKE THE SITE DIRECTORIES AND COPY OVER THE FILES
         // THAT ONLY NEED TO BE COPIED ONCE
         File siteDir = new File(homeSitePath);
 
@@ -62,6 +63,7 @@ public class EPortfolioSiteExporter {
         new File(homeSitePath + ICONS_DIR).mkdir();
         new File(homeSitePath + IMG_DIR).mkdir();
         new File(homeSitePath + JS_DIR).mkdir();
+        new File(homeSitePath + VIDEO_DIR).mkdir();
 
         // NOW COPY OVER THE HTML, CSS, ICON, AND JAVASCRIPT FILES
         copyAllFiles(BASE_DIR, homeSitePath);
@@ -79,13 +81,13 @@ public class EPortfolioSiteExporter {
 
         // AND NOW ALL THE Contents
         for (Page s : slideShowToExport.getPages()) {
-            int i = 0;
             for (Component c : s.getComponents()) {
-                if(c.getComponentType().equals("image") || c.getComponentType().equals("video") || c.getComponentType().equals("slideshow")) {
-                Path contentPath = new File(c.getComponentPath() + SLASH + c.getComponentContent().get(i)).toPath();
-                Path destImgPath = new File(homeSitePath + IMG_DIR + c.getComponentContent().get(i)).toPath();
-                Files.copy(contentPath, destImgPath);
-                i++;
+                for (int i = 0; i < c.getComponentContent().size(); i++) {
+                    if (c.getComponentType().equals("image") || c.getComponentType().equals("video") || c.getComponentType().equals("slideshow")) {
+                        Path contentPath = new File(c.getComponentPath() + SLASH + c.getComponentContent().get(i)).toPath();
+                        Path destImgPath = new File(homeSitePath + IMG_DIR + c.getComponentContent().get(i)).toPath();
+                        Files.copy(contentPath, destImgPath);
+                    }
                 }
             }
 

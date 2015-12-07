@@ -174,10 +174,6 @@ public class ParagraphDialog extends Stage {
         if (!componentToAdd.getComponentContent().isEmpty()) {
             paragraphTextArea.setText(componentToAdd.getComponentContent().get(0));
         }
-        paragraphTextArea.textProperty().addListener(ee -> {
-            componentToAdd.getComponentContent().removeAll(componentToAdd.getComponentContent());
-            componentToAdd.getComponentContent().add(paragraphTextArea.getText());
-        });
 
         paragraphVBox.getChildren().clear();
         paragraphVBox.getChildren().add(paragraphLabel);
@@ -185,18 +181,29 @@ public class ParagraphDialog extends Stage {
         Button hyperlinkButton = ui.initChildButton(paragraphVBox, "Link.png", "Add Hyperlink", "dialog_button", false);
         paragraphVBox.getChildren().add(fontLabel);
         paragraphVBox.getChildren().add(fontComboBox);
+
         hyperlinkButton.setOnAction(e -> {
             if (!paragraphTextArea.getSelectedText().isEmpty()) {
-                addHyperlink(paragraphTextArea);
+                addHyperlink(paragraphTextArea, hyperlinkButton);
+            }
+        });
+        paragraphTextArea.textProperty().addListener(ee -> {
+            componentToAdd.getComponentContent().removeAll(componentToAdd.getComponentContent());
+            componentToAdd.getComponentContent().add(paragraphTextArea.getText());
+            if (!paragraphTextArea.getText().isEmpty()) {
+                hyperlinkButton.setDisable(false);
+            } else {
+                hyperlinkButton.setDisable(true);
             }
         });
     }
 
-    private void addHyperlink(TextArea textArea) {
+    private void addHyperlink(TextArea textArea, Button hyperlinkButton) {
         TextInputDialog alert = new TextInputDialog();
         alert.setTitle("Conformation Dialog");
         alert.setHeaderText("Do you want to add a Hyperlink?");
         Optional<String> result = alert.showAndWait();
+
         if (result.isPresent()) {
             textArea.replaceSelection("<a href=" + result.get() + ">" + textArea.getSelectedText() + "</a>");
         }

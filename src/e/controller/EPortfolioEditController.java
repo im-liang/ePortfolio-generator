@@ -90,7 +90,7 @@ public class EPortfolioEditController {
 
     public void handleLayoutTemplateRequest() {
         // DIFFERENT CSS
-        ComboBox layoutTemplateComboBox = new ComboBox();
+        ComboBox<String> layoutTemplateComboBox = new ComboBox();
         layoutTemplateComboBox.getItems().addAll(
                 "Top_left",
                 "Top_center",
@@ -99,23 +99,28 @@ public class EPortfolioEditController {
                 "Top_Right"
         );
         layoutTemplateComboBox.setValue("Top_left");
-        String chosedLayout = layoutTemplateComboBox.getValue().toString();
         layoutTemplateComboBox.setOnAction(eh -> {
-            switch (chosedLayout) {
+            ui.updateFileToolbarControls(false);
+            switch (layoutTemplateComboBox.getValue()) {
                 case "Top_left":
                     LAYOUTTEMPLATE = "layout_1.css";
+//                    layoutTemplateComboBox.setValue("Top_left");
                     break;
                 case "Top_center":
                     LAYOUTTEMPLATE = "layout_2.css";
+//                    layoutTemplateComboBox.setValue("Top_center");
                     break;
                 case "Left":
                     LAYOUTTEMPLATE = "layout_3.css";
+//                    layoutTemplateComboBox.setValue("Left");
                     break;
                 case "Right":
                     LAYOUTTEMPLATE = "layout_4.css";
+//                    layoutTemplateComboBox.setValue("Right");
                     break;
                 case "Top_Right":
                     LAYOUTTEMPLATE = "layout_5.css";
+//                    layoutTemplateComboBox.setValue("Top_Right");
                     break;
             }
         });
@@ -123,32 +128,38 @@ public class EPortfolioEditController {
     }
 
     public void handleColorTemplateRequest() {
-        ComboBox colorTemplateComboBox = new ComboBox();
+        ComboBox<String> colorTemplateComboBox = new ComboBox();
         colorTemplateComboBox.getItems().addAll(
                 "Red",
-                "Blue",
+                "Teal",
                 "Light Blue",
                 "Dark Blue",
                 "Yellow"
         );
         colorTemplateComboBox.setValue("Red");
-        String chosedColor = colorTemplateComboBox.getValue().toString();
+        String chosedColor = colorTemplateComboBox.getValue();
         colorTemplateComboBox.setOnAction(eh -> {
+            ui.updateFileToolbarControls(false);
             switch (chosedColor) {
                 case "Teal":
                     COLORTEMPLATE = "color_1.css";
+//                    colorTemplateComboBox.setValue("Teal");
                     break;
                 case "Red":
                     COLORTEMPLATE = "color_5.css";
+//                    colorTemplateComboBox.setValue("Red");
                     break;
                 case "Light Blue":
                     COLORTEMPLATE = "color_3.css";
+//                    colorTemplateComboBox.setValue("Light Blue");
                     break;
                 case "Dark Blue":
                     COLORTEMPLATE = "color_2.css";
+//                    colorTemplateComboBox.setValue("Dark Blue");
                     break;
                 case "Yellow":
                     COLORTEMPLATE = "color_4.css";
+//                    colorTemplateComboBox.setValue("Yellow");
                     break;
             }
         });

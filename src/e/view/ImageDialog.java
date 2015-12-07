@@ -12,10 +12,6 @@ import e.model.Component;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -140,7 +136,10 @@ public class ImageDialog extends Stage {
             componentToAdd.getComponentCaption().add(captionTextField.getText());
         });
         widthTextField.textProperty().addListener(e -> {
-            componentToAdd.setComponentWidth(Integer.parseInt(widthTextField.getText()));
+            try {
+                componentToAdd.setComponentWidth(Integer.parseInt(widthTextField.getText()));
+            } catch (Exception ee) {
+            };
         });
         heightTextField.textProperty().addListener(e -> {
             componentToAdd.setComponentHeight(Integer.parseInt(heightTextField.getText()));
@@ -154,10 +153,10 @@ public class ImageDialog extends Stage {
 
         //SET UP DATA
         imageView = new ImageView();
-        imageView.setOnMouseClicked(e -> {
-            
-        });
+        addImage();
         updateComponentContent();
+        componentToAdd.setComponentType("image");
+        reloadImage();
 
         // WE'LL PUT EVERYTHING HERE
         messagePane = new VBox();
@@ -219,10 +218,16 @@ public class ImageDialog extends Stage {
         return componentToAdd;
     }
 
-    public void updateComponentContent() {
-        if (componentToAdd.getComponentType().isEmpty()) {
-            componentToAdd.setComponentType("image");
-            String imagePath = PATH_IMAGES + "/img/" + DEFAULT_COMPONENT_IMAGE;
+    public void reloadImage() {
+        widthTextField.setText(Integer.toString(componentToAdd.getComponentWidth()));
+        heightTextField.setText(Integer.toString(componentToAdd.getComponentHeight()));
+        floatComboBox.setValue(componentToAdd.getComponentFont_Float());
+
+        if (!componentToAdd.getComponentCaption().isEmpty()) {
+            captionTextField.setText(componentToAdd.getComponentCaption().get(0));
+        }
+        if (!componentToAdd.getComponentContent().isEmpty()) {
+            String imagePath = componentToAdd.getComponentPath() + componentToAdd.getComponentContent().get(0);
             File file = new File(imagePath);
             try {
                 URL fileURL = file.toURI().toURL();
@@ -231,42 +236,53 @@ public class ImageDialog extends Stage {
                 imageView.setImage(componentImage);
                 imageView.setFitWidth(200);
                 imageView.setFitHeight(200);
-                componentToAdd.getComponentContent().add(DEFAULT_COMPONENT_IMAGE);
-                componentToAdd.setComponentPath("./images/img/");
-                imageView.setOnMousePressed(e -> {
-                    componentToAdd.getComponentContent().remove(0);
-                    imageController.processSelectImage(componentToAdd);
-                    updateComponentContent();
-                });
-            } catch (MalformedURLException ex) {
-                ErrorHandler eh = new ErrorHandler(ui);
-                eh.processError();
-            }
-        } else {
-            widthTextField.setText(Integer.toString(componentToAdd.getComponentWidth()));
-            heightTextField.setText(Integer.toString(componentToAdd.getComponentHeight()));
-            if (!componentToAdd.getComponentCaption().isEmpty()) {
-                captionTextField.setText(componentToAdd.getComponentCaption().get(0));
-            }
-            floatComboBox.setValue(componentToAdd.getComponentFont_Float());
-
-            String imagePath = componentToAdd.getComponentPath() + "/" + componentToAdd.getComponentContent().get(0);
-
-            File file = new File(imagePath);
-            try {
-                URL fileURL = file.toURI().toURL();
-                Image componentImage = new Image(fileURL.toExternalForm());
-                imageView.setImage(componentImage);
-                imageView.setFitWidth(200);
-                imageView.setFitHeight(200);
-                imageView.setOnMousePressed(e -> {
-                    componentToAdd.getComponentContent().remove(0);
-                    imageController.processSelectImage(componentToAdd);
-                });
             } catch (MalformedURLException ex) {
                 ErrorHandler eh = new ErrorHandler(ui);
                 eh.processError();
             }
         }
+    }
+
+    public void addImage() {
+        String imagePath = PATH_IMAGES + "/img/" + DEFAULT_COMPONENT_IMAGE;
+        File file = new File(imagePath);
+        try {
+            URL fileURL = file.toURI().toURL();
+            Image componentImage = new Image(fileURL.toExternalForm());
+
+            imageView.setImage(componentImage);
+            imageView.setFitWidth(200);
+            imageView.setFitHeight(200);
+
+            imageView.setOnMousePressed(e -> {
+                if (imageController.processSelectImage() != null) {
+                    componentToAdd.getComponentContent().removeAll(componentToAdd.getComponentContent());
+                    componentToAdd.getComponentCaption().removeAll(componentToAdd.getComponentCaption());
+                    imageController.addImage(imageController.processSelectImage(), componentToAdd);
+                    reloadImage();
+                }
+            });
+        } catch (MalformedURLException ex) {
+            ErrorHandler eh = new ErrorHandler(ui);
+            eh.processError();
+        }
+    }
+
+    public void updateComponentContent() {
+        componentToAdd.setComponentFont_Float(floatComboBox.getValue());
+        widthTextField.textProperty().addListener(e -> {
+            try {
+                componentToAdd.setComponentWidth(Integer.parseInt(widthTextField.getText()));
+            } catch (Exception ee) {
+
+            }
+        });
+        heightTextField.textProperty().addListener(e -> {
+            componentToAdd.setComponentHeight(Integer.parseInt(heightTextField.getText()));
+        });
+        captionTextField.textProperty().addListener(e -> {
+            componentToAdd.getComponentCaption().removeAll(componentToAdd.getComponentCaption());
+            componentToAdd.getComponentCaption().add(captionTextField.getText());
+        });
     }
 }

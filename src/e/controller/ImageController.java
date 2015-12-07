@@ -37,7 +37,7 @@ public class ImageController {
      * @param view The user interface control group where the image will appear
      * after selection.
      */
-    public void processSelectImage(Component componentToEdit) {
+    public File processSelectImage() {
         FileChooser imageFileChooser = new FileChooser();
 
         // SET THE STARTING DIRECTORY
@@ -51,17 +51,15 @@ public class ImageController {
 
         // LET'S OPEN THE FILE CHOOSER
         File file = imageFileChooser.showOpenDialog(null);
-        if (file != null) {
-            componentToEdit.getComponentContent().add(getImageFileName(file, componentToEdit));
-            componentToEdit.setComponentPath(path);
-            ui.updateFileToolbarControls(false);
-        }
+        return file;
     }
 
-    public String getImageFileName(File file, Component componentToEdit) {
+    public void addImage(File file, Component componentToEdit) {
         String path = file.getPath().substring(0, file.getPath().indexOf(file.getName()));
         String fileName = file.getName();
-        return fileName;
+        componentToEdit.getComponentContent().add(fileName);
+        componentToEdit.setComponentPath(path);
+        ui.updateFileToolbarControls(false);
     }
 
 }

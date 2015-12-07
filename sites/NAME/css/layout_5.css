@@ -46,6 +46,7 @@ body {
 #banner {
   text-align: center;
   line-height: 0;
+  margin-top: -20;
 }
 #banner_img {
   height: 200px;

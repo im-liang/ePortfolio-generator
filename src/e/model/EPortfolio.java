@@ -47,6 +47,9 @@ public class EPortfolio {
     public Page getSelectedPage() {
         return selectedPage;
     }
+    public Page getPage(int i) {
+        return pages.get(i);
+    }
 
     public void setSelectedPage(Page initSelectedPage) {
         selectedPage = initSelectedPage;

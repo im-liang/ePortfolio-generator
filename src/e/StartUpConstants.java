@@ -10,7 +10,7 @@ package e;
  * @author jieliang
  */
 public class StartUpConstants {
-    public static String DEFAULT_STUDENTNAME = "John Doe";
+    public static String DEFAULT_STUDENTNAME = "NAME";
     public static String DEFAULT_PAGETITLE = "title";
 
     // WE'LL LOAD ALL THE UI AND LANGUAGE PROPERTIES FROM FILES,
