@@ -215,10 +215,12 @@ public class SlideshowDialog extends Stage {
         }
 
         //controller
-        //String fileName = imageController.processSelectImage().getName();
         imageView.setOnMousePressed(ee -> {
             if (imageController.processSelectImage() != null) {
                 imageController.addImage(imageController.processSelectImage(), componentToAdd);
+                if(captionTextField.getText() != null) {
+                    componentToAdd.getComponentCaption().add(captionTextField.getText());
+                }
             }
         });
         removeButton.setOnAction(ee -> {

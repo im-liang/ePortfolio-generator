@@ -14,12 +14,12 @@
             "components":[
                 {
                     "component_type":"slideshow",
-                    "component_content":"",
-                    "component_path":"",
+                    "component_content":"circus_08.jpg,bg-9-full.jpg",
+                    "component_path":"/Users/jieliang/Documents/NetBeansProjects/Eportfolio/images/img/",
                     "component_font_float":"",
                     "component_width":0,
                     "component_height":0,
-                    "component_caption":""
+                    "component_caption":"fsghsfgh,sdfgsdf"
                 }
             ]
         }
