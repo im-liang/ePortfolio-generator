@@ -98,6 +98,8 @@ public class FileController {
             // IF THE USER REALLY WANTS TO OPEN A POSE
             if (continueToOpen) {
                 // GO AHEAD AND PROCEED MAKING A NEW POSE
+                ui.getEPortfolio().reset();
+                ui.reloadPagePane();
                 promptToOpen();
             }
         } catch (IOException ioe) {

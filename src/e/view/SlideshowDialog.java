@@ -5,6 +5,7 @@ import static e.StartUpConstants.CSS_CLASS_DIALOG_PANE;
 import static e.StartUpConstants.PATH_ICONS;
 import static e.StartUpConstants.STYLE_SHEET_UI;
 import e.controller.ImageController;
+import e.error.ErrorHandler;
 import e.model.Component;
 import java.io.File;
 import java.net.MalformedURLException;
@@ -50,12 +51,12 @@ public class SlideshowDialog extends Stage {
     Button noButton;
     Button cancelButton;
     String selection;
-    
+
     Component componentToAdd;
     EPortfolioMakerView ui;
     ArrayList<TextField> slidesList = new ArrayList<TextField>();
     Button addButton;
-    
+
     VBox slides;
     String path = "./images/img/banner.jpg";
     ImageController imageController;
@@ -64,7 +65,7 @@ public class SlideshowDialog extends Stage {
     public static final String YES = "Yes";
     public static final String NO = "No";
     public static final String CANCEL = "Cancel";
-    
+
     public SlideshowDialog(Stage primaryStage, EPortfolioMakerView initUI) {
         this(primaryStage, initUI, new Component());
     }
@@ -83,25 +84,29 @@ public class SlideshowDialog extends Stage {
 
         // LABEL TO DISPLAY THE CUSTOM MESSAGE
         messageLabel = new Label();
-        
+
         ui = initUI;
         componentToAdd = initComponentToAdd;
-        
+
         EventHandler yesNoCancelHandler = (EventHandler<ActionEvent>) (ActionEvent ae) -> {
             Button sourceButton = (Button) ae.getSource();
             SlideshowDialog.this.selection = sourceButton.getText();
             SlideshowDialog.this.hide();
         };
-        
+
         ScrollPane scroll = new ScrollPane();
         BorderPane slideshowPane = new BorderPane();
         scroll.setContent(slideshowPane);
         VBox slideshowControls = new VBox();
         addButton = ui.initChildButton(slideshowControls, "Add.png", "add a slide", CSS_CLASS_DIALOG_BUTTON, false);
-        
+
+        imageController = new ImageController(ui);
         componentToAdd.setComponentType("slideshow");
-        addSlideshow();
-        
+
+        addButton.setOnAction(e -> {
+            addImage();
+        });
+
         slideshowPane.setLeft(slideshowControls);
 
         // YES, NO, AND CANCEL BUTTONS
@@ -167,114 +172,178 @@ public class SlideshowDialog extends Stage {
         messageLabel.setText(message);
         this.showAndWait();
     }
-    
+
     public void updateslides() {
-        
+
     }
-    
+
     public Component getComponent() {
         return componentToAdd;
     }
-    
+
     public void updateSlides() {
         for (int i = 0; i < slides.getChildren().size(); i++) {
-            
+
         }
     }
-    
-    public void addSlideshow() {
-        addButton.setOnAction(e -> {
-            HBox slide = new HBox();
-            Button removeButton = ui.initChildButton(slide, "Remove.png", "remove a slide", CSS_CLASS_DIALOG_BUTTON, false);
-            Button upButton = ui.initChildButton(slide, "Up.png", "move up a slide", CSS_CLASS_DIALOG_BUTTON, false);
-            Button downButton = ui.initChildButton(slide, "Down.png", "move down a slide", CSS_CLASS_DIALOG_BUTTON, false);
-            VBox captionBox = new VBox();
-            
-            Label captionLabel = new Label("caption: ");
-            TextField captionTextField = new TextField();
-            
-            File file = new File(path);
-            ImageView imageView = new ImageView();
-            ImageController imageController = new ImageController(ui);
-            
-            try {
-                URL fileURL = file.toURI().toURL();
-                Image image = new Image(fileURL.toExternalForm());
-                imageView.setImage(image);
-                imageView.setFitWidth(200);
-                imageView.setFitHeight(200);
-                slide.getChildren().add(imageView);
-                imageView.setOnMouseClicked(ee -> {                   
-                    if(imageController.processSelectImage() != null) {
-                        imageController.addImage(imageController.processSelectImage(), componentToAdd);
-                        reloadSlideshow(slide, captionTextField, imageView);
-                    }
-                });
-                
-            } catch (MalformedURLException ex) {
-                Logger.getLogger(SlideshowDialog.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            
-            updateSlideshow(slide, removeButton, upButton, downButton, captionTextField, imageController.processSelectImage().getName());
-            reloadSlideshow(slide,captionTextField,imageView);
-            
-            captionBox.getChildren().addAll(imageView, captionLabel, captionTextField);
+
+    public void addImage() {
+        HBox slide = new HBox();
+        Button removeButton = ui.initChildButton(slide, "Remove.png", "remove a slide", CSS_CLASS_DIALOG_BUTTON, false);
+        Button upButton = ui.initChildButton(slide, "Up.png", "move up a slide", CSS_CLASS_DIALOG_BUTTON, false);
+        Button downButton = ui.initChildButton(slide, "Down.png", "move down a slide", CSS_CLASS_DIALOG_BUTTON, false);
+        VBox captionBox = new VBox();
+
+        Label captionLabel = new Label("caption: ");
+        TextField captionTextField = new TextField();
+
+        File file = new File(path);
+        ImageView imageView = new ImageView();
+
+        try {
+            URL fileURL = file.toURI().toURL();
+            Image image = new Image(fileURL.toExternalForm());
+            imageView.setImage(image);
+            imageView.setFitWidth(100);
+            imageView.setFitHeight(100);
             slide.getChildren().add(captionBox);
+            captionBox.getChildren().addAll(imageView, captionLabel, captionTextField);
             slides.getChildren().add(slide);
-            
-        });
-    }
-    
-    private void reloadSlideshow(HBox slide, TextField captionTextField, ImageView imageView) {
-        for (int i = 0; i < componentToAdd.getComponentContent().size(); i++) {
-            if (!componentToAdd.getComponentCaption().get(slides.getChildren().indexOf(slide)).isEmpty()) {
-                captionTextField.setText(componentToAdd.getComponentCaption().get(slides.getChildren().indexOf(slide)));
-            }
-            try {
-                String videoPath = componentToAdd.getComponentPath() + componentToAdd.getComponentContent().get(i);
-                File file = new File(videoPath);
-                URL fileURL = file.toURI().toURL();
-                Image ii = new Image(fileURL.toExternalForm());
-                imageView.setImage(ii);
-                imageView.setFitWidth(200);
-                imageView.setFitHeight(200);
-                slide.getChildren().add(imageView);
-            } catch (MalformedURLException ex) {
-                Logger.getLogger(VideoDialog.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        } catch (MalformedURLException ex) {
+            ErrorHandler eh = new ErrorHandler(ui);
+            eh.processError();
         }
-    }
-    
-    private void updateSlideshow(HBox slide, Button removeButton, Button upButton, Button downButton, TextField captionTextField, String fileName) {
-        componentToAdd.getComponentCaption().add(captionTextField.getText());
-        
+
+        //controller
+        //String fileName = imageController.processSelectImage().getName();
+        imageView.setOnMousePressed(ee -> {
+            if (imageController.processSelectImage() != null) {
+                imageController.addImage(imageController.processSelectImage(), componentToAdd);
+            }
+        });
         removeButton.setOnAction(ee -> {
             slides.getChildren().remove(slide);
-            componentToAdd.getComponentCaption().remove(captionTextField.getText());
-            componentToAdd.getComponentContent().remove(fileName);
+//            componentToAdd.getComponentCaption().remove(captionTextField.getText());
+//            componentToAdd.getComponentContent().remove(fileName);
         });
         upButton.setOnAction(ee -> {
             int currentPosition = slides.getChildren().indexOf(slide);
             if (currentPosition != 0) {
                 slides.getChildren().remove(slide);
                 slides.getChildren().add(currentPosition - 1, slide);
-                componentToAdd.getComponentCaption().remove(captionTextField.getText());
-                componentToAdd.getComponentContent().remove(fileName);
-                componentToAdd.getComponentCaption().add(currentPosition - 1, captionTextField.getText());
-                componentToAdd.getComponentContent().add(currentPosition - 1, fileName);
+//                componentToAdd.getComponentCaption().remove(captionTextField.getText());
+//                componentToAdd.getComponentContent().remove(fileName);
+//                componentToAdd.getComponentCaption().add(currentPosition - 1, captionTextField.getText());
+//                componentToAdd.getComponentContent().add(currentPosition - 1, fileName);
             }
-            
+
         });
         downButton.setOnAction(ee -> {
             int currentPosition = slides.getChildren().indexOf(slide);
             if (currentPosition != slides.getChildren().size() - 1) {
                 slides.getChildren().remove(slide);
                 slides.getChildren().add(currentPosition + 1, slide);
-                componentToAdd.getComponentCaption().remove(captionTextField.getText());
-                componentToAdd.getComponentContent().remove(fileName);
-                componentToAdd.getComponentCaption().add(currentPosition + 1, captionTextField.getText());
-                componentToAdd.getComponentContent().add(currentPosition + 1, fileName);
+//                componentToAdd.getComponentCaption().remove(captionTextField.getText());
+//                componentToAdd.getComponentContent().remove(fileName);
+//                componentToAdd.getComponentCaption().add(currentPosition + 1, captionTextField.getText());
+//                componentToAdd.getComponentContent().add(currentPosition + 1, fileName);
             }
         });
     }
+//
+//    public void addSlideshow() {
+//        addButton.setOnAction(e -> {
+//            HBox slide = new HBox();
+//            Button removeButton = ui.initChildButton(slide, "Remove.png", "remove a slide", CSS_CLASS_DIALOG_BUTTON, false);
+//            Button upButton = ui.initChildButton(slide, "Up.png", "move up a slide", CSS_CLASS_DIALOG_BUTTON, false);
+//            Button downButton = ui.initChildButton(slide, "Down.png", "move down a slide", CSS_CLASS_DIALOG_BUTTON, false);
+//            VBox captionBox = new VBox();
+//
+//            Label captionLabel = new Label("caption: ");
+//            TextField captionTextField = new TextField();
+//
+//            File file = new File(path);
+//            ImageView imageView = new ImageView();
+//
+//            try {
+//                URL fileURL = file.toURI().toURL();
+//                Image image = new Image(fileURL.toExternalForm());
+//                imageView.setImage(image);
+//                imageView.setFitWidth(200);
+//                imageView.setFitHeight(200);
+//                slide.getChildren().add(imageView);
+//                imageView.setOnMouseClicked(ee -> {
+//                    if (imageController.processSelectImage() != null) {
+//                        imageController.addImage(imageController.processSelectImage(), componentToAdd);
+//                        reloadSlideshow(slide, captionTextField, imageView);
+//                    }
+//                });
+//
+//            } catch (MalformedURLException ex) {
+//                Logger.getLogger(SlideshowDialog.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//
+//            updateSlideshow(slide, removeButton, upButton, downButton, captionTextField, imageController.processSelectImage().getName());
+//            reloadSlideshow(slide, captionTextField, imageView);
+//
+//            captionBox.getChildren().addAll(imageView, captionLabel, captionTextField);
+//            slide.getChildren().add(captionBox);
+//            slides.getChildren().add(slide);
+//
+//        });
+//    }
+//
+//    private void reloadSlideshow(HBox slide, TextField captionTextField, ImageView imageView) {
+//        for (int i = 0; i < componentToAdd.getComponentContent().size(); i++) {
+//            if (!componentToAdd.getComponentCaption().get(slides.getChildren().indexOf(slide)).isEmpty()) {
+//                captionTextField.setText(componentToAdd.getComponentCaption().get(slides.getChildren().indexOf(slide)));
+//            }
+//            try {
+//                String videoPath = componentToAdd.getComponentPath() + componentToAdd.getComponentContent().get(i);
+//                File file = new File(videoPath);
+//                URL fileURL = file.toURI().toURL();
+//                Image ii = new Image(fileURL.toExternalForm());
+//                imageView.setImage(ii);
+//                imageView.setFitWidth(200);
+//                imageView.setFitHeight(200);
+//                slide.getChildren().remove(0);
+//                slide.getChildren().add(0, imageView);
+//            } catch (MalformedURLException ex) {
+//                Logger.getLogger(VideoDialog.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//        }
+//    }
+//
+//    private void updateSlideshow(HBox slide, Button removeButton, Button upButton, Button downButton, TextField captionTextField, String fileName) {
+//        componentToAdd.getComponentCaption().add(captionTextField.getText());
+//
+//        removeButton.setOnAction(ee -> {
+//            slides.getChildren().remove(slide);
+//            componentToAdd.getComponentCaption().remove(captionTextField.getText());
+//            componentToAdd.getComponentContent().remove(fileName);
+//        });
+//        upButton.setOnAction(ee -> {
+//            int currentPosition = slides.getChildren().indexOf(slide);
+//            if (currentPosition != 0) {
+//                slides.getChildren().remove(slide);
+//                slides.getChildren().add(currentPosition - 1, slide);
+//                componentToAdd.getComponentCaption().remove(captionTextField.getText());
+//                componentToAdd.getComponentContent().remove(fileName);
+//                componentToAdd.getComponentCaption().add(currentPosition - 1, captionTextField.getText());
+//                componentToAdd.getComponentContent().add(currentPosition - 1, fileName);
+//            }
+//
+//        });
+//        downButton.setOnAction(ee -> {
+//            int currentPosition = slides.getChildren().indexOf(slide);
+//            if (currentPosition != slides.getChildren().size() - 1) {
+//                slides.getChildren().remove(slide);
+//                slides.getChildren().add(currentPosition + 1, slide);
+//                componentToAdd.getComponentCaption().remove(captionTextField.getText());
+//                componentToAdd.getComponentContent().remove(fileName);
+//                componentToAdd.getComponentCaption().add(currentPosition + 1, captionTextField.getText());
+//                componentToAdd.getComponentContent().add(currentPosition + 1, fileName);
+//            }
+//        });
+//    }
 }
