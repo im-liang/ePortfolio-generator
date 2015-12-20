@@ -35,8 +35,7 @@ public class PigLatin {
             String word = words[i];
             char first = word.charAt(0);
             String pig;
-            if (first == 'a' || first == 'e' || first == 'i'
-                    || first == 'o' || first == 'u') // vowel
+            if (first == 'a' || first == 'e' || first == 'i' || first == 'o' || first == 'u') // vowel
             {
                 pig = word + "hay";
             } else {
