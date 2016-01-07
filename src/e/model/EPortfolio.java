@@ -88,7 +88,6 @@ public class EPortfolio {
         pageToAdd.setBanner(banner);
         pageToAdd.setBannerImageName(bannerFileName);
         pageToAdd.setBannerImagePath(bannerFilePath);
-//        pageToAdd.addComponentForJson(components);
         pages.add(pageToAdd);
         ui.getEPortfolio().setSelectedPage(pageToAdd);
         ui.reloadPagePane();

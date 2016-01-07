@@ -51,10 +51,10 @@ public class VideoDialog extends Stage {
     TextField captionTextField;
     HBox widthHBox;
     Label widthLabel;
-    DoubleTextField widthTextField;
+    IntTextField widthTextField;
     HBox heightHBox;
     Label heightLabel;
-    DoubleTextField heightTextField;
+    IntTextField heightTextField;
 
     EPortfolioMakerView ui;
     Component componentToAdd;
@@ -107,11 +107,11 @@ public class VideoDialog extends Stage {
         captionHBox.getChildren().addAll(captionLabel, captionTextField);
         widthHBox = new HBox();
         widthLabel = new Label("width:   ");
-        widthTextField = new DoubleTextField();
+        widthTextField = new IntTextField();
         widthHBox.getChildren().addAll(widthLabel, widthTextField);
         heightHBox = new HBox();
         heightLabel = new Label("Height: ");
-        heightTextField = new DoubleTextField();
+        heightTextField = new IntTextField();
         heightHBox.getChildren().addAll(heightLabel, heightTextField);
 
         captionLabel.getStyleClass().add("dialog_label");

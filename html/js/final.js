@@ -41,8 +41,6 @@ function initEPortfolio() {
     SCALED_IMAGE_HEIGHT = 500.0;
     FADE_TIME = 1000;
     SLIDESHOW_SLEEP_TIME = 3000;
-    components = new Array();
-    page_title = new Array();
     contentDataFile = "./data/student.json";
     loadData(contentDataFile);
     timer = null;
@@ -61,7 +59,7 @@ function initPage() {
                 break;
             case 'image':
                if(components[i].component_content !== ""){
-                $("#components").append("<br><img id = img"+i+" src = '" + components[i].component_path + components[i].component_content + "'>");
+                $("#components").append("<br><img id = img"+i+" src = '" + IMG_PATH + components[i].component_content + "'>");
                 $("#img"+i).append("<p>"+components[i].component_caption+"</p>");
                 $("#img"+i).width(components[i].component_width);
                 $("#img"+i).height(components[i].component_height);
@@ -69,7 +67,7 @@ function initPage() {
                 break;
             case 'video':
                 if(components[i].component_content !== ""){
-                $("#components").append("<br><video id = video"+i+"> <source src = '" + components[i].component_path + components[i].component_content + "'></video>");
+                $("#components").append("<br><video id = video"+i+"> <source src = '" + VIDEO_PATH + components[i].component_content + "'></video>");
                 $("#video"+i).append("<p>"+components[i].component_caption+"</p>");
                 $("#video"+i).width(components[i].component_width);
                 $("#img"+i).height(components[i].component_height);}
@@ -91,7 +89,7 @@ function initPage() {
                 image_caption = components[i].component_caption.split(",");
                 if (image_name.length > 0) {
                     currentSlide = 0;
-                    $("#components").append("<img id = slideshow class = img src = '" + components[i].component_path + image_name[currentSlide] + "'>");
+                    $("#components").append("<img id = slideshow class = img src = '" + IMG_PATH + image_name[currentSlide] + "'>");
                     $("#components").append("<div id = caption>" + image_caption[0] + "</div>");
                     $("#components").append("<div id = slideshow_controls>");
                     $("#components").append('<input id="previous_button" type="image" src="./icons/Previous.png" onclick="processPreviousRequest()">');
@@ -105,20 +103,17 @@ function initPage() {
     $("#footer").html(footer);
 }
 
-function loadData(jsonFile) {
+function loadData(jsonFile,i) {
     $.getJSON(jsonFile, function (json) {
+        components = new Array();
+        page_title = new Array();
         loadEPortfolio(json);
-        differentPage(json,0);
         for (var i = 0; i < page_title.length; i++) {
-            $("#nav_bar ul").append("<li><a href='" + "' onclick = differentPage("+json+","+i+") ><span>" + page_title[i] + "</span></a></li>");
+            $("#nav_bar ul").append("<li><a href='' onclick = loadData("+json+","+i+") ><span>" + page_title[i] + "</span></a></li>");
         }
+        loadPage(json);
+        initPage();
     });
-}
-
-function differentPage(json,currentPage) {
-    json = json.pages[currentPage];
-    loadPage(json);
-    initPage();
 }
 
 function loadEPortfolio(ePortfolioData) {

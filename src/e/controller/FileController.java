@@ -10,14 +10,24 @@ import static e.StartUpConstants.PATH_DATA;
 import e.error.ErrorHandler;
 import e.file.EPortfolioFileManager;
 import e.file.EPortfolioSiteExporter;
+import static e.file.EPortfolioSiteExporter.INDEX_FILE;
 import e.model.EPortfolio;
 import e.view.EPortfolioMakerView;
 import e.view.EPortfolioViewer;
 import e.view.YesNoCancelDialog;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextInputDialog;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.web.WebView;
 import javafx.stage.FileChooser;
 
 /**
@@ -109,8 +119,7 @@ public class FileController {
     }
 
     /**
-     * This method will save the current slideshow to a file. Note that we
-     * already know the name of the file, so we won't need to prompt the user.
+     * This method will save the current ePortfolio to a file.
      */
     public boolean handleSaveEPortfolioRequest(String studentName) {
         try {
@@ -133,6 +142,23 @@ public class FileController {
             return false;
         }
     }
+    
+    /**
+     * This method will save the current ePortfolio to a file.
+     */
+    public void handleSaveAsEPortfolioRequest() {
+            TextInputDialog alert = new TextInputDialog();
+            alert.setTitle("Conformation Dialog");
+            alert.setHeaderText("Do you want to save the ePortfolio?");
+            Optional<String> result = alert.showAndWait();
+            if(!result.get().isEmpty()) {
+                result.ifPresent(fileName -> this.handleSaveEPortfolioRequest(fileName));
+                
+            }
+            else {
+                result.ifPresent(fileName -> this.handleSaveEPortfolioRequest("UNTITLED"));
+            }
+    }
 
     /**
      * This method shows the current slide show in a separate window.
@@ -151,8 +177,6 @@ public class FileController {
 
             }
         } catch (Exception e) {
-//            ErrorHandler eH = ui.getErrorHandler();
-//            eH.processError();
             e.printStackTrace();
         }
     }
@@ -179,6 +203,32 @@ public class FileController {
             ErrorHandler eH = ui.getErrorHandler();
             eH.processError();
         }
+    }
+    
+    public void handleVieWPageRequest(BorderPane ePane) {
+                    try {
+                BorderPane dumb = new BorderPane();
+                // SETUP THE UI
+                WebView webView = new WebView();
+                ScrollPane scrollPane = new ScrollPane(webView);
+
+                // GET THE URL
+                String indexPath = "sites/" + ui.getEPortfolio().getStudentName() + "/" + INDEX_FILE;
+                File indexFile = new File(indexPath);
+                URL indexURL = indexFile.toURI().toURL();
+
+                // SETUP THE WEB ENGINE AND LOAD THE URL
+                webView.getEngine().load(indexURL.toString());
+                webView.getEngine().setJavaScriptEnabled(true);
+                dumb.setCenter(scrollPane);
+                ePane.setCenter(dumb);
+                
+                scrollPane.setFitToHeight(true);
+                scrollPane.setFitToWidth(true);
+            } catch (MalformedURLException ex) {
+                Logger.getLogger(EPortfolioMakerView.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
     }
 
     /**

@@ -52,10 +52,10 @@ public class ImageDialog extends Stage {
     TextField captionTextField;
     HBox widthHBox;
     Label widthLabel;
-    DoubleTextField widthTextField;
+    IntTextField widthTextField;
     HBox heightHBox;
     Label heightLabel;
-    DoubleTextField heightTextField;
+    IntTextField heightTextField;
     ComboBox<String> floatComboBox;
     Button leftButton;
     Button rightButton;
@@ -113,12 +113,12 @@ public class ImageDialog extends Stage {
 
         widthHBox = new HBox();
         widthLabel = new Label("width: ");
-        widthTextField = new DoubleTextField();
+        widthTextField = new IntTextField();
         widthHBox.getChildren().addAll(widthLabel, widthTextField);
 
         heightHBox = new HBox();
         heightLabel = new Label("Height: ");
-        heightTextField = new DoubleTextField();
+        heightTextField = new IntTextField();
         heightHBox.getChildren().addAll(heightLabel, heightTextField);
 
         floatComboBox = new ComboBox();

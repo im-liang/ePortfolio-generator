@@ -5,7 +5,6 @@
  */
 package e.view;
 
-import static e.StartUpConstants.CSS_CLASS_BANNER_TEXT;
 import static e.StartUpConstants.CSS_CLASS_COMPONENT;
 import static e.StartUpConstants.CSS_CLASS_COMPONENT_PANE;
 import static e.StartUpConstants.CSS_CLASS_HORIZONTAL_TOOLBAR_BUTTON;
@@ -171,7 +170,7 @@ public class EPortfolioMakerView {
     BorderPane pageUIPane;
     ScrollPane pageTitlesScrollPane;
     VBox pageTitlePane;
-    FlowPane pageEditToolbarPane;
+    HBox pageEditToolbarPane;
     Button addPageButton;
     Button removePageButton;
     Button bannerImageButton;
@@ -188,9 +187,7 @@ public class EPortfolioMakerView {
     EPortfolioSiteExporter siteExporter;
 
     private ErrorHandler errorHandler;
-
     private FileController fileController;
-
     private EPortfolioEditController editController;
 
     public EPortfolioMakerView(EPortfolioFileManager initFileManager, EPortfolioSiteExporter initSiteExporter) {
@@ -243,7 +240,7 @@ public class EPortfolioMakerView {
 
         //right
         pageUIPane = new BorderPane();
-        pageEditToolbarPane = new FlowPane();
+        pageEditToolbarPane = new HBox();
 
         addPageButton = this.initChildButton(pageEditToolbarPane, ICON_ADD_PAGE, TOOLTIP_ADD_PAGE, CSS_CLASS_PAGE_EDIT_TOOLBAR_BUTTON, false);
         bannerImageButton = this.initChildButton(pageEditToolbarPane, ICON_BANNER_IMAGE, TOOLTIP_BANNER_IMAGE, CSS_CLASS_PAGE_EDIT_TOOLBAR_BUTTON, true);
@@ -273,13 +270,7 @@ public class EPortfolioMakerView {
             fileController.handleSaveEPortfolioRequest(ePortfolio.getStudentName());
         });
         saveAsEPortfolioButton.setOnAction(e -> {
-            TextInputDialog alert = new TextInputDialog();
-            alert.setTitle("Conformation Dialog");
-            alert.setHeaderText("Do you want to save the ePortfolio?");
-            Optional<String> result = alert.showAndWait();
-            if (result.isPresent()) {
-                fileController.handleSaveEPortfolioRequest(result.get());
-            }
+            fileController.handleSaveAsEPortfolioRequest();
         });
         exportEPortfolioButton.setOnAction(e -> {
             fileController.handleExportEPortfolioRequest();
@@ -291,46 +282,7 @@ public class EPortfolioMakerView {
             ePane.setCenter(workspace);
         });
         pageViewerButton.setOnAction(e -> {
-
-            //            EPortfolioViewer viewer = new EPortfolioViewer(this);
-//            try {
-//                viewer.startEPortfolio();
-//            } catch (MalformedURLException ex) {
-//                ErrorHandler eh = new ErrorHandler(this);
-//                eh.processError();
-//            } catch (URISyntaxException ex) {
-//                ErrorHandler eh = new ErrorHandler(this);
-//                eh.processError();
-//            }
-//            ePane.setCenter(viewer);
-//            BorderPane dumb = new BorderPane();
-//            WebView web = new WebView();
-//            web.getEngine().load("https://www.google.com");
-//            dumb.setCenter(web);
-//            ePane.setCenter(dumb);
-            try {
-                BorderPane dumb = new BorderPane();
-                // SETUP THE UI
-                WebView webView = new WebView();
-                ScrollPane scrollPane = new ScrollPane(webView);
-
-                // GET THE URL
-                String indexPath = "sites/" + ePortfolio.getStudentName() + "/" + INDEX_FILE;
-                File indexFile = new File(indexPath);
-                URL indexURL = indexFile.toURI().toURL();
-
-                // SETUP THE WEB ENGINE AND LOAD THE URL
-                webView.getEngine().load(indexURL.toString());
-                webView.getEngine().setJavaScriptEnabled(true);
-                dumb.setCenter(scrollPane);
-                ePane.setCenter(dumb);
-                
-                scrollPane.setFitToHeight(true);
-                scrollPane.setFitToWidth(true);
-            } catch (MalformedURLException ex) {
-                Logger.getLogger(EPortfolioMakerView.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
+            fileController.handleVieWPageRequest(ePane);
         });
 
         editController = new EPortfolioEditController(this);
@@ -438,14 +390,10 @@ public class EPortfolioMakerView {
 
         //CENTER
         pageEditorPane.getStyleClass().add(CSS_CLASS_COMPONENT_PANE);
-        pageTitlePane.getStyleClass().add(CSS_CLASS_PAGE_PANE);
-//        studentNameLabel.getStyleClass().add(CSS_CLASS_BANNER_TEXT);
-//        studentNameTextField.getStyleClass().add(CSS_CLASS_BANNER_TEXT);
-//        footerLabel.getStyleClass().add(CSS_CLASS_BANNER_TEXT);
-//        footerTextField.getStyleClass().add(CSS_CLASS_BANNER_TEXT);
 
-        //RIGHT TOP
+        //RIGHT
         pageEditToolbarPane.getStyleClass().add(CSS_CLASS_PAGE_EDIT_TOOLBAR_PANE);
+        pageTitlesScrollPane.getStyleClass().add(CSS_CLASS_PAGE_PANE);
     }
 
     public Button initChildButton(Pane toolbar, String iconFileName, String tooltip, String cssClass, boolean disabled) {
@@ -547,12 +495,10 @@ public class EPortfolioMakerView {
         });
         bannerTextField.textProperty().addListener(e -> {
             ePortfolio.getSelectedPage().setBanner(bannerTextField.getText());
-            //bannerTextField.setText(ePortfolio.getSelectedPage().getBanner());
             updateFileToolbarControls(false);
         });
         footerTextField.textProperty().addListener(e -> {
             ePortfolio.getSelectedPage().setFooter(footerTextField.getText());
-            //footerTextField.setText(ePortfolio.getSelectedPage().getFooter());
             updateFileToolbarControls(false);
         });
         pageEditorPane.getChildren().add(bannerPane);
