@@ -12,11 +12,11 @@ package e;
 public class StartUpConstants {
     public static String DEFAULT_STUDENTNAME = "NAME";
     public static String DEFAULT_PAGETITLE = "title";
-    
 
     // WE'LL LOAD ALL THE UI AND LANGUAGE PROPERTIES FROM FILES,
     // BUT WE'LL NEED THESE VALUES TO START THE PROCESS
 
+    
     public static String PROPERTY_TYPES_LIST = "property_types.txt";
     public static String PATH_DATA = "./data/";
     public static String PATH_EPORTFOLIO = PATH_DATA + "ePortfolio/";
