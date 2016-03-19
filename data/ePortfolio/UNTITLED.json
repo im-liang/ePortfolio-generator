@@ -13,18 +13,6 @@
             "banner_file_path":"",
             "components":[
             ]
-        },
-        {
-            "page_title":"h",
-            "page_font":"'Montserrat', sans-serif;",
-            "layout":"layout_1.css",
-            "color":"color_1.css",
-            "footer":"Footer",
-            "banner":"Banner",
-            "banner_file_name":"",
-            "banner_file_path":"",
-            "components":[
-            ]
         }
     ]
 }

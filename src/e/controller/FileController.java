@@ -12,9 +12,9 @@ import e.file.EPortfolioFileManager;
 import e.file.EPortfolioSiteExporter;
 import static e.file.EPortfolioSiteExporter.INDEX_FILE;
 import e.model.EPortfolio;
+import e.model.YesNoCancelDialogSingleton;
 import e.view.EPortfolioMakerView;
 import e.view.EPortfolioViewer;
-import e.view.YesNoCancelDialog;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -248,7 +248,7 @@ public class FileController {
      */
     private boolean promptToSave() throws IOException {
         // PROMPT THE USER TO SAVE UNSAVED WORK
-        YesNoCancelDialog yesNoCancelDialog = new YesNoCancelDialog(ui.getWindow());
+        YesNoCancelDialogSingleton yesNoCancelDialog = new YesNoCancelDialogSingleton();
         yesNoCancelDialog.show(LABEL_SAVE_UNSAVED_WORK);
 
         // AND NOW GET THE USER'S SELECTION
