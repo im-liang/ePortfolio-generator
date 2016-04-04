@@ -5,6 +5,7 @@
  */
 package e.dialog;
 
+import e.model.Component;
 import e.model.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -18,20 +19,25 @@ import javafx.stage.Stage;
 public class HeaderDialog extends Dialog {
 
     BorderPane workspace = super.getDialogWorkspace();
+    Component componentToAdd;
+    
+    Label headerLabel;
+    TextField headerTextField;
 
-    public HeaderDialog(Stage primaryStage) {
+    public HeaderDialog(Stage primaryStage, Component initComponentToAdd) {
         super(primaryStage);
+        componentToAdd = initComponentToAdd;
     }
 
     public void initWorkspace() {
-
+        headerLabel = new Label("Header: ");
     }
 
     private void addHeader() {
 
         componentToAdd.setComponentType("header");
 
-        Label headerLabel = new Label("Header: ");
+        
         if (componentToAdd.getComponentContent().isEmpty()) {
             headerTextField = new TextField("Content");
         } else {

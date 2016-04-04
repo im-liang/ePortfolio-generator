@@ -16,7 +16,17 @@ import static e.StartUpConstants.DEFAULT_LAYOUT_TEMPLATE;
 import static e.StartUpConstants.DEFAULT_COLOR_TEMPLATE;
 import static e.StartUpConstants.DEFAULT_PAGETITLE;
 import static e.StartUpConstants.ICON_FONT;
+import static e.StartUpConstants.ICON_PAGE_DARK_BLUE;
+import static e.StartUpConstants.ICON_PAGE_LIGHT_BLUE;
+import static e.StartUpConstants.ICON_PAGE_RED;
+import static e.StartUpConstants.ICON_PAGE_TEAL;
+import static e.StartUpConstants.ICON_PAGE_YELLOW;
 import static e.ToolTip.TOOLTIP_FONT;
+import static e.ToolTip.TOOLTIP_PAGE_DARK_BLUE;
+import static e.ToolTip.TOOLTIP_PAGE_LIGHT_BLUE;
+import static e.ToolTip.TOOLTIP_PAGE_RED;
+import static e.ToolTip.TOOLTIP_PAGE_TEAL;
+import static e.ToolTip.TOOLTIP_PAGE_YELLOW;
 import e.model.EPortfolio;
 import static e.view.EPortfolioMakerView.initChildButton;
 import e.view.PageMakerView;
@@ -74,12 +84,11 @@ public class EditPageController {
                 URL fileURL = file.toURI().toURL();
                 Image i = new Image(fileURL.toExternalForm());
                 image.setImage(i);
-                image.setFitWidth(200);
-                image.setFitHeight(200);
 
                 ePortfolio.getSelectedPage().setBannerImageName(fileName);
                 ePortfolio.getSelectedPage().setBannerImagePath(path);
-                ui.getPagePane.getChildren().add(image);
+//                ui.getCompoentnVBox().setStyle("-fx-background-image: url("+fileURL.toExternalForm()+ ")");
+                ui.getCompoentnVBox().setStyle("-fx-background-color:#98DDDE");
                 ui.updateFileToolbarControls(false);
             }
         } catch (MalformedURLException ex) {
@@ -89,9 +98,9 @@ public class EditPageController {
     }
 
     public void handleChooseLayoutTemplateRequest() {
-        pageUI.getPageTitlesVBox().getChildren().clear();
+        ui.getPageVBox().getChildren().clear();
         HBox layoutHBox = new HBox(5);
-        pageUI.getPageTitlesVBox().getChildren().add(layoutHBox);
+        ui.getPageVBox().getChildren().add(layoutHBox);
         //@todo
         Button topLeftButton = initChildButton(layoutHBox, ICON_FONT, TOOLTIP_FONT, CSS_CLASS_PAGE_EDIT_TOOLBAR_BUTTON, false);
         Button topCenterButton = initChildButton(layoutHBox, ICON_FONT, TOOLTIP_FONT, CSS_CLASS_PAGE_EDIT_TOOLBAR_BUTTON, false);
@@ -101,21 +110,21 @@ public class EditPageController {
     }
 
     public void handleChooseColorTemplateRequest() {
-        pageUI.getPageTitlesVBox().getChildren().clear();
+        ui.getPageVBox().getChildren().clear();
         HBox layoutHBox = new HBox(5);
-        pageUI.getPageTitlesVBox().getChildren().add(layoutHBox);
+        ui.getPageVBox().getChildren().add(layoutHBox);
         //@todo
-        Button topLeftButton = initChildButton(layoutHBox, ICON_FONT, TOOLTIP_FONT, CSS_CLASS_PAGE_EDIT_TOOLBAR_BUTTON, false);
-        Button topCenterButton = initChildButton(layoutHBox, ICON_FONT, TOOLTIP_FONT, CSS_CLASS_PAGE_EDIT_TOOLBAR_BUTTON, false);
-        Button topRightButton = initChildButton(layoutHBox, ICON_FONT, TOOLTIP_FONT, CSS_CLASS_PAGE_EDIT_TOOLBAR_BUTTON, false);
-        Button leftButton = initChildButton(layoutHBox, ICON_FONT, TOOLTIP_FONT, CSS_CLASS_PAGE_EDIT_TOOLBAR_BUTTON, false);
-        Button rightButton = initChildButton(layoutHBox, ICON_FONT, TOOLTIP_FONT, CSS_CLASS_PAGE_EDIT_TOOLBAR_BUTTON, false);
+        Button redButton = initChildButton(layoutHBox, ICON_PAGE_RED, TOOLTIP_PAGE_RED, CSS_CLASS_PAGE_EDIT_TOOLBAR_BUTTON, false);
+        Button yellowButton = initChildButton(layoutHBox, ICON_PAGE_YELLOW, TOOLTIP_PAGE_YELLOW, CSS_CLASS_PAGE_EDIT_TOOLBAR_BUTTON, false);
+        Button tealButton = initChildButton(layoutHBox, ICON_PAGE_TEAL, TOOLTIP_PAGE_TEAL, CSS_CLASS_PAGE_EDIT_TOOLBAR_BUTTON, false);
+        Button lightBlueButton = initChildButton(layoutHBox, ICON_PAGE_LIGHT_BLUE, TOOLTIP_PAGE_LIGHT_BLUE, CSS_CLASS_PAGE_EDIT_TOOLBAR_BUTTON, false);
+        Button darkBlueButton = initChildButton(layoutHBox, ICON_PAGE_DARK_BLUE, TOOLTIP_PAGE_DARK_BLUE, CSS_CLASS_PAGE_EDIT_TOOLBAR_BUTTON, false);
     }
 
     public void handleChooseFontRequest() {
-        pageUI.getPageTitlesVBox().getChildren().clear();
+        ui.getPageVBox().getChildren().clear();
         HBox layoutHBox = new HBox(5);
-        pageUI.getPageTitlesVBox().getChildren().add(layoutHBox);
+        ui.getPageVBox().getChildren().add(layoutHBox);
         //@todo
         Button topLeftButton = initChildButton(layoutHBox, ICON_FONT, TOOLTIP_FONT, CSS_CLASS_PAGE_EDIT_TOOLBAR_BUTTON, false);
         Button topCenterButton = initChildButton(layoutHBox, ICON_FONT, TOOLTIP_FONT, CSS_CLASS_PAGE_EDIT_TOOLBAR_BUTTON, false);

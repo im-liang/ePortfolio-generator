@@ -40,6 +40,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
@@ -239,5 +240,13 @@ public class EPortfolioMakerView {
 
     public Stage getWindow() {
         return primaryStage;
+    }
+    
+    public VBox getPageVBox() {
+        return pageMakerView.getPageTitlesVBox();
+    }
+    
+    public VBox getCompoentnVBox() {
+        return componentMakerView.getComponentDialogVBox();
     }
 }

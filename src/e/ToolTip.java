@@ -12,7 +12,6 @@ package e;
 public class ToolTip {
 
     // TITLE FOR WINDOW TITLE BAR
-    // TITLE FOR WINDOW TITLE BAR
 
     public static String TITLE_WINDOW = "ePortfolio";
 
@@ -32,6 +31,13 @@ public class ToolTip {
     public static String TOOLTIP_COLOR_TEMPLATE = "Select the color theme";
     public static String TOOLTIP_FONT = "Select Font for the Page";
     public static String TOOLTIP_BANNER_IMAGE = "Select Banner Image";
+    
+    //THEME COLOR BUTTONS
+    public static String TOOLTIP_PAGE_RED = "red";
+    public static String TOOLTIP_PAGE_TEAL = "teal";
+    public static String TOOLTIP_PAGE_YELLOW = "yellow";
+    public static String TOOLTIP_PAGE_LIGHT_BLUE = "light blue";
+    public static String TOOLTIP_PAGE_DARK_BLUE = "dark blue";
     
     public static String TOOLTIP_ADD_HEADING = "Add heading";
     public static String TOOLTIP_ADD_P = "Add paragraph";

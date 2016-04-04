@@ -69,13 +69,20 @@ public class StartUpConstants {
     public static String ICON_ADD_HEADING = "heading.png";
     public static String ICON_ADD_P = "p.png";
     public static String ICON_ADD_LIST = "list.png";
+    
+    // color setting for page
+    public static String ICON_PAGE_RED = "red.png";
+    public static String ICON_PAGE_YELLOW = "yellow.png";
+    public static String ICON_PAGE_TEAL = "teal.png";
+    public static String ICON_PAGE_LIGHT_BLUE = "light-blue.png";
+    public static String ICON_PAGE_DARK_BLUE = "dark-blue.png";
 
     // UI SETTINGS
     public static String DEFAULT_COMPONENT_IMAGE = "banner.jpg";
     public static int DEFAULT_THUMBNAIL_WIDTH = 200;
     public static int DEFAULT_SLIDE_SHOW_HEIGHT = 500;
 
-    //default tex
+    //default text
     public static String LABEL_PAGE_TITLE = "Title";
     public static String LABEL_STUDENT_NAME = "Student Name: ";
     public static String LABEL_BANNER = "Banner: ";
