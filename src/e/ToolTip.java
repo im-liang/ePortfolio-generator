@@ -12,7 +12,6 @@ package e;
 public class ToolTip {
 
     // TITLE FOR WINDOW TITLE BAR
-
     public static String TITLE_WINDOW = "ePortfolio";
 
     // APPLICATION TOOLTIPS FOR BUTTONS
@@ -31,21 +30,35 @@ public class ToolTip {
     public static String TOOLTIP_COLOR_TEMPLATE = "Select the color theme";
     public static String TOOLTIP_FONT = "Select Font for the Page";
     public static String TOOLTIP_BANNER_IMAGE = "Select Banner Image";
-    
+
     //THEME COLOR BUTTONS
     public static String TOOLTIP_PAGE_RED = "red";
     public static String TOOLTIP_PAGE_TEAL = "teal";
     public static String TOOLTIP_PAGE_YELLOW = "yellow";
     public static String TOOLTIP_PAGE_LIGHT_BLUE = "light blue";
     public static String TOOLTIP_PAGE_DARK_BLUE = "dark blue";
-    
+
+    //LAYOUT BUTTONS
+    public static String TOOLTIP_PAGE_LEFT = "left";
+    public static String TOOLTIP_PAGE_RIGHT = "right";
+    public static String TOOLTIP_PAGE_TOP_LEFT = "top left";
+    public static String TOOLTIP_PAGE_TOP_CENTER = "top center";
+    public static String TOOLTIP_PAGE_TOP_RIGHT = "top right";
+
+    //FONT BUTTONS
+    public static String TOOLTIP_PAGE_LOBSTER = "'Lobster',cursive";
+    public static String TOOLTIP_PAGE_NUNITO = "'Nunito',sans-serif";
+    public static String TOOLTIP_PAGE_MONTSERRAT = "'Montserrat',sans-serif";
+    public static String TOOLTIP_PAGE_POIRET_ONE = "'Poiret One',cursive";
+    public static String TOOLTIP_PAGE_INDIE_FLOWER = "'Indie Flower',cursive";
+
     public static String TOOLTIP_ADD_HEADING = "Add heading";
     public static String TOOLTIP_ADD_P = "Add paragraph";
     public static String TOOLTIP_ADD_LIST = "Add list";
-    
+
     public static String TOOLTIP_ADD_LIST_ITEM = "add a list item";
     public static String TOOLTIP_REMOVE_LIST_ITEM = "Remove the list item";
-    
+
     public static String TOOLTIP_PAGE_EDITOR_WORKSPACE = "Page Ediotor Workspace";
     public static String TOOLTIP_SITE_VIEWER_WORKSPACE = "Site Viewer Workspace";
 
@@ -54,12 +67,12 @@ public class ToolTip {
     public static String TOOLTIP_ADD_SLIDESHOW = "Add Slideshow Component";
     public static String TOOLTIP_ADD_VIDEO = "Add Video Component";
     public static String TOOLTIP_ADD_TEXT_HYPERLINK = "Add Hyperlink";
-    
+
     public static String TOOLTIP_REMOVE_TEXT = "Remove Text Component";
     public static String TOOLTIP_REMOVE_IMAGE = "Remove Image Component";
     public static String TOOLTIP_REMOVE_SLIDESHOW = "Remove Slideshow Component";
     public static String TOOLTIP_REMOVE_VIDEO = "Remove Video Component";
-    
+
     /* THESE ARE FOR LANGUAGE-DEPENDENT ERROR HANDLING,
      LIKE FOR TEXT PUT INTO DIALOG BOXES TO NOTIFY
      THE USER WHEN AN ERROR HAS OCCURED */

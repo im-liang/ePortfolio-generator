@@ -5,6 +5,7 @@
  */
 package e.dialog;
 
+import static e.StartUpConstants.HEADER_DIALOG_LABEL;
 import e.model.Component;
 import e.model.Dialog;
 import javafx.scene.control.Label;
@@ -30,7 +31,7 @@ public class HeaderDialog extends Dialog {
     }
 
     public void initWorkspace() {
-        headerLabel = new Label("Header: ");
+        headerLabel = new Label(HEADER_DIALOG_LABEL);
     }
 
     private void addHeader() {

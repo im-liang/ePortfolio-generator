@@ -17,15 +17,35 @@ import static e.StartUpConstants.DEFAULT_COLOR_TEMPLATE;
 import static e.StartUpConstants.DEFAULT_PAGETITLE;
 import static e.StartUpConstants.ICON_FONT;
 import static e.StartUpConstants.ICON_PAGE_DARK_BLUE;
+import static e.StartUpConstants.ICON_PAGE_INDIE_FLOWER;
+import static e.StartUpConstants.ICON_PAGE_LEFT;
 import static e.StartUpConstants.ICON_PAGE_LIGHT_BLUE;
+import static e.StartUpConstants.ICON_PAGE_LOBSTER;
+import static e.StartUpConstants.ICON_PAGE_MONTSERRAT;
+import static e.StartUpConstants.ICON_PAGE_NUNITO;
+import static e.StartUpConstants.ICON_PAGE_POIRET_ONE;
 import static e.StartUpConstants.ICON_PAGE_RED;
+import static e.StartUpConstants.ICON_PAGE_RIGHT;
 import static e.StartUpConstants.ICON_PAGE_TEAL;
+import static e.StartUpConstants.ICON_PAGE_TOP_CENTER;
+import static e.StartUpConstants.ICON_PAGE_TOP_LEFT;
+import static e.StartUpConstants.ICON_PAGE_TOP_RIGHT;
 import static e.StartUpConstants.ICON_PAGE_YELLOW;
 import static e.ToolTip.TOOLTIP_FONT;
 import static e.ToolTip.TOOLTIP_PAGE_DARK_BLUE;
+import static e.ToolTip.TOOLTIP_PAGE_INDIE_FLOWER;
+import static e.ToolTip.TOOLTIP_PAGE_LEFT;
 import static e.ToolTip.TOOLTIP_PAGE_LIGHT_BLUE;
+import static e.ToolTip.TOOLTIP_PAGE_LOBSTER;
+import static e.ToolTip.TOOLTIP_PAGE_MONTSERRAT;
+import static e.ToolTip.TOOLTIP_PAGE_NUNITO;
+import static e.ToolTip.TOOLTIP_PAGE_POIRET_ONE;
 import static e.ToolTip.TOOLTIP_PAGE_RED;
+import static e.ToolTip.TOOLTIP_PAGE_RIGHT;
 import static e.ToolTip.TOOLTIP_PAGE_TEAL;
+import static e.ToolTip.TOOLTIP_PAGE_TOP_CENTER;
+import static e.ToolTip.TOOLTIP_PAGE_TOP_LEFT;
+import static e.ToolTip.TOOLTIP_PAGE_TOP_RIGHT;
 import static e.ToolTip.TOOLTIP_PAGE_YELLOW;
 import e.model.EPortfolio;
 import static e.view.EPortfolioMakerView.initChildButton;
@@ -102,11 +122,11 @@ public class EditPageController {
         HBox layoutHBox = new HBox(5);
         ui.getPageVBox().getChildren().add(layoutHBox);
         //@todo
-        Button topLeftButton = initChildButton(layoutHBox, ICON_FONT, TOOLTIP_FONT, CSS_CLASS_PAGE_EDIT_TOOLBAR_BUTTON, false);
-        Button topCenterButton = initChildButton(layoutHBox, ICON_FONT, TOOLTIP_FONT, CSS_CLASS_PAGE_EDIT_TOOLBAR_BUTTON, false);
-        Button topRightButton = initChildButton(layoutHBox, ICON_FONT, TOOLTIP_FONT, CSS_CLASS_PAGE_EDIT_TOOLBAR_BUTTON, false);
-        Button leftButton = initChildButton(layoutHBox, ICON_FONT, TOOLTIP_FONT, CSS_CLASS_PAGE_EDIT_TOOLBAR_BUTTON, false);
-        Button rightButton = initChildButton(layoutHBox, ICON_FONT, TOOLTIP_FONT, CSS_CLASS_PAGE_EDIT_TOOLBAR_BUTTON, false);
+        Button topLeftButton = initChildButton(layoutHBox, ICON_PAGE_TOP_LEFT, TOOLTIP_PAGE_TOP_LEFT, CSS_CLASS_PAGE_EDIT_TOOLBAR_BUTTON, false);
+        Button topCenterButton = initChildButton(layoutHBox, ICON_PAGE_TOP_CENTER, TOOLTIP_PAGE_TOP_CENTER, CSS_CLASS_PAGE_EDIT_TOOLBAR_BUTTON, false);
+        Button topRightButton = initChildButton(layoutHBox, ICON_PAGE_TOP_RIGHT, TOOLTIP_PAGE_TOP_RIGHT, CSS_CLASS_PAGE_EDIT_TOOLBAR_BUTTON, false);
+        Button leftButton = initChildButton(layoutHBox, ICON_PAGE_LEFT, TOOLTIP_PAGE_LEFT, CSS_CLASS_PAGE_EDIT_TOOLBAR_BUTTON, false);
+        Button rightButton = initChildButton(layoutHBox, ICON_PAGE_RIGHT, TOOLTIP_PAGE_RIGHT, CSS_CLASS_PAGE_EDIT_TOOLBAR_BUTTON, false);
     }
 
     public void handleChooseColorTemplateRequest() {
@@ -126,11 +146,11 @@ public class EditPageController {
         HBox layoutHBox = new HBox(5);
         ui.getPageVBox().getChildren().add(layoutHBox);
         //@todo
-        Button topLeftButton = initChildButton(layoutHBox, ICON_FONT, TOOLTIP_FONT, CSS_CLASS_PAGE_EDIT_TOOLBAR_BUTTON, false);
-        Button topCenterButton = initChildButton(layoutHBox, ICON_FONT, TOOLTIP_FONT, CSS_CLASS_PAGE_EDIT_TOOLBAR_BUTTON, false);
-        Button topRightButton = initChildButton(layoutHBox, ICON_FONT, TOOLTIP_FONT, CSS_CLASS_PAGE_EDIT_TOOLBAR_BUTTON, false);
-        Button leftButton = initChildButton(layoutHBox, ICON_FONT, TOOLTIP_FONT, CSS_CLASS_PAGE_EDIT_TOOLBAR_BUTTON, false);
-        Button rightButton = initChildButton(layoutHBox, ICON_FONT, TOOLTIP_FONT, CSS_CLASS_PAGE_EDIT_TOOLBAR_BUTTON, false);
+        Button lobsterFontButton = initChildButton(layoutHBox, ICON_PAGE_LOBSTER, TOOLTIP_PAGE_LOBSTER, CSS_CLASS_PAGE_EDIT_TOOLBAR_BUTTON, false);
+        Button nunitoFontButton = initChildButton(layoutHBox, ICON_PAGE_NUNITO, TOOLTIP_PAGE_NUNITO, CSS_CLASS_PAGE_EDIT_TOOLBAR_BUTTON, false);
+        Button montserratFontButton = initChildButton(layoutHBox, ICON_PAGE_MONTSERRAT, TOOLTIP_PAGE_MONTSERRAT, CSS_CLASS_PAGE_EDIT_TOOLBAR_BUTTON, false);
+        Button poiretOneFontButton = initChildButton(layoutHBox, ICON_PAGE_POIRET_ONE, TOOLTIP_PAGE_POIRET_ONE, CSS_CLASS_PAGE_EDIT_TOOLBAR_BUTTON, false);
+        Button indieFlowerFontButton = initChildButton(layoutHBox, ICON_PAGE_INDIE_FLOWER, TOOLTIP_PAGE_INDIE_FLOWER, CSS_CLASS_PAGE_EDIT_TOOLBAR_BUTTON, false);
     }
 
 }

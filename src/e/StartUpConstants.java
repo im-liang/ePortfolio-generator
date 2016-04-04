@@ -1,7 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * <div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> 
+ * from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> 
+ * is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">
+ * CC 3.0 BY</a></div>
  */
 package e;
 
@@ -22,9 +23,12 @@ public class StartUpConstants {
     public static String DEFAULT_FONT = "'Montserrat', sans-serif;";
     public static String DEFAULT_FOOTER = "footer";
     public static String DEFAULT_BANNERIMAGE_NAME = "banner.jpg";
-    
     public static String DEFAULT_LAYOUT_TEMPLATE = "layout_1.css";
     public static String DEFAULT_COLOR_TEMPLATE = "color_1.css";
+    
+    //COMPONENT DIALOG
+    //HEADER
+    public static String HEADER_DIALOG_LABEL = "Header: ";
 
     //selection
     public static final String YES = "Yes";
@@ -70,12 +74,26 @@ public class StartUpConstants {
     public static String ICON_ADD_P = "p.png";
     public static String ICON_ADD_LIST = "list.png";
     
-    // color setting for page
+    // color settings for pages
     public static String ICON_PAGE_RED = "red.png";
     public static String ICON_PAGE_YELLOW = "yellow.png";
     public static String ICON_PAGE_TEAL = "teal.png";
     public static String ICON_PAGE_LIGHT_BLUE = "light-blue.png";
     public static String ICON_PAGE_DARK_BLUE = "dark-blue.png";
+    
+    //layout settings for pages
+    public static String ICON_PAGE_LEFT = "left.png";
+    public static String ICON_PAGE_RIGHT = "right.png";
+    public static String ICON_PAGE_TOP_LEFT = "top-left.png";
+    public static String ICON_PAGE_TOP_CENTER = "top-center.png";
+    public static String ICON_PAGE_TOP_RIGHT = "top-right.png";
+    
+    //font settings for pages
+    public static String ICON_PAGE_LOBSTER = "Lobster.png";
+    public static String ICON_PAGE_NUNITO = "Nunito.png";
+    public static String ICON_PAGE_MONTSERRAT = "Montserrat.png";
+    public static String ICON_PAGE_POIRET_ONE = "Poiret_One.png";
+    public static String ICON_PAGE_INDIE_FLOWER = "Indie_Flower.png";
 
     // UI SETTINGS
     public static String DEFAULT_COMPONENT_IMAGE = "banner.jpg";
