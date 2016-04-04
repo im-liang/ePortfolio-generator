@@ -5,110 +5,45 @@
  */
 package e.view;
 
-import static e.StartUpConstants.CSS_CLASS_COMPONENT;
-import static e.StartUpConstants.CSS_CLASS_COMPONENT_PANE;
 import static e.StartUpConstants.CSS_CLASS_HORIZONTAL_TOOLBAR_BUTTON;
 import static e.StartUpConstants.CSS_CLASS_HORIZONTAL_TOOLBAR_PANE;
-import static e.StartUpConstants.CSS_CLASS_PAGE;
-import static e.StartUpConstants.CSS_CLASS_PAGE_EDIT_TOOLBAR_BUTTON;
-import static e.StartUpConstants.CSS_CLASS_PAGE_EDIT_TOOLBAR_PANE;
-import static e.StartUpConstants.CSS_CLASS_PAGE_PANE;
-import static e.StartUpConstants.CSS_CLASS_SELECTED_COMPONENT;
-import static e.StartUpConstants.CSS_CLASS_SELECTED_PAGE;
-import static e.StartUpConstants.CSS_CLASS_VERTICAL_TOOLBAR_BUTTON;
-import static e.StartUpConstants.CSS_CLASS_VERTICAL_TOOLBAR_PANE;
-import static e.StartUpConstants.CSS_CLASS_WORKSPACE;
-import static e.StartUpConstants.ICON_ADD_HEADING;
-import static e.StartUpConstants.ICON_ADD_IMAGE;
-import static e.StartUpConstants.ICON_ADD_LIST;
-import static e.StartUpConstants.ICON_ADD_P;
-import static e.StartUpConstants.ICON_ADD_PAGE;
-import static e.StartUpConstants.ICON_ADD_SLIDESHOW;
-import static e.StartUpConstants.ICON_ADD_TEXT;
-import static e.StartUpConstants.ICON_ADD_VIDEO;
-import static e.StartUpConstants.ICON_BANNER_IMAGE;
-import static e.StartUpConstants.ICON_COLOR_TEMPLATE;
 import static e.StartUpConstants.ICON_EXIT;
 import static e.StartUpConstants.ICON_EXPORT_EPORTFOLIO;
-import static e.StartUpConstants.ICON_LAYOUT_TEMPLATE;
 import static e.StartUpConstants.ICON_LOAD_EPORTFOLIO;
 import static e.StartUpConstants.ICON_NEW_EPORTFOLIO;
 import static e.StartUpConstants.ICON_PAGE_EDITOR;
 import static e.StartUpConstants.ICON_PAGE_VIEWER;
-import static e.StartUpConstants.ICON_REMOVE_PAGE;
 import static e.StartUpConstants.ICON_SAVE_AS_EPORTFOLIO;
 import static e.StartUpConstants.ICON_SAVE_EPORTFOLIO;
-import static e.StartUpConstants.LABEL_BANNER;
-import static e.StartUpConstants.LABEL_FOOTER;
-import static e.StartUpConstants.LABEL_PAGE_TITLE;
-import static e.StartUpConstants.LABEL_STUDENT_NAME;
 import static e.StartUpConstants.PATH_ICONS;
 import static e.StartUpConstants.STYLE_SHEET_UI;
-import static e.ToolTip.DEFAULT_FOOTER;
-import static e.ToolTip.DEFAULT_PAGE_TITLE;
-import static e.ToolTip.DEFAULT_STUDENT_NAME;
-import static e.ToolTip.TOOLTIP_ADD_HEADING;
-import static e.ToolTip.TOOLTIP_ADD_IMAGE;
-import static e.ToolTip.TOOLTIP_ADD_LIST;
-import static e.ToolTip.TOOLTIP_ADD_P;
-import static e.ToolTip.TOOLTIP_ADD_PAGE;
-import static e.ToolTip.TOOLTIP_ADD_SLIDESHOW;
-import static e.ToolTip.TOOLTIP_ADD_TEXT;
-import static e.ToolTip.TOOLTIP_ADD_VIDEO;
-import static e.ToolTip.TOOLTIP_BANNER_IMAGE;
-import static e.ToolTip.TOOLTIP_COLOR_TEMPLATE;
 import static e.ToolTip.TOOLTIP_EXIT;
 import static e.ToolTip.TOOLTIP_EXPORT_EPORTFOLIO;
-import static e.ToolTip.TOOLTIP_LAYOUT_TEMPLATE;
 import static e.ToolTip.TOOLTIP_LOAD_EPORTFOLIO;
 import static e.ToolTip.TOOLTIP_NEW_EPORTFOLIO;
 import static e.ToolTip.TOOLTIP_PAGE_EDITOR;
 import static e.ToolTip.TOOLTIP_PAGE_VIEWER;
 import static e.ToolTip.TOOLTIP_SAVE_AS_EPORTFOLIO;
 import static e.ToolTip.TOOLTIP_SAVE_EPORTFOLIO;
-import e.controller.EPortfolioEditController;
 import e.controller.FileController;
 import e.error.ErrorHandler;
 import e.file.EPortfolioFileManager;
 import e.file.EPortfolioSiteExporter;
-import static e.file.EPortfolioSiteExporter.INDEX_FILE;
-import e.model.Component;
 import e.model.EPortfolio;
-import e.model.Page;
-import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
-import javafx.scene.web.WebView;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 /**
- * user interface
  *
  * @author jieliang
  */
@@ -142,199 +77,48 @@ public class EPortfolioMakerView {
     // WORKSPACE
     BorderPane workspace;
 
-    // THIS WILL GO IN THE LEFT SIDE OF THE SCREEN
-    FlowPane componentEditToolbarPane;
-    Button addHeaderButton;
-    Button addParagraphButton;
-    Button addListButton;
-    Button addImageButton;
-    Button addVideoButton;
-    Button addSlideshowButton;
+    //Left side of the workspace
+    ComponentMakerView componentMakerView;
 
-    // FOR THE PAGE TITLE
-    VBox bannerPane;
-    Label bannerLabel;
-    TextField bannerTextField;
-    Label studentNameLabel;
-    TextField studentNameTextField;
-
-    Label footerLabel;
-    TextField footerTextField;
-
-    //Center
-    ScrollPane pageEditorScrollPane;
-    VBox pageEditorPane;
-    VBox componentEditorPane;
-
-    //Right SIDE OF THE WORKSPACE
-    BorderPane pageUIPane;
-    ScrollPane pageTitlesScrollPane;
-    VBox pageTitlePane;
-    HBox pageEditToolbarPane;
-    Button addPageButton;
-    Button removePageButton;
-    Button bannerImageButton;
-    Button layoutTemplateButton;
-    Button colorTemplateButton;
-    Button fontButton;
-
-    //current working eportfolio
-    EPortfolio ePortfolio;
+    //Right side of the workspace 
+    PageMakerView pageMakerView;
 
     //save and load eportfolio
     EPortfolioFileManager fileManager;
 
     EPortfolioSiteExporter siteExporter;
 
-    private ErrorHandler errorHandler;
-    private FileController fileController;
-    private EPortfolioEditController editController;
+    // CURRENT WORKING EPORTFOLIO
+    EPortfolio ePortfolio;
+
+    FileController fileController;
+
+    ErrorHandler errorHandler;
 
     public EPortfolioMakerView(EPortfolioFileManager initFileManager, EPortfolioSiteExporter initSiteExporter) {
         fileManager = initFileManager;
         siteExporter = initSiteExporter;
-        ePortfolio = new EPortfolio(this);
         errorHandler = new ErrorHandler(this);
+        ePortfolio = new EPortfolio(this);
     }
 
-    public EPortfolio getEPortfolio() {
-        return ePortfolio;
+    public static Button initChildButton(Pane toolbar, String iconFileName, String tooltip, String cssClass, boolean disabled) {
+        String iconPath = "file:" + PATH_ICONS + iconFileName;
+        Image buttonImage = new Image(iconPath);
+        Button button = new Button();
+        button.getStyleClass().add(cssClass);
+        button.setDisable(disabled);
+        button.setGraphic(new ImageView(buttonImage));
+        Tooltip buttonTooltip = new Tooltip(tooltip);
+        button.setTooltip(buttonTooltip);
+        toolbar.getChildren().add(button);
+        return button;
     }
 
-    public Stage getWindow() {
-        return primaryStage;
-    }
-
-    public ErrorHandler getErrorHandler() {
-        return errorHandler;
-    }
-
-    public void startUI(Stage initPrimaryStage, String windowTitle) {
-        initFileToolbar();
-
-        initWorkspace();
-
-        initEventHandlers();
-        primaryStage = initPrimaryStage;
-        initWindow(windowTitle);
-    }
-
-    private void initWorkspace() {
-        workspace = new BorderPane();
-        //left side of the screen
-        componentEditToolbarPane = new FlowPane();
-        addHeaderButton = this.initChildButton(componentEditToolbarPane, ICON_ADD_HEADING, TOOLTIP_ADD_HEADING, CSS_CLASS_VERTICAL_TOOLBAR_BUTTON, true);
-        addParagraphButton = this.initChildButton(componentEditToolbarPane, ICON_ADD_P, TOOLTIP_ADD_P, CSS_CLASS_VERTICAL_TOOLBAR_BUTTON, true);
-        addListButton = this.initChildButton(componentEditToolbarPane, ICON_ADD_LIST, TOOLTIP_ADD_LIST, CSS_CLASS_VERTICAL_TOOLBAR_BUTTON, true);
-        addImageButton = this.initChildButton(componentEditToolbarPane, ICON_ADD_IMAGE, TOOLTIP_ADD_IMAGE, CSS_CLASS_VERTICAL_TOOLBAR_BUTTON, true);
-        addSlideshowButton = this.initChildButton(componentEditToolbarPane, ICON_ADD_SLIDESHOW, TOOLTIP_ADD_SLIDESHOW, CSS_CLASS_VERTICAL_TOOLBAR_BUTTON, true);
-        addVideoButton = this.initChildButton(componentEditToolbarPane, ICON_ADD_VIDEO, TOOLTIP_ADD_VIDEO, CSS_CLASS_VERTICAL_TOOLBAR_BUTTON, true);
-
-        //center
-        pageEditorPane = new VBox();
-        componentEditorPane = new VBox();
-
-        pageEditorScrollPane = new ScrollPane(pageEditorPane);
-        pageEditorScrollPane.setFitToWidth(true);
-        pageEditorScrollPane.setFitToHeight(true);
-
-        //right
-        pageUIPane = new BorderPane();
-        pageEditToolbarPane = new HBox();
-
-        addPageButton = this.initChildButton(pageEditToolbarPane, ICON_ADD_PAGE, TOOLTIP_ADD_PAGE, CSS_CLASS_PAGE_EDIT_TOOLBAR_BUTTON, false);
-        bannerImageButton = this.initChildButton(pageEditToolbarPane, ICON_BANNER_IMAGE, TOOLTIP_BANNER_IMAGE, CSS_CLASS_PAGE_EDIT_TOOLBAR_BUTTON, true);
-        layoutTemplateButton = this.initChildButton(pageEditToolbarPane, ICON_LAYOUT_TEMPLATE, TOOLTIP_LAYOUT_TEMPLATE, CSS_CLASS_PAGE_EDIT_TOOLBAR_BUTTON, true);
-        colorTemplateButton = this.initChildButton(pageEditToolbarPane, ICON_COLOR_TEMPLATE, TOOLTIP_COLOR_TEMPLATE, CSS_CLASS_PAGE_EDIT_TOOLBAR_BUTTON, true);
-        fontButton = this.initChildButton(pageEditToolbarPane, "page.png", "Select Font for the Page", CSS_CLASS_PAGE_EDIT_TOOLBAR_BUTTON, true);
-
-        pageTitlePane = new VBox();
-        pageTitlesScrollPane = new ScrollPane(pageTitlePane);
-        pageUIPane.setTop(pageEditToolbarPane);
-        pageUIPane.setCenter(pageTitlesScrollPane);
-
-        workspace.setLeft(componentEditToolbarPane);
-        workspace.setCenter(pageEditorScrollPane);
-        workspace.setRight(pageUIPane);
-    }
-
-    private void initEventHandlers() {
-        fileController = new FileController(this, fileManager, siteExporter);
-        newEPortfolioButton.setOnAction(e -> {
-            fileController.handleNewEPortfolioRequest();
-        });
-        loadEPortfolioButton.setOnAction(e -> {
-            fileController.handleLoadEPortfolioRequest();
-        });
-        saveEPortfolioButton.setOnAction(e -> {
-            fileController.handleSaveEPortfolioRequest(ePortfolio.getStudentName());
-        });
-        saveAsEPortfolioButton.setOnAction(e -> {
-            fileController.handleSaveAsEPortfolioRequest();
-        });
-        exportEPortfolioButton.setOnAction(e -> {
-            fileController.handleExportEPortfolioRequest();
-        });
-        exitButton.setOnAction(e -> {
-            fileController.handleExitRequest();
-        });
-        pageEditorButton.setOnAction(e -> {
-            ePane.setCenter(workspace);
-        });
-        pageViewerButton.setOnAction(e -> {
-            fileController.handleVieWPageRequest(ePane);
-        });
-
-        editController = new EPortfolioEditController(this);
-        addPageButton.setOnAction(e -> {
-            TextInputDialog alert = new TextInputDialog("Title");
-            alert.setTitle("Conformation Dialog");
-            alert.setHeaderText("Do you want to add a Page?");
-            alert.setContentText("OK for adding page, cancel for displaying pages.");
-            Optional<String> result = alert.showAndWait();
-            if (result.isPresent()) {
-                editController.handleAddPageRequest(result.get(), "'Montserrat', sans-serif;", "Footer", "Banner", "", "");
-                reloadBannerControls();
-            } else {
-                reloadPagePane();
-            }
-        });
-        bannerImageButton.setOnAction(e -> {
-            pageTitlePane.getChildren().clear();
-            editController.handleBannerImageRequest(ePortfolio.getSelectedPage());
-        });
-        layoutTemplateButton.setOnAction(e -> {
-            pageTitlePane.getChildren().clear();
-            editController.handleLayoutTemplateRequest();
-        });
-        colorTemplateButton.setOnAction(e -> {
-            pageTitlePane.getChildren().clear();
-            editController.handleColorTemplateRequest();
-        });
-        fontButton.setOnAction(e -> {
-            pageTitlePane.getChildren().clear();
-            editController.handleAddFontRequest();
-        });
-
-        addHeaderButton.setOnAction(e -> {
-            editController.handleAddHeaderRequest();
-        });
-        addParagraphButton.setOnAction(e -> {
-            editController.handleAddParagraphRequest();
-        });
-        addListButton.setOnAction(e -> {
-            editController.handleAddListRequest();
-        });
-        addImageButton.setOnAction(e -> {
-            editController.handleAddImageRequest();
-        });
-        addVideoButton.setOnAction(e -> {
-            editController.handleAddVideoRequest();
-        });
-        addSlideshowButton.setOnAction(e -> {
-            editController.handleAddSlideshowRequest();
-        });
-
+    private void initStyle() {
+        primaryScene.getStylesheets().add(STYLE_SHEET_UI);
+        //TOP
+        ePortfolioToolbarPane.getStyleClass().add(CSS_CLASS_HORIZONTAL_TOOLBAR_PANE);
     }
 
     private void initFileToolbar() {
@@ -345,15 +129,23 @@ public class EPortfolioMakerView {
         ePortfolioToolbarPane.setLeft(fileToolbarPane);
         ePortfolioToolbarPane.setRight(modePane);
 
-        newEPortfolioButton = this.initChildButton(fileToolbarPane, ICON_NEW_EPORTFOLIO, TOOLTIP_NEW_EPORTFOLIO, CSS_CLASS_HORIZONTAL_TOOLBAR_BUTTON, false);
-        loadEPortfolioButton = this.initChildButton(fileToolbarPane, ICON_LOAD_EPORTFOLIO, TOOLTIP_LOAD_EPORTFOLIO, CSS_CLASS_HORIZONTAL_TOOLBAR_BUTTON, false);
-        saveEPortfolioButton = this.initChildButton(fileToolbarPane, ICON_SAVE_EPORTFOLIO, TOOLTIP_SAVE_EPORTFOLIO, CSS_CLASS_HORIZONTAL_TOOLBAR_BUTTON, true);
-        saveAsEPortfolioButton = this.initChildButton(fileToolbarPane, ICON_SAVE_AS_EPORTFOLIO, TOOLTIP_SAVE_AS_EPORTFOLIO, CSS_CLASS_HORIZONTAL_TOOLBAR_BUTTON, true);
-        exportEPortfolioButton = this.initChildButton(fileToolbarPane, ICON_EXPORT_EPORTFOLIO, TOOLTIP_EXPORT_EPORTFOLIO, CSS_CLASS_HORIZONTAL_TOOLBAR_BUTTON, true);
-        exitButton = this.initChildButton(fileToolbarPane, ICON_EXIT, TOOLTIP_EXIT, CSS_CLASS_HORIZONTAL_TOOLBAR_BUTTON, false);
+        newEPortfolioButton = initChildButton(fileToolbarPane, ICON_NEW_EPORTFOLIO, TOOLTIP_NEW_EPORTFOLIO, CSS_CLASS_HORIZONTAL_TOOLBAR_BUTTON, false);
+        loadEPortfolioButton = initChildButton(fileToolbarPane, ICON_LOAD_EPORTFOLIO, TOOLTIP_LOAD_EPORTFOLIO, CSS_CLASS_HORIZONTAL_TOOLBAR_BUTTON, false);
+        saveEPortfolioButton = initChildButton(fileToolbarPane, ICON_SAVE_EPORTFOLIO, TOOLTIP_SAVE_EPORTFOLIO, CSS_CLASS_HORIZONTAL_TOOLBAR_BUTTON, true);
+        saveAsEPortfolioButton = initChildButton(fileToolbarPane, ICON_SAVE_AS_EPORTFOLIO, TOOLTIP_SAVE_AS_EPORTFOLIO, CSS_CLASS_HORIZONTAL_TOOLBAR_BUTTON, true);
+        exportEPortfolioButton = initChildButton(fileToolbarPane, ICON_EXPORT_EPORTFOLIO, TOOLTIP_EXPORT_EPORTFOLIO, CSS_CLASS_HORIZONTAL_TOOLBAR_BUTTON, true);
+        exitButton = initChildButton(fileToolbarPane, ICON_EXIT, TOOLTIP_EXIT, CSS_CLASS_HORIZONTAL_TOOLBAR_BUTTON, false);
 
-        pageEditorButton = this.initChildButton(modePane, ICON_PAGE_EDITOR, TOOLTIP_PAGE_EDITOR, CSS_CLASS_HORIZONTAL_TOOLBAR_BUTTON, true);
-        pageViewerButton = this.initChildButton(modePane, ICON_PAGE_VIEWER, TOOLTIP_PAGE_VIEWER, CSS_CLASS_HORIZONTAL_TOOLBAR_BUTTON, true);
+        pageEditorButton = initChildButton(modePane, ICON_PAGE_EDITOR, TOOLTIP_PAGE_EDITOR, CSS_CLASS_HORIZONTAL_TOOLBAR_BUTTON, true);
+        pageViewerButton = initChildButton(modePane, ICON_PAGE_VIEWER, TOOLTIP_PAGE_VIEWER, CSS_CLASS_HORIZONTAL_TOOLBAR_BUTTON, true);
+    }
+
+    private void initWorkspace() {
+        workspace = new BorderPane();
+        componentMakerView = new ComponentMakerView(this);
+        pageMakerView = new PageMakerView(ePortfolio, this);
+        workspace.setCenter(componentMakerView.getComponentPane());
+        workspace.setRight(pageMakerView.getPageEditVBox());
     }
 
     private void initWindow(String windowTitle) {
@@ -379,148 +171,73 @@ public class EPortfolioMakerView {
         primaryStage.show();
     }
 
-    private void initStyle() {
-        primaryScene.getStylesheets().add(STYLE_SHEET_UI);
-        ePane.getStyleClass().add(CSS_CLASS_WORKSPACE);
-        workspace.getStyleClass().add(CSS_CLASS_WORKSPACE);
-        //TOP
-        ePortfolioToolbarPane.getStyleClass().add(CSS_CLASS_HORIZONTAL_TOOLBAR_PANE);
-        //TOP LEFT
-        componentEditToolbarPane.getStyleClass().add(CSS_CLASS_VERTICAL_TOOLBAR_PANE);
-
-        //CENTER
-        pageEditorPane.getStyleClass().add(CSS_CLASS_COMPONENT_PANE);
-
-        //RIGHT
-        pageEditToolbarPane.getStyleClass().add(CSS_CLASS_PAGE_EDIT_TOOLBAR_PANE);
-        pageTitlesScrollPane.getStyleClass().add(CSS_CLASS_PAGE_PANE);
+    private void initEventHandlers() {
+        fileController = new FileController(this, fileManager, siteExporter);
+        newEPortfolioButton.setOnAction(e -> {
+            fileController.handleNewEPortfolioRequest();
+            ePane.setCenter(workspace);
+        });
+        loadEPortfolioButton.setOnAction(e -> {
+            fileController.handleLoadEPortfolioRequest();
+            ePane.setCenter(workspace);
+        });
+        saveEPortfolioButton.setOnAction(e -> {
+            fileController.handleSaveEPortfolioRequest(ePortfolio.getStudentName());
+        });
+        saveAsEPortfolioButton.setOnAction(e -> {
+            fileController.handleSaveAsEPortfolioRequest();
+        });
+        exportEPortfolioButton.setOnAction(e -> {
+            fileController.handleExportEPortfolioRequest();
+        });
+        exitButton.setOnAction(e -> {
+            fileController.handleExitRequest();
+        });
+        pageEditorButton.setOnAction(e -> {
+            ePane.setCenter(workspace);
+        });
+        pageViewerButton.setOnAction(e -> {
+            fileController.handleVieWPageRequest(ePane);
+        });
     }
 
-    public Button initChildButton(Pane toolbar, String iconFileName, String tooltip, String cssClass, boolean disabled) {
-        String iconPath = "file:" + PATH_ICONS + iconFileName;
-        Image buttonImage = new Image(iconPath);
-        Button button = new Button();
-        button.getStyleClass().add(cssClass);
-        button.setDisable(disabled);
-        button.setGraphic(new ImageView(buttonImage));
-        Tooltip buttonTooltip = new Tooltip(tooltip);
-        button.setTooltip(buttonTooltip);
-        toolbar.getChildren().add(button);
-        return button;
+    public void startUI(Stage initPrimaryStage, String windowTitle) {
+        initFileToolbar();
+        initWorkspace();
+        initEventHandlers();
+        primaryStage = initPrimaryStage;
+        initWindow(windowTitle);
     }
 
     public void updateFileToolbarControls(boolean saved) {
-        ePane.setCenter(workspace);
         saveEPortfolioButton.setDisable(saved);
         saveAsEPortfolioButton.setDisable(saved);
     }
 
-    public void updatePageEditToolbarControls() {
-        boolean pageSelected = ePortfolio.isPageSelected();
-
-        exportEPortfolioButton.setDisable(!pageSelected);
-
-        pageEditorButton.setDisable(!pageSelected);
-        pageViewerButton.setDisable(!pageSelected);
-
-        addHeaderButton.setDisable(!pageSelected);
-        addParagraphButton.setDisable(!pageSelected);
-        addListButton.setDisable(!pageSelected);
-        addImageButton.setDisable(!pageSelected);
-        addVideoButton.setDisable(!pageSelected);
-        addSlideshowButton.setDisable(!pageSelected);
-
-        bannerImageButton.setDisable(!pageSelected);
-        layoutTemplateButton.setDisable(!pageSelected);
-        colorTemplateButton.setDisable(!pageSelected);
-        fontButton.setDisable(!pageSelected);
-
+    public EPortfolio getEPortfolio() {
+        return ePortfolio;
     }
 
-    public void reloadComponentPane(Page page) {
-        componentEditorPane.getChildren().clear();
-        if (ePortfolio.getSelectedPage() != null) {
-            reloadBannerControls();
-            for (Component component : ePortfolio.getSelectedPage().getComponents()) {
-                ComponentEditView componentEditor = new ComponentEditView(this, component);
-                if (ePortfolio.getSelectedPage().isSelectedComponent(component)) {
-                    componentEditor.getStyleClass().add(CSS_CLASS_SELECTED_COMPONENT);
-                } else {
-                    componentEditor.getStyleClass().add(CSS_CLASS_COMPONENT);
-                }
-                componentEditorPane.getChildren().add(componentEditor);
-            }
-        }
-    }
-
-    public void reloadPagePane() {
-        pageTitlePane.getChildren().clear();
-        for (Page page : ePortfolio.getPages()) {
-            PageEditView pageEditView = new PageEditView(this, page);
-            if (ePortfolio.isSelectedPage(page)) {
-                pageEditView.getStyleClass().add(CSS_CLASS_SELECTED_PAGE);
-            } else {
-                pageEditView.getStyleClass().add(CSS_CLASS_PAGE);
-            }
-            pageTitlePane.getChildren().add(pageEditView);
-            pageEditView.setOnMouseClicked(e -> {
-                ePortfolio.setSelectedPage(page);
-                this.reloadPagePane();
-                reloadComponentPane(page);
-            });
-        }
-        updatePageEditToolbarControls();
-    }
-
-    private void initBannerControls() {
-        bannerPane = new VBox();
-
-        studentNameLabel = new Label(LABEL_STUDENT_NAME);
-        studentNameTextField = new TextField();
-        studentNameTextField.setText(ePortfolio.getStudentName());
-
-        bannerLabel = new Label(LABEL_BANNER);
-        bannerTextField = new TextField("Banner");
-        ePortfolio.getSelectedPage().setBanner(bannerTextField.getText());
-
-        footerLabel = new Label(LABEL_FOOTER);
-        footerTextField = new TextField(DEFAULT_FOOTER);
-        ePortfolio.getSelectedPage().setFooter(footerTextField.getText());
-
-        bannerPane.getChildren().addAll(studentNameLabel, studentNameTextField, bannerLabel, bannerTextField, footerLabel, footerTextField);
-
-        studentNameTextField.textProperty().addListener(e -> {
-            ePortfolio.setStudentName(studentNameTextField.getText());
-            updateFileToolbarControls(false);
-        });
-        bannerTextField.textProperty().addListener(e -> {
-            ePortfolio.getSelectedPage().setBanner(bannerTextField.getText());
-            updateFileToolbarControls(false);
-        });
-        footerTextField.textProperty().addListener(e -> {
-            ePortfolio.getSelectedPage().setFooter(footerTextField.getText());
-            updateFileToolbarControls(false);
-        });
-        pageEditorPane.getChildren().add(bannerPane);
-        pageEditorPane.getChildren().add(componentEditorPane);
-    }
-
-    public void reloadBannerControls() {
-        if (pageEditorPane.getChildren().size() == 0) {
-            initBannerControls();
+    public void reloadEPortfolioPane() {
+        pageMakerView.reloadPagePane();
+        if (ePortfolio.isPageSelected()) {
+            pageMakerView.updatePageEditToolbarControls(true);
+            componentMakerView.updateComponentToolbarControls(true);
+            pageViewerButton.setDisable(false);
+            pageEditorButton.setDisable(false);
         } else {
-            bannerTextField.setText(ePortfolio.getSelectedPage().getBanner());
-            studentNameTextField.setText(ePortfolio.getStudentName());
-            footerTextField.setText(ePortfolio.getSelectedPage().getFooter());
+            pageMakerView.updatePageEditToolbarControls(false);
+            componentMakerView.updateComponentToolbarControls(false);
+            pageViewerButton.setDisable(true);
+            pageEditorButton.setDisable(true);
         }
     }
 
-    public VBox getComponentPane() {
-        return componentEditorPane;
+    public ErrorHandler getErrorHandler() {
+        return errorHandler;
     }
 
-    public VBox getPagePane() {
-        return pageTitlePane;
+    public Stage getWindow() {
+        return primaryStage;
     }
-
 }

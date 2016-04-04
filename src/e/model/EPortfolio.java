@@ -5,9 +5,13 @@
  */
 package e.model;
 
+import static e.StartUpConstants.DEFAULT_BANNER;
+import static e.StartUpConstants.DEFAULT_BANNERIMAGE_NAME;
+import static e.StartUpConstants.DEFAULT_FONT;
+import static e.StartUpConstants.DEFAULT_FOOTER;
 import static e.StartUpConstants.DEFAULT_STUDENTNAME;
+import static e.StartUpConstants.PATH_PIC;
 import e.view.EPortfolioMakerView;
-import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -72,13 +76,9 @@ public class EPortfolio {
         selectedPage = null;
     }
 
-//    public void addPage(String pageTitle) {
-//        Page pageToAdd = new Page(ui);
-//        pageToAdd.setPageTitle(pageTitle);
-//        pages.add(pageToAdd);
-//        ui.getEPortfolio().setSelectedPage(pageToAdd);
-//        ui.reloadPagePane();
-//    }
+    public void addPage(String pageTitle) {
+        addPage(pageTitle, DEFAULT_FONT, DEFAULT_FOOTER, DEFAULT_BANNER, DEFAULT_BANNERIMAGE_NAME, PATH_PIC);
+    }
 
     public void addPage(String pageTitle,String pageFont, String pageFooter,String banner, String bannerFileName, String bannerFilePath) {
         Page pageToAdd = new Page(ui);
@@ -90,15 +90,14 @@ public class EPortfolio {
         pageToAdd.setBannerImagePath(bannerFilePath);
         pages.add(pageToAdd);
         ui.getEPortfolio().setSelectedPage(pageToAdd);
-        ui.reloadPagePane();
+        ui.reloadEPortfolioPane();
     }
 
     public void removeSelectedPage() {
         if (isPageSelected()) {
             pages.remove(selectedPage);
             selectedPage = null;
-            ui.reloadPagePane();
+            ui.reloadEPortfolioPane();
         }
-    }
-
+    }    
 }

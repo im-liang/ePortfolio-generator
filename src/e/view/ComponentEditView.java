@@ -5,21 +5,26 @@
  */
 package e.view;
 
-import static e.StartUpConstants.CSS_CLASS_DIALOG_BUTTON;
+import static e.StartUpConstants.CSS_CLASS_COMPONENT_LABEL;
+import static e.StartUpConstants.CSS_CLASS_COMPONENT_TEXTFIELD;
+import static e.StartUpConstants.DEFAULT_BANNER;
+import static e.StartUpConstants.DEFAULT_FOOTER;
+import static e.StartUpConstants.DEFAULT_STUDENTNAME;
 import static e.StartUpConstants.ICON_REMOVE_PAGE;
-import static e.ToolTip.TOOLTIP_REMOVE_TEXT;
-import e.controller.ImageController;
-import e.error.ErrorHandler;
+import static e.StartUpConstants.LABEL_BANNER;
+import static e.StartUpConstants.LABEL_FOOTER;
+import static e.StartUpConstants.LABEL_STUDENT_NAME;
 import e.model.Component;
-import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
+import static e.view.EPortfolioMakerView.initChildButton;
+import java.awt.Scrollbar;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 
 /**
@@ -32,79 +37,17 @@ public class ComponentEditView extends HBox {
 
     Component component;
 
-    ImageView selectionView;
-
-    VBox contentVBox;
-    Label contentLabel;
-    TextField contentTextField;
-
-    ImageController imageController;
     /*
      * This constructor initializes the full UI for this component, using ininComponent data for initializing values.
      */
-
     public ComponentEditView(EPortfolioMakerView initUI, Component initComponent) {
         ui = initUI;
         component = initComponent;
-        selectionView = new ImageView();
-        updateComponentImage();
 
-        Button removeButton = ui.initChildButton(this, ICON_REMOVE_PAGE, TOOLTIP_REMOVE_TEXT, CSS_CLASS_DIALOG_BUTTON, false);
         Label image = new Label(component.getComponentType());
         getChildren().add(image);
-        removeButton.setOnAction(e -> {
-            ui.getEPortfolio().getSelectedPage().removeSelectedComponent();
-            ui.reloadComponentPane(ui.getEPortfolio().getSelectedPage());
-            ui.updateFileToolbarControls(false);
-        });
-        setOnMouseClicked(e -> {
-            ui.getEPortfolio().getSelectedPage().setSelectedComponent(component);
-            String componentType = initComponent.getComponentType();
-            switch (componentType) {
-                case "header":
-                    HeaderDialog headerDialog = new HeaderDialog(ui.getWindow(), ui, initComponent);
-                    headerDialog.show(componentType);
-                    break;
-                case "paragraph":
-                    ParagraphDialog pDialog = new ParagraphDialog(ui.getWindow(), ui,initComponent);
-                    pDialog.show(componentType);
-                    break;
-                case "list":
-                    ListDialog listDialog = new ListDialog(ui.getWindow(), ui,initComponent);
-                    listDialog.show(componentType);
-                    break;
-                case "image":
-                    ImageDialog imageDialog = new ImageDialog(ui.getWindow(),ui,initComponent);
-                    imageDialog.show(componentType);
-                    break;
-                case "video":
-                    VideoDialog videoDialog = new VideoDialog(ui.getWindow(),ui,initComponent);
-                    videoDialog.show(componentType);
-                    break;
-                case "slideshow":
-                    SlideshowDialog slideshowDialog = new SlideshowDialog(ui.getWindow(), ui,initComponent);
-                    slideshowDialog.show(componentType);
-                    break;
-            }
-            ui.reloadComponentPane(ui.getEPortfolio().getSelectedPage());
-            ui.updateFileToolbarControls(false);
-        });
     }
 
-    public void updateComponentImage() {
-        for (int i = 0; i < component.getComponentContent().size(); i++) {
-            String imagePath = component.getComponentPath() + "/" + component.getComponentContent().get(i);
-            File file = new File(imagePath);
-            try {
-                URL fileURL = file.toURI().toURL();
-                Image componentImage = new Image(fileURL.toExternalForm());
-                ImageView imageView = new ImageView();
-                imageView.setFitWidth(200);
-                imageView.setFitHeight(200);
-            } catch (MalformedURLException ex) {
-                ErrorHandler eh = new ErrorHandler(ui);
-                eh.processError();
-            }
-        }
+    private void initStyle() {
     }
 }

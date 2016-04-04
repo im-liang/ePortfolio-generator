@@ -4,90 +4,111 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 */
 /* 
-    Created on : Nov 11, 2015, 9:14:26 PM
+    Created on : Jan 8, 2016, 3:59:22 PM
     Author     : jieliang
 */
-
-// TOOLBAR CONTROLS
-.horizontal_toolbar_pane, .vertical_toolbar_pane {    
-    -fx-padding:5;
+// dialog
+.dialog_pane {
+    
 }
 
+.dialog_button_pane {
+    -fx-alignment: center;
+}
+.dialog_option_button {
+    -fx-font-size: 14pt;
+    -fx-background-color: #DDDDDD;
+    -fx-border-radius: 4 4 4 4;
+    -fx-spacing: 10px;
+}
+
+//toolbar on the top
 .horizontal_toolbar_pane {
     -fx-background-color: #5ccdde;
-    -fx-hgap:5;
+    //expand the size of the pane
+    -fx-padding: 5px;
 }
 
-.vertical_toolbar_pane {
-    -fx-background-color: #454e59;
-    -fx-alignment: center;
-    -fx-orientation: vertical;
-    -fx-vgap:10;
+.horizontal_toolbar_button {
+    -fx-background-color: #5ccdde;
 }
-.page_edit_toolbar_pane {
-    -fx-hgap:5;
-    /*-fx-background-color: #D3D3D3;*/
+
+//right side
+//main
+.page_edit_pane {
     -fx-background-color: #454e59;
+}
+
+.page_edit_toolbar_pane {
+    -fx-padding:5px;
 }
 
 .page_edit_toolbar_button {
-    /*-fx-background-color: #D3D3D3;*/
-    -fx-background-color: #454e59;
-    -fx-padding: 10px;
-}
-
-.vertical_toolbar_button {
     -fx-background-color: #D3D3D3;
     -fx-padding: 10px;
     -fx-spacing: 50px;
 }
 
-.horizontal_toolbar_button {
-    -fx-background-color: #5ccdde;
-    -fx-padding-left: 10px;
-    -fx-padding-right: 20px;
+.page_edit_scrollpane > .viewport {
+   -fx-background-color: #454e59;
 }
 
-// WORKSPACE AND IT'S CONTAINERS
-
-.workspace {
-    
-}
-.component_pane {
-    /*-fx-background-image: url("http://www.ic.sunysb.edu/Stu/jieliang/images/crossword.png");*/
-    -fx-background-image: url("../images/img/9.jpg");
-}
-.page_pane {
+.page_edit_titles_vbox {
     -fx-background-color: #454e59;
+    -fx-border-color:transparent;
 }
-.page_title {
-    /*-fx-background-color: #8ED2C9;*/
-    -fx-background-image: url("http://www.ic.sunysb.edu/Stu/jieliang/images/swirl.png");
+
+.page_edit_titles_label {
+    -fx-font-weight:bold;
+    -fx-font-size:20; 
+    -fx-text-fill:white;
 }
-.selected_page_title {
-    
+
+.page_edit_remove_button {
+    -fx-background-color: #FF4136;
 }
-.dialog_label {
-    
+
+// left side
+// toolbar pane
+.vertical_toolbar_pane {
+    -fx-background-color: #454e59;
+    -fx-alignment: center;
+    -fx-orientation: vertical;
+    -fx-vgap:10;
+    -fx-padding:5px;
 }
-.dialog_button {
+// toolbar button
+.vertical_toolbar_button {
+    -fx-background-color: #D3D3D3;
+    //make it bigger
     -fx-padding: 10px;
 }
-.banner_text {
-    -fx-font: 16pt bold;  
+
+//center
+//center top
+.component_label {
+    -fx-font-weight:bold;
+    -fx-font-size:20;
 }
-.dialog_pane {
-    -fx-background-image: url("http://www.ic.sunysb.edu/Stu/jieliang/images/swirl.png");
+
+.text-field {
+    -fx-background-color: transparent, white, transparent, white;
+    -fx-background-radius: 0, 0, 0, 0;
+    -fx-padding: 0.166667em;
 }
-component {
-    -fx-background-color:darkolivegreen;
+
+.text-field:focused {
+    -fx-background-color: transparent, #DDDDDD, transparent, white;
+    -fx-background-radius: 0, 0, 0, 0;
+    -fx-padding: 0.166667em;
 }
-.selected_component {
-    -fx-background-color: #5ccdde;
+
+.page {
+    -fx-background-color: #DDDDDD;
+    -fx-border-color:transparent;
 }
-page {
-    -fx-background-color: #8ED2C9;
-}
+
 .selected_page {
-    -fx-background-color: #8ED2C9;
+    -fx-background-color: #AAAAAA;
+    -fx-border-color:transparent;    
 }

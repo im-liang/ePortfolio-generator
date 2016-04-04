@@ -6,8 +6,8 @@
 package e.file;
 
 import static e.StartUpConstants.PATH_EPORTFOLIO;
-import static e.controller.EPortfolioEditController.COLORTEMPLATE;
-import static e.controller.EPortfolioEditController.LAYOUTTEMPLATE;
+import static e.StartUpConstants.DEFAULT_LAYOUT_TEMPLATE;
+import static e.StartUpConstants.DEFAULT_COLOR_TEMPLATE;
 import e.model.Component;
 import e.model.EPortfolio;
 import e.model.Page;
@@ -18,7 +18,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -116,8 +115,8 @@ public class EPortfolioFileManager {
             JsonArray jsonComponentsArray = pageJso.getJsonArray(JSON_COMPONENTS);
             
 
-            LAYOUTTEMPLATE = pageJso.getString(JSON_PAGE_LAYOUT);
-            COLORTEMPLATE = pageJso.getString(JSON_PAGE_COLOR);
+            DEFAULT_LAYOUT_TEMPLATE = pageJso.getString(JSON_PAGE_LAYOUT);
+            DEFAULT_COLOR_TEMPLATE = pageJso.getString(JSON_PAGE_COLOR);
             ePortfolioToLoad.addPage(pageJso.getString(JSON_PAGE_TITLE),
                     pageJso.getString(JSON_PAGE_FONT),
                     pageJso.getString(JSON_PAGE_FOOTER),
@@ -192,8 +191,8 @@ public class EPortfolioFileManager {
             jso = Json.createObjectBuilder()
                     .add(JSON_PAGE_TITLE, page.getPageTitle())
                     .add(JSON_PAGE_FONT, page.getFont())
-                    .add(JSON_PAGE_LAYOUT, LAYOUTTEMPLATE)
-                    .add(JSON_PAGE_COLOR, COLORTEMPLATE)
+                    .add(JSON_PAGE_LAYOUT, DEFAULT_LAYOUT_TEMPLATE)
+                    .add(JSON_PAGE_COLOR, DEFAULT_COLOR_TEMPLATE)
                     .add(JSON_PAGE_FOOTER, page.getFooter())
                     .add(JSON_BANNER, page.getBanner())
                     .add(JSON_BANNER_FILE_NAME, "")
@@ -204,8 +203,8 @@ public class EPortfolioFileManager {
             jso = Json.createObjectBuilder()
                     .add(JSON_PAGE_TITLE, page.getPageTitle())
                     .add(JSON_PAGE_FONT, page.getFont())
-                    .add(JSON_PAGE_LAYOUT, LAYOUTTEMPLATE)
-                    .add(JSON_PAGE_COLOR, COLORTEMPLATE)
+                    .add(JSON_PAGE_LAYOUT, DEFAULT_LAYOUT_TEMPLATE)
+                    .add(JSON_PAGE_COLOR, DEFAULT_COLOR_TEMPLATE)
                     .add(JSON_PAGE_FOOTER, page.getFooter())
                     .add(JSON_BANNER, page.getBanner())
                     .add(JSON_BANNER_FILE_NAME, page.getBannerImageName())

@@ -1,8 +1,14 @@
 package e.error;
 
 import e.view.EPortfolioMakerView;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
 
 /**
  * This class provides error messages to the user when the occur. Note that
@@ -15,7 +21,6 @@ import javafx.scene.control.Alert.AlertType;
 public class ErrorHandler {
 
     // APP UI
-
     private EPortfolioMakerView ui;
 
     // KEEP THE APP UI FOR LATER
@@ -30,20 +35,36 @@ public class ErrorHandler {
      *
      */
     public void processError() {
-        // GET THE FEEDBACK TEXT
-        String errorFeedbackText = "An Unexpected Error has Occured";
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle("Exception Dialog");
+        alert.setHeaderText("Look, an Exception Dialog");
 
-        // POP OPEN A DIALOG TO DISPLAY TO THE USER
-        Alert alertDialog = new Alert(AlertType.WARNING, errorFeedbackText);
-        alertDialog.showAndWait();
-    }
+        Exception ex = new Exception();
+        // Create expandable Exception.
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        ex.printStackTrace(pw);
+        String exceptionText = sw.toString();
 
-    public void inValidNumber() {
-        // GET THE FEEDBACK TEXT
-        String errorFeedbackText = "Please enter a number!";
+        Label label = new Label("The exception stacktrace was:");
 
-        // POP OPEN A DIALOG TO DISPLAY TO THE USER
-        Alert alertDialog = new Alert(AlertType.WARNING, errorFeedbackText);
-        alertDialog.showAndWait();
+        TextArea textArea = new TextArea(exceptionText);
+        textArea.setEditable(false);
+        textArea.setWrapText(true);
+
+        textArea.setMaxWidth(Double.MAX_VALUE);
+        textArea.setMaxHeight(Double.MAX_VALUE);
+        GridPane.setVgrow(textArea, Priority.ALWAYS);
+        GridPane.setHgrow(textArea, Priority.ALWAYS);
+
+        GridPane expContent = new GridPane();
+        expContent.setMaxWidth(Double.MAX_VALUE);
+        expContent.add(label, 0, 0);
+        expContent.add(textArea, 0, 1);
+
+        // Set expandable Exception into the dialog pane.
+        alert.getDialogPane().setExpandableContent(expContent);
+
+        alert.showAndWait();
     }
 }

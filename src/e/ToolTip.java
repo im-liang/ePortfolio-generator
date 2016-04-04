@@ -30,6 +30,7 @@ public class ToolTip {
     public static String TOOLTIP_REMOVE_PAGE = "Remove Page";
     public static String TOOLTIP_LAYOUT_TEMPLATE = "Select the layout theme";
     public static String TOOLTIP_COLOR_TEMPLATE = "Select the color theme";
+    public static String TOOLTIP_FONT = "Select Font for the Page";
     public static String TOOLTIP_BANNER_IMAGE = "Select Banner Image";
     
     public static String TOOLTIP_ADD_HEADING = "Add heading";
@@ -53,9 +54,6 @@ public class ToolTip {
     public static String TOOLTIP_REMOVE_SLIDESHOW = "Remove Slideshow Component";
     public static String TOOLTIP_REMOVE_VIDEO = "Remove Video Component";
     
-    public static String DEFAULT_PAGE_TITLE = "TITLE";
-    public static String DEFAULT_STUDENT_NAME = "Student Name";
-    public static String DEFAULT_FOOTER = "Footer";
     /* THESE ARE FOR LANGUAGE-DEPENDENT ERROR HANDLING,
      LIKE FOR TEXT PUT INTO DIALOG BOXES TO NOTIFY
      THE USER WHEN AN ERROR HAS OCCURED */

@@ -6,19 +6,15 @@
 package e.view;
 
 import static e.file.EPortfolioSiteExporter.INDEX_FILE;
-import static e.file.EPortfolioSiteExporter.SITES_DIR;
 import e.model.EPortfolio;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
-import javafx.stage.Stage;
 
 /**
  *

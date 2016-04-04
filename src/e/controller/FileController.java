@@ -5,16 +5,17 @@
  */
 package e.controller;
 
+import static e.StartUpConstants.CANCEL;
 import static e.StartUpConstants.LABEL_SAVE_UNSAVED_WORK;
 import static e.StartUpConstants.PATH_DATA;
+import static e.StartUpConstants.YES;
 import e.error.ErrorHandler;
 import e.file.EPortfolioFileManager;
 import e.file.EPortfolioSiteExporter;
 import static e.file.EPortfolioSiteExporter.INDEX_FILE;
+import e.model.Dialog;
 import e.model.EPortfolio;
-import e.model.YesNoCancelDialogSingleton;
 import e.view.EPortfolioMakerView;
-import e.view.EPortfolioViewer;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -53,7 +54,6 @@ public class FileController {
         siteExporter = initSiteExporter;
     }
 
-    //@todo
     public void markAsEdited() {
         saved = false;
         ui.updateFileToolbarControls(saved);
@@ -84,7 +84,7 @@ public class FileController {
                 ui.updateFileToolbarControls(saved);
 
                 // MAKE SURE THE TITLE CONTROLS ARE ENABLED
-                ui.reloadPagePane();
+                ui.reloadEPortfolioPane();
             }
         } catch (IOException ioe) {
             ErrorHandler eH = ui.getErrorHandler();
@@ -108,8 +108,6 @@ public class FileController {
             // IF THE USER REALLY WANTS TO OPEN A POSE
             if (continueToOpen) {
                 // GO AHEAD AND PROCEED MAKING A NEW POSE
-                ui.getEPortfolio().reset();
-                ui.reloadPagePane();
                 promptToOpen();
             }
         } catch (IOException ioe) {
@@ -142,22 +140,21 @@ public class FileController {
             return false;
         }
     }
-    
+
     /**
      * This method will save the current ePortfolio to a file.
      */
     public void handleSaveAsEPortfolioRequest() {
-            TextInputDialog alert = new TextInputDialog();
-            alert.setTitle("Conformation Dialog");
-            alert.setHeaderText("Do you want to save the ePortfolio?");
-            Optional<String> result = alert.showAndWait();
-            if(!result.get().isEmpty()) {
-                result.ifPresent(fileName -> this.handleSaveEPortfolioRequest(fileName));
-                
-            }
-            else {
-                result.ifPresent(fileName -> this.handleSaveEPortfolioRequest("UNTITLED"));
-            }
+        TextInputDialog alert = new TextInputDialog();
+        alert.setTitle("Conformation Dialog");
+        alert.setHeaderText("Do you want to save the ePortfolio?");
+        Optional<String> result = alert.showAndWait();
+        if (!result.get().isEmpty()) {
+            result.ifPresent(fileName -> this.handleSaveEPortfolioRequest(fileName));
+
+        } else {
+            result.ifPresent(fileName -> this.handleSaveEPortfolioRequest("UNTITLED"));
+        }
     }
 
     /**
@@ -204,30 +201,30 @@ public class FileController {
             eH.processError();
         }
     }
-    
+
     public void handleVieWPageRequest(BorderPane ePane) {
-                    try {
-                BorderPane dumb = new BorderPane();
-                // SETUP THE UI
-                WebView webView = new WebView();
-                ScrollPane scrollPane = new ScrollPane(webView);
+        try {
+            BorderPane dumb = new BorderPane();
+            // SETUP THE UI
+            WebView webView = new WebView();
+            ScrollPane scrollPane = new ScrollPane(webView);
 
-                // GET THE URL
-                String indexPath = "sites/" + ui.getEPortfolio().getStudentName() + "/" + INDEX_FILE;
-                File indexFile = new File(indexPath);
-                URL indexURL = indexFile.toURI().toURL();
+            // GET THE URL
+            String indexPath = "sites/" + ui.getEPortfolio().getStudentName() + "/" + INDEX_FILE;
+            File indexFile = new File(indexPath);
+            URL indexURL = indexFile.toURI().toURL();
 
-                // SETUP THE WEB ENGINE AND LOAD THE URL
-                webView.getEngine().load(indexURL.toString());
-                webView.getEngine().setJavaScriptEnabled(true);
-                dumb.setCenter(scrollPane);
-                ePane.setCenter(dumb);
-                
-                scrollPane.setFitToHeight(true);
-                scrollPane.setFitToWidth(true);
-            } catch (MalformedURLException ex) {
-                Logger.getLogger(EPortfolioMakerView.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            // SETUP THE WEB ENGINE AND LOAD THE URL
+            webView.getEngine().load(indexURL.toString());
+            webView.getEngine().setJavaScriptEnabled(true);
+            dumb.setCenter(scrollPane);
+            ePane.setCenter(dumb);
+
+            scrollPane.setFitToHeight(true);
+            scrollPane.setFitToWidth(true);
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(EPortfolioMakerView.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }
 
@@ -248,12 +245,14 @@ public class FileController {
      */
     private boolean promptToSave() throws IOException {
         // PROMPT THE USER TO SAVE UNSAVED WORK
-        YesNoCancelDialogSingleton yesNoCancelDialog = new YesNoCancelDialogSingleton();
+        Dialog yesNoCancelDialog = new Dialog(ui.getWindow());
+        yesNoCancelDialog.getScene().getWindow().sizeToScene();
         yesNoCancelDialog.show(LABEL_SAVE_UNSAVED_WORK);
 
         // AND NOW GET THE USER'S SELECTION
         String selection = yesNoCancelDialog.getSelection();
-        boolean saveWork = selection.equals(YesNoCancelDialog.YES);
+        boolean saveWork = selection.equals(YES);
+        boolean cancel = selection.equals(CANCEL);
 
         // IF THE USER SAID YES, THEN SAVE BEFORE MOVING ON
         if (saveWork) {
@@ -262,7 +261,7 @@ public class FileController {
             saved = true;
         } // IF THE USER SAID CANCEL, THEN WE'LL TELL WHOEVER
         // CALLED THIS THAT THE USER IS NOT INTERESTED ANYMORE
-        else if (!true) {
+        else if (cancel) {
             return false;
         }
 
@@ -289,7 +288,7 @@ public class FileController {
             try {
                 EPortfolio ePortfolioToLoad = ui.getEPortfolio();
                 ePortfolioIO.loadEPortfolio(ePortfolioToLoad, selectedFile.getAbsolutePath());
-                ui.reloadPagePane();
+                ui.reloadEPortfolioPane();
                 saved = true;
                 ui.updateFileToolbarControls(saved);
             } catch (Exception e) {

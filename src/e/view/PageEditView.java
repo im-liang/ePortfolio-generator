@@ -5,12 +5,10 @@
  */
 package e.view;
 
-import static e.StartUpConstants.ICON_REMOVE_PAGE;
+import static e.StartUpConstants.CSS_CLASS_PAGE_EDIT_TITLES_LABEL;
 import e.model.Page;
 import java.util.Optional;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.layout.HBox;
 
@@ -26,34 +24,31 @@ public class PageEditView extends HBox {
     public PageEditView(EPortfolioMakerView initUI, Page initPage) {
         ui = initUI;
         page = initPage;
-        Button removeButton = ui.initChildButton(this, ICON_REMOVE_PAGE, "Remove the Page", "dialog_button", false);
         Label currentPageLabel = new Label(page.getPageTitle());
 
         // SIZE THE WINDOW
-        this.setPrefWidth(257);
+        this.setPrefWidth(285);
 
         getChildren().add(currentPageLabel);
 
         currentPageLabel.setOnMousePressed(e -> {
-            boolean remove = this.getChildren().remove(currentPageLabel);
-            TextField currentPageTextField = new TextField(currentPageLabel.getText());
-            getChildren().add(currentPageTextField);
-
-            currentPageTextField.setOnAction(eh -> {
-                page.setPageTitle(currentPageTextField.getText());
-                this.getChildren().remove(currentPageTextField);
-                this.getChildren().add(new Label(currentPageTextField.getText()));
-                ui.updateFileToolbarControls(false);
-            });
+            if (!ui.getEPortfolio().isSelectedPage(page)) {
+                ui.getEPortfolio().setSelectedPage(page);
+                ui.reloadEPortfolioPane();
+            }
+            TextInputDialog dialog = new TextInputDialog(page.getPageTitle());
+            dialog.setTitle("Title Input Dialog");
+            dialog.setHeaderText("Please enter the page title:");
+            Optional<String> result = dialog.showAndWait();
+            result.ifPresent(name -> page.setPageTitle(result.get()));
+            ui.reloadEPortfolioPane();
         });
 
         currentPageLabel.textProperty().addListener(e -> {
             page.setPageTitle(currentPageLabel.getText());
-            ui.updateFileToolbarControls(false);
+            ui.reloadEPortfolioPane();
         });
-        removeButton.setOnAction(eee -> {
-            ui.getEPortfolio().removeSelectedPage();
-            ui.updateFileToolbarControls(false);
-        });
+        currentPageLabel.getStyleClass().add(CSS_CLASS_PAGE_EDIT_TITLES_LABEL);
     }
+
 }

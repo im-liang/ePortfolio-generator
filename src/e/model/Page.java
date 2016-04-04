@@ -10,7 +10,6 @@ import e.view.EPortfolioMakerView;
 import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.image.Image;
 
 /**
  *
@@ -124,19 +123,19 @@ public class Page {
     public void addComponentJson(String initComponentType, ArrayList<String> initComponentContent, String initComponentPath, int initComponentWidth, int initComponentHeight, String initComponentFont_Float, ArrayList<String> initComponentCaption) {
         Component componentToAdd = new Component(initComponentType, initComponentContent, initComponentPath, initComponentWidth, initComponentHeight, initComponentFont_Float, initComponentCaption);
         components.add(componentToAdd);
-        ui.reloadComponentPane(this);
+        ui.reloadEPortfolioPane();
     }
     
     public void addComponent(Component initComponent) {
         components.add(initComponent);
-        ui.reloadComponentPane(this);
+        ui.reloadEPortfolioPane();
     }
 
     public void removeSelectedComponent() {
         if (isComponentSelected()) {
             components.remove(selectedComponent);
             selectedComponent = null;
-            ui.reloadComponentPane(this);
+            ui.reloadEPortfolioPane();
         }
     }
 }
