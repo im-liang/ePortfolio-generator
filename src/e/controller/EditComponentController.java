@@ -54,7 +54,7 @@ public class EditComponentController {
     }
 
     public void handleAddHeaderRequest() {
-        HeaderDialog headerDialog = new HeaderDialog(ui.getWindow(), ui);
+        HeaderDialog headerDialog = new HeaderDialog(ui.getWindow());
         headerDialog.show("Header");
         String selection = headerDialog.getSelection();
         boolean addComponent = selection.equals(headerDialog.YES);

@@ -1,0 +1,27 @@
+#whole {
+	font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+}
+#student_name {
+	background: #39CCCC;
+}
+#nav_bar {
+  background: #39CCCC;
+}
+#nav_bar ul li a {
+  color: #ffffff;
+}
+#nav_bar ul li a:hover {
+  color: #333333;
+}
+#nav_bar ul li a:after {
+  background: #ffffff;
+}
+#nav_bar ul li a:before {
+  background: #333333;
+}
+#nav_bar ul li a:active {
+  color: #333333;
+}
+#banner {
+	background-color: #39CCCC;
+}

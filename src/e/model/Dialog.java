@@ -119,7 +119,7 @@ public class Dialog extends Stage {
     public BorderPane getDialogWorkspace() {
         return dialogWorkspaceBorderPane;
     }
-
+    
     /**
      * This method loads a custom message into the label and then pops open the
      * dialog.

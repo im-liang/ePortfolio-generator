@@ -1,0 +1,27 @@
+#whole {
+	font-family: "Comic Sans MS", cursive, sans-serif;
+}
+#student_name {
+	background: #f96e5b;
+}
+#nav_bar {
+  background: #f96e5b;
+}
+#nav_bar ul li a {
+  color: #ffffff;
+}
+#nav_bar ul li a:hover {
+  color: #333333;
+}
+#nav_bar ul li a:after {
+  background: #ffffff;
+}
+#nav_bar ul li a:before {
+  background: #333333;
+}
+#nav_bar ul li a:active {
+  color: #333333;
+}
+#banner {
+	background-color: #f96e5b;
+}

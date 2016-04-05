@@ -5,20 +5,8 @@
         {
             "page_title":"title",
             "page_font":"'Montserrat', sans-serif;",
-            "layout":"layout_1.css",
-            "color":"color_1.css",
-            "footer":"footer",
-            "banner":"banner",
-            "banner_file_name":"banner.jpg",
-            "banner_file_path":"./images/img/",
-            "components":[
-            ]
-        },
-        {
-            "page_title":"title",
-            "page_font":"'Montserrat', sans-serif;",
-            "layout":"layout_1.css",
-            "color":"color_1.css",
+            "layout":"layout_5.css",
+            "color":"color_3.css",
             "footer":"footer",
             "banner":"banner",
             "banner_file_name":"banner.jpg",

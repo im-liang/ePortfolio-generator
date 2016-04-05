@@ -11,6 +11,7 @@ import e.model.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 /**
@@ -20,30 +21,34 @@ import javafx.stage.Stage;
 public class HeaderDialog extends Dialog {
 
     BorderPane workspace = super.getDialogWorkspace();
-    Component componentToAdd;
+    HBox headerHBox;
+    Component componentToAdd = new Component();
 
     Label headerLabel;
     TextField headerTextField;
 
-    public HeaderDialog(Stage primaryStage, Component initComponentToAdd) {
+    public HeaderDialog(Stage primaryStage) {
         super(primaryStage);
-        componentToAdd = initComponentToAdd;
+        initWorkspace();
     }
 
     public void initWorkspace() {
+        headerHBox = new HBox(5);
         headerLabel = new Label(HEADER_DIALOG_LABEL);
+        if (componentToAdd.getComponentContent().isEmpty()) {
+            headerTextField = new TextField("Content");
+        } else {
+            headerTextField = new TextField(componentToAdd.getComponentContent().get(0));
+        }
+        headerHBox.getChildren().addAll(headerLabel, headerTextField);
+        workspace.setCenter(headerHBox);
+        addHeader();
     }
 
     private void addHeader() {
 
         componentToAdd.setComponentType("header");
 
-        if (componentToAdd.getComponentContent().isEmpty()) {
-            headerTextField = new TextField("Content");
-        } else {
-            headerTextField = new TextField(componentToAdd.getComponentContent().get(0));
-        }
-        workspace.getChildren().addAll(headerLabel, headerTextField);
         headerTextField.textProperty().addListener(e -> {
             componentToAdd.getComponentContent().removeAll(componentToAdd.getComponentContent());
             componentToAdd.getComponentContent().add(headerTextField.getText());
