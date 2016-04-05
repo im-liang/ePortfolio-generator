@@ -165,14 +165,11 @@ public class FileController {
             // FIRST EXPORT THE SITE
             EPortfolio ePortfolio = ui.getEPortfolio();
             if (!saved) {
-                Alert saveAlert = new Alert(AlertType.WARNING);
-                saveAlert.setTitle("Warning Dialog");
-                saveAlert.setHeaderText("You have to save it First!");
-                saveAlert.showAndWait();
-            } else {
-                siteExporter.exportSite(ePortfolio);
-
+                handleSaveEPortfolioRequest(ui.getEPortfolio().getStudentName());
             }
+            siteExporter.exportSite(ePortfolio);
+            ui.updatePageModeControls(true);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -204,7 +201,7 @@ public class FileController {
 
     public void handleVieWPageRequest(BorderPane ePane) {
         try {
-            BorderPane dumb = new BorderPane();
+            BorderPane viewerBorderPane = new BorderPane();
             // SETUP THE UI
             WebView webView = new WebView();
             ScrollPane scrollPane = new ScrollPane(webView);
@@ -217,8 +214,8 @@ public class FileController {
             // SETUP THE WEB ENGINE AND LOAD THE URL
             webView.getEngine().load(indexURL.toString());
             webView.getEngine().setJavaScriptEnabled(true);
-            dumb.setCenter(scrollPane);
-            ePane.setCenter(dumb);
+            viewerBorderPane.setCenter(scrollPane);
+            ePane.setCenter(viewerBorderPane);
 
             scrollPane.setFitToHeight(true);
             scrollPane.setFitToWidth(true);

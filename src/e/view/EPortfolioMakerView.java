@@ -213,6 +213,14 @@ public class EPortfolioMakerView {
     public void updateFileToolbarControls(boolean saved) {
         saveEPortfolioButton.setDisable(saved);
         saveAsEPortfolioButton.setDisable(saved);
+        exportEPortfolioButton.setDisable(!saved);
+        pageEditorButton.setDisable(true);
+        pageViewerButton.setDisable(true);
+    }
+
+    public void updatePageModeControls(boolean edit) {
+        pageEditorButton.setDisable(!edit);
+        pageViewerButton.setDisable(!edit);
     }
 
     public EPortfolio getEPortfolio() {
@@ -224,13 +232,9 @@ public class EPortfolioMakerView {
         if (ePortfolio.isPageSelected()) {
             pageMakerView.updatePageEditToolbarControls(true);
             componentMakerView.updateComponentToolbarControls(true);
-            pageViewerButton.setDisable(false);
-            pageEditorButton.setDisable(false);
         } else {
             pageMakerView.updatePageEditToolbarControls(false);
             componentMakerView.updateComponentToolbarControls(false);
-            pageViewerButton.setDisable(true);
-            pageEditorButton.setDisable(true);
         }
     }
 
@@ -241,11 +245,11 @@ public class EPortfolioMakerView {
     public Stage getWindow() {
         return primaryStage;
     }
-    
+
     public VBox getPageVBox() {
         return pageMakerView.getPageTitlesVBox();
     }
-    
+
     public VBox getCompoentnVBox() {
         return componentMakerView.getComponentDialogVBox();
     }

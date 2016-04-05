@@ -208,7 +208,7 @@ public class ComponentMakerView {
                 if (e.getClickCount() == 2) {
                     switch (componentType) {
                         case "header":
-                            HeaderDialog headerDialog = new HeaderDialog(ui.getWindow());
+                            HeaderDialog headerDialog = new HeaderDialog(ui.getWindow(), component);
                             headerDialog.show(componentType);
                             break;
                         case "paragraph":

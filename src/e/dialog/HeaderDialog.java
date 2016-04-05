@@ -21,7 +21,7 @@ public class HeaderDialog extends Dialog {
 
     BorderPane workspace = super.getDialogWorkspace();
     Component componentToAdd;
-    
+
     Label headerLabel;
     TextField headerTextField;
 
@@ -38,17 +38,19 @@ public class HeaderDialog extends Dialog {
 
         componentToAdd.setComponentType("header");
 
-        
         if (componentToAdd.getComponentContent().isEmpty()) {
             headerTextField = new TextField("Content");
         } else {
             headerTextField = new TextField(componentToAdd.getComponentContent().get(0));
         }
-        selectTextChoiceVBox.getChildren().clear();
-        selectTextChoiceVBox.getChildren().addAll(headerLabel, headerTextField);
+        workspace.getChildren().addAll(headerLabel, headerTextField);
         headerTextField.textProperty().addListener(e -> {
             componentToAdd.getComponentContent().removeAll(componentToAdd.getComponentContent());
             componentToAdd.getComponentContent().add(headerTextField.getText());
         });
+    }
+
+    public Component getComponent() {
+        return componentToAdd;
     }
 }

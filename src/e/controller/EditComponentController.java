@@ -5,6 +5,7 @@
  */
 package e.controller;
 
+import e.dialog.HeaderDialog;
 import e.dialog.ImageDialog;
 import e.view.EPortfolioMakerView;
 import javafx.scene.control.ComboBox;
@@ -50,26 +51,6 @@ public class EditComponentController {
         if (addComponent) {
             ui.getEPortfolio().getSelectedPage().addComponent(slideshowDialog.getComponent());
         }
-    }
-
-    public void handleAddFontRequest() {
-        HBox fontHBox = new HBox();
-        ComboBox fontComboBox = new ComboBox();
-        fontComboBox.getItems().addAll(
-                "'Montserrat', sans-serif;",
-                "'Poiret One', cursive;",
-                "'Indie Flower', cursive;",
-                "'Lobster', cursive;",
-                "'Nunito', sans-serif;"
-        );
-        fontComboBox.setValue("'Montserrat', sans-serif;");
-        ui.getEPortfolio().getSelectedPage().setFont(fontComboBox.getValue().toString());
-        fontHBox.getChildren().addAll(fontComboBox);
-        ui.getPagePane().getChildren().add(fontHBox);
-        fontComboBox.setOnAction(e -> {
-            ui.getEPortfolio().getSelectedPage().setFont(fontComboBox.getValue().toString());
-            ui.updateFileToolbarControls(false);
-        });
     }
 
     public void handleAddHeaderRequest() {
