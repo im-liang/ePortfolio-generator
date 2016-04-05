@@ -112,3 +112,11 @@ and open the template in the editor.
     -fx-background-color: #AAAAAA;
     -fx-border-color:transparent;    
 }
+
+.component {
+    -fx-background-color: #DDDDDD;
+}
+
+.selected_component {
+    -fx-background-color: #5ccdde;
+}

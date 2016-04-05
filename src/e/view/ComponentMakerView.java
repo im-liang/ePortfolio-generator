@@ -8,6 +8,7 @@ package e.view;
 import static e.StartUpConstants.CSS_CLASS_COMPONENT;
 import static e.StartUpConstants.CSS_CLASS_COMPONENT_LABEL;
 import static e.StartUpConstants.CSS_CLASS_COMPONENT_TEXTFIELD;
+import static e.StartUpConstants.CSS_CLASS_PAGE_EDIT_REMOVE_BUTTON;
 import static e.StartUpConstants.CSS_CLASS_SELECTED_COMPONENT;
 import static e.StartUpConstants.CSS_CLASS_VERTICAL_TOOLBAR_BUTTON;
 import static e.StartUpConstants.CSS_CLASS_VERTICAL_TOOLBAR_PANE;
@@ -121,7 +122,7 @@ public class ComponentMakerView {
         footerHBox.getChildren().addAll(footerLabel, footerTextField);
 
         //center
-        componentEditorVBox = new VBox();
+        componentEditorVBox = new VBox(5);
         componentEditorScrollPane = new ScrollPane(componentEditorVBox);
 
         currentEditingPageVBox.getChildren().addAll(nameHBox, bannerHBox, footerHBox, componentEditorScrollPane);
@@ -155,8 +156,6 @@ public class ComponentMakerView {
         nameTextField.getStyleClass().add(CSS_CLASS_COMPONENT_TEXTFIELD);
         bannerTextField.getStyleClass().add(CSS_CLASS_COMPONENT_TEXTFIELD);
         footerTextField.getStyleClass().add(CSS_CLASS_COMPONENT_TEXTFIELD);
-
-//        componentEditorScrollPane.getStyleClass().add("component_editor_pane");
     }
 
     private void initEventHandler() {
@@ -198,6 +197,13 @@ public class ComponentMakerView {
             ComponentEditView componentEditView = new ComponentEditView(ui, component);
             if (page.isSelectedComponent(component)) {
                 componentEditView.getStyleClass().add(CSS_CLASS_SELECTED_COMPONENT);
+                Button removeButton = new Button("X");
+                componentEditView.getChildren().add(0, removeButton);
+                removeButton.setOnAction(e-> {
+                    page.removeSelectedComponent();
+                    this.reloadComponentPane(page);
+                });
+                removeButton.getStyleClass().add(CSS_CLASS_PAGE_EDIT_REMOVE_BUTTON);
             } else {
                 componentEditView.getStyleClass().add(CSS_CLASS_COMPONENT);
             }
@@ -208,7 +214,7 @@ public class ComponentMakerView {
                 if (e.getClickCount() == 2) {
                     switch (componentType) {
                         case "header":
-                            HeaderDialog headerDialog = new HeaderDialog(ui.getWindow());
+                            HeaderDialog headerDialog = new HeaderDialog(ui.getWindow(), component);
                             headerDialog.show(componentType);
                             break;
                         case "paragraph":

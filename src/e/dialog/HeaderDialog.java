@@ -22,13 +22,20 @@ public class HeaderDialog extends Dialog {
 
     BorderPane workspace = super.getDialogWorkspace();
     HBox headerHBox;
-    Component componentToAdd = new Component();
+    Component componentToAdd;
 
     Label headerLabel;
     TextField headerTextField;
 
     public HeaderDialog(Stage primaryStage) {
         super(primaryStage);
+        componentToAdd = new Component();
+        initWorkspace();
+    }
+    
+    public HeaderDialog(Stage primaryStage, Component initComponentToEdit) {
+        super(primaryStage);
+        componentToAdd = initComponentToEdit;
         initWorkspace();
     }
 

@@ -7,9 +7,10 @@ package e.controller;
 
 import e.dialog.HeaderDialog;
 import e.dialog.ImageDialog;
+import e.dialog.ListDialog;
+import e.dialog.ParagraphDialog;
+import e.dialog.VideoDialog;
 import e.view.EPortfolioMakerView;
-import javafx.scene.control.ComboBox;
-import javafx.scene.layout.HBox;
 
 /**
  *

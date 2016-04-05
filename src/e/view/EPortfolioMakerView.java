@@ -230,6 +230,7 @@ public class EPortfolioMakerView {
     public void reloadEPortfolioPane() {
         pageMakerView.reloadPagePane();
         if (ePortfolio.isPageSelected()) {
+            componentMakerView.reloadComponentPane(ePortfolio.getSelectedPage());
             pageMakerView.updatePageEditToolbarControls(true);
             componentMakerView.updateComponentToolbarControls(true);
         } else {
