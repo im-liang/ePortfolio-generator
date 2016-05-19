@@ -29,6 +29,7 @@ public class ParagraphDialog extends Dialog {
     
     public ParagraphDialog(Stage primaryStage) {
         super(primaryStage);
+        componentToAdd = new Component();
     }
 
     public void initWorkspace() {

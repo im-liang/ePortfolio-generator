@@ -92,7 +92,6 @@ public class EPortfolioSiteExporter {
                         Files.copy(contentPath, destImgPath);
                     }
                 }
-
             }
 
         }

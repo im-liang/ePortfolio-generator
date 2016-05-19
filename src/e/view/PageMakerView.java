@@ -28,7 +28,10 @@ import e.model.EPortfolio;
 import e.model.Page;
 import static e.view.EPortfolioMakerView.initChildButton;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -38,7 +41,10 @@ import javafx.scene.layout.VBox;
  */
 public class PageMakerView {
 
-    VBox pageEditVBox;
+    VBox pageMainVBox;
+    TabPane pageFeatureTabPane;
+    Tab pageTitleTab;
+    Tab pageSettingTab;
     ScrollPane pageTitlesScrollPane;
     VBox pageTitlesVBox;
     HBox pageEditToolbarFlowPane;
@@ -64,26 +70,44 @@ public class PageMakerView {
     }
 
     private void initPageSpace() {
-        pageEditVBox = new VBox();
         pageEditToolbarFlowPane = new HBox(5);
-
-        addPageButton = initChildButton(pageEditToolbarFlowPane, ICON_ADD_PAGE, TOOLTIP_ADD_PAGE, CSS_CLASS_PAGE_EDIT_TOOLBAR_BUTTON, false);
+        pageTitlesVBox = new VBox(5);
+        
+        Label x = new Label("s");
+        pageTitlesVBox.getChildren().add(x);
+        
+        addPageButton = initChildButton(pageTitlesVBox, ICON_ADD_PAGE, TOOLTIP_ADD_PAGE, CSS_CLASS_PAGE_EDIT_TOOLBAR_BUTTON, false);
         bannerImageButton = initChildButton(pageEditToolbarFlowPane, ICON_BANNER_IMAGE, TOOLTIP_BANNER_IMAGE, CSS_CLASS_PAGE_EDIT_TOOLBAR_BUTTON, true);
         layoutTemplateButton = initChildButton(pageEditToolbarFlowPane, ICON_LAYOUT_TEMPLATE, TOOLTIP_LAYOUT_TEMPLATE, CSS_CLASS_PAGE_EDIT_TOOLBAR_BUTTON, true);
         colorTemplateButton = initChildButton(pageEditToolbarFlowPane, ICON_COLOR_TEMPLATE, TOOLTIP_COLOR_TEMPLATE, CSS_CLASS_PAGE_EDIT_TOOLBAR_BUTTON, true);
         fontButton = initChildButton(pageEditToolbarFlowPane, ICON_FONT, TOOLTIP_FONT, CSS_CLASS_PAGE_EDIT_TOOLBAR_BUTTON, true);
 
-        pageTitlesVBox = new VBox(5);
         pageTitlesScrollPane = new ScrollPane(pageTitlesVBox);
-        pageEditVBox.getChildren().addAll(pageEditToolbarFlowPane, pageTitlesScrollPane);
+        
+        pageFeatureTabPane = new TabPane();
+        pageTitleTab = new Tab();
+        pageTitleTab.setText("Title");
+        pageSettingTab = new Tab();
+        pageSettingTab.setText("Setting");
+        pageFeatureTabPane.getTabs().addAll(pageTitleTab, pageSettingTab);
+        
+        pageMainVBox = new VBox();
+        
+        pageTitleTab.setContent(pageTitlesScrollPane);
+        pageSettingTab.setContent(pageEditToolbarFlowPane);
+        pageTitleTab.setClosable(false);
+        pageSettingTab.setClosable(false);
+//        pageMainVBox.getChildren().addAll(pageEditToolbarFlowPane, pageTitlesScrollPane);
+        pageMainVBox.getChildren().add(pageFeatureTabPane);
     }
 
     private void initStyle() {
         pageEditToolbarFlowPane.setPrefWidth(260);
-        pageEditVBox.getStyleClass().add(CSS_CLASS_PAGE_EDIT_PANE);
+        pageMainVBox.getStyleClass().add(CSS_CLASS_PAGE_EDIT_PANE);
         pageEditToolbarFlowPane.getStyleClass().add(CSS_CLASS_PAGE_EDIT_TOOLBAR_PANE);
         pageTitlesScrollPane.getStyleClass().add(CSS_CLASS_PAGE_EDIT_SCROLLPANE);
         pageTitlesVBox.getStyleClass().add(CSS_CLASS_PAGE_EDIT_TITLES_VBOX);
+        
     }
 
     private void initEventHandler() {
@@ -105,8 +129,8 @@ public class PageMakerView {
         });
     }
 
-    public VBox getPageEditVBox() {
-        return pageEditVBox;
+    public VBox getPageMainVBox() {
+        return pageMainVBox;
     }
 
     public VBox getPageTitlesVBox() {

@@ -12,6 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
 
 /**
@@ -48,11 +49,12 @@ public class HeaderDialog extends Dialog {
             headerTextField = new TextField(componentToAdd.getComponentContent().get(0));
         }
         headerHBox.getChildren().addAll(headerLabel, headerTextField);
+//        headerHBox.setHgrow(workspace, Priority.ALWAYS);
         workspace.setCenter(headerHBox);
-        addHeader();
+        addHeaderComponent();
     }
 
-    private void addHeader() {
+    private void addHeaderComponent() {
 
         componentToAdd.setComponentType("header");
 

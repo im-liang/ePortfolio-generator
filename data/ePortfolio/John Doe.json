@@ -12,15 +12,6 @@
             "banner_file_name":"banner.jpg",
             "banner_file_path":"./images/img/",
             "components":[
-                {
-                    "component_type":"header",
-                    "component_content":"xswe",
-                    "component_path":"",
-                    "component_font_float":"",
-                    "component_width":0,
-                    "component_height":0,
-                    "component_caption":""
-                }
             ]
         }
     ]

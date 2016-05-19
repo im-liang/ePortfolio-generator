@@ -238,6 +238,7 @@ public class ComponentMakerView {
                             slideshowDialog.show(componentType);
                             break;
                     }
+                    ui.updateFileToolbarControls(false);
                 }
                 this.updateComponentToolbarControls(true);
                 this.reloadComponentPane(page);

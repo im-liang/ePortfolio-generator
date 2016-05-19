@@ -9,6 +9,7 @@ import static e.StartUpConstants.CSS_CLASS_COMPONENT_LABEL;
 import e.model.Component;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 
 /**
  *

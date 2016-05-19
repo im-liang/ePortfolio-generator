@@ -57,6 +57,5 @@ public class EPortfolioViewer extends BorderPane {
         webEngine = webView.getEngine();
         webEngine.load(indexURL.toString());
         webEngine.setJavaScriptEnabled(true);
-
     }
 }

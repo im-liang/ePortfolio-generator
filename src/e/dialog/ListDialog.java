@@ -5,6 +5,7 @@
  */
 package e.dialog;
 
+import e.model.Component;
 import e.model.Dialog;
 import javafx.stage.Stage;
 
@@ -14,8 +15,13 @@ import javafx.stage.Stage;
  */
 public class ListDialog extends Dialog {
 
+    Component componentToAdd;
     public ListDialog(Stage primaryStage) {
         super(primaryStage);
+        componentToAdd = new Component();
     }
-    
+
+    public Component getComponent() {
+        return componentToAdd;
+    }
 }

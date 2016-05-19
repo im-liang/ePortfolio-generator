@@ -146,7 +146,7 @@ public class EPortfolioMakerView {
         componentMakerView = new ComponentMakerView(this);
         pageMakerView = new PageMakerView(ePortfolio, this);
         workspace.setCenter(componentMakerView.getComponentPane());
-        workspace.setRight(pageMakerView.getPageEditVBox());
+        workspace.setRight(pageMakerView.getPageMainVBox());
     }
 
     private void initWindow(String windowTitle) {

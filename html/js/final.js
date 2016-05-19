@@ -49,7 +49,7 @@ function initEPortfolio() {
 function initPage() {
     $("#banner").append("<p>" + student_name + "</p>");
     $("#banner").append("<p id = banner >" + banner + "</p>");
-    if (banner_name !== "") {
+    if (banner_img_name !== "") {
         $("#student_name").append("<img id = banner_img class = img src = '" + IMG_PATH + banner_img_name + "'>");
     }
     for (var i = 0; i < components.length; i++) {
@@ -103,15 +103,15 @@ function initPage() {
     $("#footer").html(footer);
 }
 
-function loadData(jsonFile,i) {
+function loadData(jsonFile) {
     $.getJSON(jsonFile, function (json) {
         components = new Array();
         page_title = new Array();
         loadEPortfolio(json);
         for (var i = 0; i < page_title.length; i++) {
-            $("#nav_bar ul").append("<li><a href='' onclick = loadData("+json+","+i+") ><span>" + page_title[i] + "</span></a></li>");
+            $("#nav_bar ul").append("<li><a href='' onclick = loadPage(json,i) >" + page_title[i] + "</a></li>");
         }
-        loadPage(json);
+        loadPage(json, i);
         initPage();
     });
 }
@@ -122,19 +122,19 @@ function loadEPortfolio(ePortfolioData) {
         page_title.push(ePortfolioData.pages[i].page_title);
     }
 }
-function loadPage(pageData) {
+function loadPage(pageData, currentPage) {
     banner = pageData.banner;
     $("#whole").css("font-family",pageData.page_font);
     $("#layout").href = pageData.layout;
     $("#color").href = pageData.color;
-    banner_name = pageData.banner_file_name;
+    banner_img_name = pageData.banner_file_name;
     banner_path = pageData.banner_file_path;
-    for (var i = 0; i < pageData.components.length; i++) {
-        var rawComponent = pageData.components[i];
+    for (var i = 0; i < pageData.pages[currentPage].components.length; i++) {
+        var rawComponent = pageData.pages[currentPage].components[i];
         var component = new Component(rawComponent.component_type, rawComponent.component_content, rawComponent.component_path, rawComponent.component_font_float, rawComponent.component_width, rawComponent.component_height, rawComponent.component_caption);
         components[i] = component;
     }
-    footer = pageData.footer;
+    footer = pageData.pages[currentPage].footer;
 }
 
 /*-------------slideshow controls-------------*/

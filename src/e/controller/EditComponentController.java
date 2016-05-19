@@ -9,6 +9,7 @@ import e.dialog.HeaderDialog;
 import e.dialog.ImageDialog;
 import e.dialog.ListDialog;
 import e.dialog.ParagraphDialog;
+import e.dialog.SlideshowDialog;
 import e.dialog.VideoDialog;
 import e.view.EPortfolioMakerView;
 
@@ -35,7 +36,7 @@ public class EditComponentController {
     }
 
     public void handleAddVideoRequest() {
-        VideoDialog videoDialog = new VideoDialog(ui.getWindow(), ui);
+        VideoDialog videoDialog = new VideoDialog(ui.getWindow());
         videoDialog.show("Video");
         String selection = videoDialog.getSelection();
         boolean addComponent = selection.equals(videoDialog.YES);
@@ -45,7 +46,7 @@ public class EditComponentController {
     }
 
     public void handleAddSlideshowRequest() {
-        SlideshowDialog slideshowDialog = new SlideshowDialog(ui.getWindow(), ui);
+        SlideshowDialog slideshowDialog = new SlideshowDialog(ui.getWindow());
         slideshowDialog.show("Slideshow");
         String selection = slideshowDialog.getSelection();
         boolean addComponent = selection.equals(slideshowDialog.YES);
@@ -66,7 +67,7 @@ public class EditComponentController {
     }
 
     public void handleAddParagraphRequest() {
-        ParagraphDialog paragraphDialog = new ParagraphDialog(ui.getWindow(), ui);
+        ParagraphDialog paragraphDialog = new ParagraphDialog(ui.getWindow());
         paragraphDialog.show("Paragraph");
         String selection = paragraphDialog.getSelection();
         boolean addComponent = selection.equals(paragraphDialog.YES);
@@ -77,12 +78,11 @@ public class EditComponentController {
     }
 
     public void handleAddListRequest() {
-        ListDialog listDialog = new ListDialog(ui.getWindow(), ui);
+        ListDialog listDialog = new ListDialog(ui.getWindow());
         listDialog.show("List");
         String selection = listDialog.getSelection();
         boolean addComponent = selection.equals(listDialog.YES);
         if (addComponent) {
-            listDialog.updateList();
             ui.getEPortfolio().getSelectedPage().addComponent(listDialog.getComponent());
             ui.updateFileToolbarControls(!addComponent);
         }
